@@ -206,6 +206,7 @@ The Transkribus integration will follow on top of that generic foundation.
 
 The following points are still open for discussion
 
+- How to store the position of a transcribed line as position in the image?
 - Should a source receive one generic tag note (`TAG: Transcription`) or provider-specific tag notes as well?
 - Should the default note strategy be “always create new note” or “update if unchanged”?
 - Should multiple transcription types (transcription, translation, normalised, or modernised text) already be visible in version 1?
