@@ -15,14 +15,14 @@ Version 1 starts with two transcription providers
 - **Manual** – transcriptions entered and maintained by an editor directly in webtrees
 - **Transkribus** – transcriptions created externally in Transkribus and imported into webtrees
 
-The architecture is designed to support additional providers, like AI tools, later.
+The architecture is designed to support additional providers, like other AI tools, later.
 
 ## Scope
 
 The module links transcriptions to
 
 - a **source** (`SOUR`)
-- optionally a specific **media object** (`OBJE`) attached to that source
+- optionally a specific **media object** (`OBJE`) attached to a source
 
 The media object contains a media file with one or more pages of images (jpg, pdf, tiff, ...)
 
