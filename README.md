@@ -77,18 +77,18 @@ Important
 - edited notes can optionally be saved as new manual revisions
 
 #### Structure of NOTE
-  Transcription
+  `Transcription
   Source: Kirchenbuch Musterort 1780–1810
   Medium: Seite 23
   Revision: 3
   Provider: Transkribus
-  Imported: 20 Apr 20260428/11:12:13
+  Imported: 20260428/11:12:13
 
   --- Begin transcription ---
 
   ...
 
-  --- End transcription ---
+  --- End transcription ---`
 
 ### 4. Tagging of sources
 
