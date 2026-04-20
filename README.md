@@ -6,32 +6,34 @@ A custom module for [webtrees](https://www.webtrees.net/) to manage transcriptio
 ## Purpose
 
 Genealogical sources often contain handwritten or otherwise difficult-to-read texts.  
-This module adds a structured workflow for creating, importing, managing, and revising transcriptions directly in webtrees.
+This module adds a structured workflow for creating, importing, managing, and revising transcriptions in webtrees.
 
-The module is intentionally provider-agnostic.
+External or internal text recognition tools can support the transcription; the module is intentionally provider-agnostic.
 
-Version 1 starts with two transcription providers:
+Version 1 starts with two transcription providers
 
-- **Manual** – transcriptions entered and maintained directly in webtrees
+- **Manual** – transcriptions entered and maintained by an editor directly in webtrees
 - **Transkribus** – transcriptions created externally in Transkribus and imported into webtrees
 
-The architecture is designed to support additional providers later.
+The architecture is designed to support additional providers, like AI tools, later.
 
 ## Scope
 
-The module links transcriptions to:
+The module links transcriptions to
 
 - a **source** (`SOUR`)
 - optionally a specific **media object** (`OBJE`) attached to that source
 
+The media object contains a media file with one or more pages of images (jpg, pdf, tiff, ...)
+
 A transcription is not just a note.  
-It is treated as a structured object with:
+It is treated as a structured object with
 
 - metadata
 - a provider
 - a status
 - a revision history
-- a current working note in webtrees
+- a current working note in webtrees (SOUR:NOTE or SOUR:OBJE:NOTE)
 
 ## Main ideas
 
@@ -40,36 +42,34 @@ It is treated as a structured object with:
 The module itself does not assume a single transcription workflow.
 
 Instead, it defines a provider interface.  
-Providers can support different workflows such as:
+Providers can support different workflows, such as
 
 - manual transcription
-- Transkribus import/synchronization
+- Transkribus import/synchronisation
 - future OCR/HTR tools
 - file import (TXT, TEI, PAGE XML)
 - local AI-based recognition
 
 ### 2. Revision history
 
-The actual transcription history is stored in module tables.
+The actual transcription history is stored in module database tables.
 
-Each revision contains:
+Each revision contains
 
 - origin/provider
 - text content
 - format
 - hash
 - timestamp
-- optional origin reference
+- optional origin reference (e.g. user, tool version, used transcription model, ...)
 
 This means that revisions remain stable even if the associated webtrees note is edited later.
 
 ### 3. webtrees NOTE as working copy
 
-The module can generate or update a shared NOTE linked to the source.
+The module can generate or update a shared NOTE linked to the source. This NOTE is the current working version shown and edited in webtrees. Only that NOTE is exported via GEDCOM.
 
-This NOTE is the current working version shown and edited in webtrees.
-
-Important:
+Important
 
 - the NOTE is **not** the authoritative revision history
 - the revision history is stored separately in database tables
@@ -78,7 +78,7 @@ Important:
 
 ### 4. Tagging of sources
 
-Sources with at least one transcription can be marked by an additional shared NOTE such as:
+Sources with at least one transcription can be marked by an additional shared NOTE, such as:
 
 `TAG: Transcription`
 
@@ -90,22 +90,21 @@ This supports genealogical workflow management and filtering.
 
 A transcription is the main domain object.
 
-Typical properties:
+Typical properties
 
-- source
-- optional media object
-- provider
+- source or optional media object related to a source
+- provider (manual, Transkribus, ...)
 - title
-- type
-- status
-- current note
-- tag note
+- type (handwritten Sütterlin, ...)
+- language (German, Latin, ...)
+- status (in progress, finished, ...)
+- current note (text enriched by Markdown)
 
 ### Revision
 
 A revision is a specific text state of a transcription.
 
-Possible origins in version 1:
+Possible origins in version 1
 
 - `manual_entry`
 - `manual_note_save`
@@ -120,7 +119,7 @@ The module tracks which NOTE was generated from which revision and whether that 
 
 ### Manual provider
 
-The manual provider supports:
+The manual provider supports
 
 - creating a new transcription in webtrees
 - creating an initial empty revision
@@ -129,11 +128,11 @@ The manual provider supports:
 
 ### Transkribus provider
 
-The Transkribus provider is planned to support:
+The Transkribus provider supports
 
-- creating a transcription associated with a source media object
+- creating a transcription associated with a source media object file
 - importing transcription text from Transkribus
-- creating new revisions from imported text
+- creating a new revision from imported text
 - updating or generating a current working NOTE
 
 ## Database schema
@@ -165,20 +164,23 @@ The module uses an explicit schema version to allow future migrations.
 5. Edit the note in webtrees
 6. Save the note as a new revision when needed
 
+or select an already existing NOTE containing transcribed text as a new revision.
+
 ### Transkribus
-1. Open a source with media
+1. Open a source with a media object
 2. Create a transcription
 3. Select provider: Transkribus
 4. Link or upload the media externally
-5. Import a text state into webtrees
-6. Store it as a revision
-7. Generate or update the current working note
+5. Present a link to Transkribus for the user
+6. Import a text state into webtrees
+7. Store it as a revision
+8. Generate or update the current working note
 
 ## Current status
 
 This project is currently in the design and initial development phase.
 
-The first implementation goal is:
+The first implementation goal is
 
 - schema installation and migration support
 - manual provider
@@ -189,12 +191,13 @@ The Transkribus integration will follow on top of that generic foundation.
 
 ## Discussion points
 
-The following points are still open for discussion:
+The following points are still open for discussion
 
 - Should a source receive one generic tag note (`TAG: Transcription`) or provider-specific tag notes as well?
 - Should the default note strategy be “always create new note” or “update if unchanged”?
-- Should multiple transcription types (transcription, translation, normalized text) already be visible in version 1?
+- Should multiple transcription types (transcription, translation, normalised, or modernised text) already be visible in version 1?
 - How should media selection be handled if a source has multiple media objects?
+- How to integrate named entities, links to persons and to locations in future versions?
 
 ## License
 
