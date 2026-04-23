@@ -36,6 +36,7 @@ It is treated as a structured object with
 
 ## Main ideas
 The goal is to link a Digital Humanities edition system with a genealogical data model. The long-term goal is therefore a structured data collection with TEI parsing and integrated GEDCOM generation. This means that in the advanced transcription process, webtrees objects such as people, places and events should be created or linked. That could be a first introduction to turn the result-oriented webtrees into a process- and evidence-based program.
+(see Zedlitz, Jesper: "Gedbas4all - neues Datenmodell für die Genealogie", in COMPUTERGENEALOGIE 4/2009, S. 15-18.)
 
 ### 1. Provider-based architecture
 
