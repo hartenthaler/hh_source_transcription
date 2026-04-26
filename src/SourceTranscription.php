@@ -33,25 +33,34 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription;
 use Fisharebest\Localization\Translation;
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\I18N;
-use Fisharebest\Webtrees\Log;
 use Fisharebest\Webtrees\Module\AbstractModule;
+use Fisharebest\Webtrees\Module\ModuleConfigInterface;
+use Fisharebest\Webtrees\Module\ModuleConfigTrait;
 use Fisharebest\Webtrees\Module\ModuleInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomInterface;
 use Fisharebest\Webtrees\Module\ModuleCustomTrait;
 use Fisharebest\Webtrees\Registry;
-use Fisharebest\Webtrees\Services\ModuleService;
 use Fisharebest\Webtrees\Validator;
 use Fisharebest\Webtrees\View;
 use Fisharebest\Webtrees\Webtrees;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use Fig\Http\Message\StatusCodeInterface;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Dto\CreateTranscriptionCommand;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\CreateTranscriptionService;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderKey;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\RevisionRepository;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\SettingsRepository;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\TranscriptionRepository;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\SchemaManager;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\NoteStrategy;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class SourceTranscription extends AbstractModule implements ModuleInterface, ModuleCustomInterface
+final class SourceTranscription extends AbstractModule implements
+    ModuleInterface, ModuleCustomInterface, ModuleConfigInterface
 {
     use ModuleCustomTrait;
+    use ModuleConfigTrait;
 
     //Custom module version
 	public const string CUSTOM_VERSION = '2.2.5.0';
@@ -72,12 +81,18 @@ final class SourceTranscription extends AbstractModule implements ModuleInterfac
     public const string GITHUB_REPO = self::CUSTOM_GITHUB_USER . "/" . self::CUSTOM_TITLE;
 
     // URL to the latest version of the custom module
-    public const CUSTOM_LAST = self::REPOSITORY . self::GITHUB_REPO . '/blob/main/latest-version.txt';
+    public const string CUSTOM_LAST = self::REPOSITORY . self::GITHUB_REPO . '/blob/main/latest-version.txt';
 
 	//Author of the custom module
 	public const string CUSTOM_AUTHOR = 'Hermann Hartenthaler';
 
+    //Used database schema version
     public const int CURRENT_SCHEMA_VERSION = 1;
+
+    //Default tag values for transcriptions (NOTE <tag_prefix><tag_value>)
+    //tbd should the tag prefix be configurable?
+    public const string DEFAULT_TAG_PREFIX = 'TAG: ';
+    public const string DEFAULT_TAG_VALUE = 'Transcription';
 
     /**
      * SourceTranscription constructor.
@@ -91,16 +106,51 @@ final class SourceTranscription extends AbstractModule implements ModuleInterfac
      * Initialization.
      *
      * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function boot(): void
     {              
         // Register a namespace for the views.
-		View::registerNamespace(self::viewsNamespace(), $this->resourcesFolder() . 'views/');
+		View::registerNamespace($this->name(), $this->resourcesFolder() . 'views/');
 
-        // später:
-        // - Schema prüfen/migrieren
+        Registry::container()->get(SchemaManager::class)->ensureSchema();
+
+        //tbd
         // - Provider registrieren
         // - Routen laden
+
+        // TEMP TEST
+        Registry::container()->get(SchemaManager::class)->ensureSchema();
+
+        if (false) {
+            $service = Registry::container()->get(CreateTranscriptionService::class);
+
+            $transcription_id = $service->createManual(new CreateTranscriptionCommand(
+                tree_id: 1,
+                source_xref: 'S1',
+                media_xref: null,
+                title: 'Manual smoke test',
+                provider_key: ProviderKey::MANUAL,
+                user_id: 1,
+                initial_text: 'Dies ist eine erste manuelle Test-Transkription.',
+                comment: 'Smoke test'
+            ));
+
+            error_log('Created manual transcription id=' . $transcription_id);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     *
+     * @see \Fisharebest\Webtrees\Module\AbstractModule::resourcesFolder()
+     */
+    public function resourcesFolder(): string
+    {
+        return dirname(__DIR__) . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -144,7 +194,7 @@ final class SourceTranscription extends AbstractModule implements ModuleInterfac
      */
     public function description(): string
     {
-        return I18N::translate('Manage transcriptions for sources and media objects with support for multiple providers.');
+        return I18N::translate('Manage source transcriptions with manual and provider-based workflows.');
     }
 
     /**
@@ -155,18 +205,6 @@ final class SourceTranscription extends AbstractModule implements ModuleInterfac
     public function minimumVersion(): string
     {
         return self::MINIMUM_WEBTREES_VERSION;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @return string
-     *
-     * @see \Fisharebest\Webtrees\Module\AbstractModule::resourcesFolder()
-     */
-    public function resourcesFolder(): string
-    {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'resources' . DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -250,45 +288,88 @@ final class SourceTranscription extends AbstractModule implements ModuleInterfac
     }
 
     /**
-     * View module settings in control panel
+     * View module settings in the control panel
      *
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getAdminAction(ServerRequestInterface $request): ResponseInterface
     {
         $this->layout = 'layouts/administration';
 
-        return $this->viewResponse(
-            self::viewsNamespace() . '::settings',
-            [
-                'runs_with_webtrees_version'   => SourceTranscription::runsWithInstalledWebtreesVersion(),
-                'title'                        => $this->title(),
-            ]
-        );
+        $settings = Registry::container()->get(SettingsRepository::class);
+
+        $tag_text = $settings->get('default_tag_text', self::DEFAULT_TAG_PREFIX . self::DEFAULT_TAG_VALUE);
+        $tag_value = $this->tagValueFromTagText($tag_text);
+
+        return $this->viewResponse($this->name() . '::' . 'admin-settings', [
+            'title'                         => $this->title(),
+            'runs_with_webtrees_version'    => SourceTranscription::runsWithInstalledWebtreesVersion(),
+            'tag_prefix'                    => self::DEFAULT_TAG_PREFIX,
+            'tag_value'                     => $tag_value,
+            'default_note_strategy'         => $settings->get(
+                'default_note_strategy',
+                NoteStrategy::default()
+            ),
+            'note_strategies'               => NoteStrategy::labels(),
+            'module'                        => $this,
+        ]);
     }
 
     /**
-     * Save module settings after returning from control panel
+     * Save module settings after returning from the control panel
      *
      * @param ServerRequestInterface $request
      *
      * @return ResponseInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function postAdminAction(ServerRequestInterface $request): ResponseInterface
     {
         $save = Validator::parsedBody($request)->string('save', '');
-
         //Save the received settings to the user preferences
         if ($save === '1') {
+            // tbd: use Validator::parsedBody($request)->string|boolean|...('xxx', ''|true|...);
+            $params = (array)$request->getParsedBody();
 
+            $tag_value = $this->normalizeTagValue(trim((string)($params['tag_value'] ?? self::DEFAULT_TAG_VALUE)));
+            $note_strategy = (string)($params['default_note_strategy']);
+
+            //Set default NOTE strategy if not set or incorrect set
+            if (!NoteStrategy::isValid($note_strategy)) {
+                $note_strategy = NoteStrategy::default();
+            }
+
+            $settings = Registry::container()->get(SettingsRepository::class);
+            $settings->set('default_tag_text', self::DEFAULT_TAG_PREFIX . $tag_value);
+            $settings->set('default_note_strategy', $note_strategy);
+
+            //Finally, show a success message
+            FlashMessages::addMessage(
+                I18N::translate('The preferences for the module “%s” have been updated.', $this->title()),
+                'success'
+            );
+        }
+        return redirect($this->getConfigLink());
+    }
+
+    private function normalizeTagValue(string $tag_value): string
+    {
+        $tag_value = trim($tag_value);
+
+        if (str_starts_with(strtoupper($tag_value), 'TAG:')) {
+            $tag_value = trim(substr($tag_value, 4));
         }
 
-        //Finally, show a success message
-        $message = I18N::translate('The preferences for the module "%s" were updated.', $this->title());
-        FlashMessages::addMessage($message, 'success');
+        return $tag_value !== '' ? $tag_value : self::DEFAULT_TAG_VALUE;
+    }
 
-        return redirect($this->getConfigLink());
+    private function tagValueFromTagText(?string $tag_text): string
+    {
+        return $this->normalizeTagValue((string) $tag_text);
     }
 }

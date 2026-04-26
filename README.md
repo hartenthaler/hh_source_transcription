@@ -84,6 +84,16 @@ Providers can support different workflows, such as
 - future OCR/HTR tools
 - file import (TXT, TEI, PAGE XML)
 - local AI-based recognition
+- crowdsourcing (e.g. discourse.genealogy.net)
+
+#### Provider interaction models
+
+Providers are grouped by their interaction model:
+
+- Manual/direct: The user creates or edits the transcription directly in webtrees.
+- Automated asynchronous: An external or local tool processes an image or document and returns a transcription result. Examples: Transkribus, eScriptorium, OCR/HTR tools, local AI models.
+- Crowd-based asynchronous: The module submits a transcription request to a community platform. Human contributors reply, and selected answers can be imported as revisions. Examples: Discourse, specialist reading-help communities.
+- Internal collaborative: Other users of the same webtrees installation can submit reading suggestions or revisions.
 
 ### 2. Revision history
 
@@ -140,6 +150,11 @@ Sources with at least one transcription can be marked by an additional shared NO
 
 This supports genealogical workflow management and filtering.
 
+### 5. Backup and restore
+
+Module backup/restore preserves the transcription revision history stored outside GEDCOM.
+It requires the target tree to contain the same GEDCOM records and XREF identifiers.
+
 <a name="Data"></a>
 ## Data model
 
@@ -182,6 +197,9 @@ The manual provider supports
 - creating an initial empty revision
 - generating a working NOTE
 - saving the current NOTE as a new manual revision
+
+### Discourse provider
+tbd
 
 ### Transkribus provider
 
@@ -243,12 +261,49 @@ This project is currently in the design and initial development phase.
 
 The first implementation goal is
 
-- schema installation and migration support
-- manual provider
-- revision storage
-- note generation and note conflict detection
+- schema installation and migration support (done)
+- manual provider and UI (work in progress)
+- revision storage (done)
+- note generation (done)
+- tagging of sources (done)
+- backup and restore (tbd)
+- note conflict detection (tbd)
 
-The Transkribus integration will follow on top of that generic foundation.
+### Implementation of provider candidates by priority
+
+1. Manual
+
+- must be stable first
+
+2. Internal webtrees
+
+- no API
+- no privacy issues
+- good basis for review workflow
+
+3. Discourse
+
+Strategically very interesting for CompGen
+
+- uses existing crowd
+- fits with Lesehilfe
+- makes webtrees connectable to community knowledge
+
+4. Transkribus
+
+- strong automated specialist
+
+5. eScriptorium
+
+- very interesting for self-hosting/open source, but probably more installation and operational effort
+
+6. LLM-/Vision-API
+
+- Very flexible, but privacy, costs, prompting, and reproducibility must be properly resolved
+
+7. Wikisource
+
+- rather a special case for publicly editable sources, less for private genealogical media
 
 <a name="Discussion"></a>
 ## Discussion points
@@ -257,17 +312,24 @@ The following points are still open for discussion
 
 - Do you know any other genealogy programs that support the transcription process well (best practices) and at the same time use genealogical data structures?
 - How to store the position of a transcribed line as position in the image?
-- Should a source receive one generic tag note (`TAG: Transcription`) or provider-specific tag notes as well?
-- Should the default note strategy be “always create new note” or “update if unchanged”?
+- Should the default note strategy be “always create new NOTE” or “update if unchanged”?
 - Should multiple transcription types (transcription, translation, normalized, or modernized text) already be visible in version 1?
-- How should media selection be handled if a source has multiple media objects?
+- How should media selection be handled if a source has multiple media objects or media objects with multiple pages?
 - How to integrate named entities, links to persons and to locations in future versions?
+- How to indicate the confidence about a transcription or parts of it?
 
 <a name="Literature"></a>
-## Literature
+## Literature and links
 
 - Zedlitz, Jesper: "Gedbas4all - neues Datenmodell für die Genealogie", in COMPUTERGENEALOGIE 4/2009, S. 15-18, 2009, https://doi.org/10.5281/zenodo.33958 (checked 23.04.2026).
 - GENTECH Genealogical Data Model, 29.05.2000, https://xml.coverpages.org/GENTECH-DataModelV11.pdf (checked 23.04.2026).
+- [Transkribus](https://transkribus.eu/)
+- [eScriptorium](https://escriptorium.org/)
+- [Wikisource](https://wikisource.org/)
+- [Discourse](https://discourse.genealogy.net/)
+- [TEI P5](https://tei-c.org/release/doc/tei-p5-doc/en/html/index.html)
+- PAGE XML
+- ...
 
 <a name="Requirements"></a>
 ## Requirements

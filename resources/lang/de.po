@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SourceTranscription\n"
+"POT-Creation-Date: 2026-04-24 18:46+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: src/SourceTranscription.php:164
+msgid "Source Transcription"
+msgstr "Transkription von Quellen"
+
+#: src/SourceTranscription.php:176
+msgid "Manage source transcriptions with manual and provider-based workflows."
+msgstr ""
+"Verwaltung von Quellen-Transkriptionen mit einem manuellen oder Anbieter-"
+"Arbeitsablauf."
+
+#: src/SourceTranscription.php:332
+#, fuzzy, php-format
+#| msgid "The preferences for the module \"%s\" were updated."
+msgid "The preferences for the module “%s” have been updated."
+msgstr ""
+"Die Einstellungen für das Erweiterungsmodul \"%s\" wurden aktualisiert."
+
+#: src/SourceTranscription.php:345
+msgid "Always create a new NOTE"
+msgstr "Immer eine neue NOTE erzeugen"
+
+#: src/SourceTranscription.php:346
+msgid "Update existing NOTE only if unchanged"
+msgstr "Existierende NOTE nur aktualisieren, wenn sie nicht geändert wurde"
+
+#: src/SourceTranscription.php:347
+msgid "Always update existing NOTE"
+msgstr "Existierende NOTE immer aktualisieren"
+
+#: resources/views/admin-settings.phtml:23
+#, php-format
+msgid ""
+"This module can only be used with a webtrees version greater or equal than "
+"%s."
+msgstr ""
+"Dieses Erweiterungsmodul kann nur mit einer webtrees-Version verwendet "
+"werden, die größer oder gleich %s ist."
+
+#: resources/views/admin-settings.phtml:32
+msgid "NOTE update strategy"
+msgstr "NOTE Aktualisierungsstrategie"
+
+#: resources/views/admin-settings.phtml:57
+msgid "Tag value for tagging all sources with at least one transcription"
+msgstr ""
+"Tag-Kennzeichen zum Taggen aller Quellen mit wenigstens einer Transkription"
+
+#: resources/views/admin-settings.phtml:74
+msgid "Default"
+msgstr "Standard"
+
+#: resources/views/admin-settings.phtml:82
+msgid "save"
+msgstr ""
+
+#, fuzzy
+#~| msgid ""
+#~| "Manage transcriptions for sources and media objects with support for "
+#~| "multiple providers gg."
+#~ msgid ""
+#~ "Manage transcriptions for sources and media objects with support for "
+#~ "multiple providers."
+#~ msgstr ""
+#~ "Verwaltung der Transkriptionen für Quellen und Medienobjekte mit Hilfe "
+#~ "verschiedener Anbieter."

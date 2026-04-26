@@ -1,0 +1,89 @@
+<?php
+
+declare(strict_types=1);
+
+//tbd: describe the meaning of the NOTE update strategy
+
+/**
+ * @var string $title
+ * @var bool $runs_with_webtrees_version
+ * @var string $tag_prefix
+ * @var string $tag_value
+ * @var string $default_note_strategy
+ * @var array<string,string> $note_strategies
+ * @var SourceTranscription $module
+ */
+
+use Fisharebest\Webtrees\I18N;
+use Hartenthaler\Webtrees\Module\SourceTranscription\SourceTranscription;
+
+?>
+
+<h2><?= e($title) ?></h2>
+<?php if (!$runs_with_webtrees_version) : ?>
+    <div class="alert alert-danger">
+        <?= I18N::translate('This module can only be used with a webtrees version greater or equal than %s.', SourceTranscription::MINIMUM_WEBTREES_VERSION) ?>
+    </div>
+<?php endif ?>
+
+<form method="post" action="<?= e($module->getConfigLink()) ?>">
+    <?= csrf_field() ?>
+    <input type="hidden" name="save" value="1">
+
+    <fieldset class="row mb-3">
+        <legend class="col-sm-3 col-form-label">
+            <?= I18N::translate('NOTE update strategy') ?>
+        </legend>
+
+        <div class="col-sm-9">
+            <?php foreach ($note_strategies as $value => $label) : ?>
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        id="default_note_strategy_<?= e($value) ?>"
+                        name="default_note_strategy"
+                        type="radio"
+                        value="<?= e($value) ?>"
+                        <?= $value === $default_note_strategy ? 'checked' : '' ?>
+                    >
+
+                    <label class="form-check-label" for="default_note_strategy_<?= e($value) ?>">
+                        <?= e($label) ?>
+                    </label>
+                </div>
+            <?php endforeach ?>
+        </div>
+    </fieldset>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label" for="tag_value">
+            <?= I18N::translate('Tag value for tagging all sources with at least one transcription') ?>
+        </label>
+
+        <div class="col-sm-9">
+            <div class="input-group">
+                <span class="input-group-text"><?= $tag_prefix ?></span>
+                <input
+                        class="form-control"
+                        id="tag_value"
+                        name="tag_value"
+                        type="text"
+                        value="<?= e($tag_value) ?>"
+                        required
+                >
+            </div>
+
+            <div class="form-text">
+                <?= I18N::translate('Default') . ': ' . SourceTranscription::DEFAULT_TAG_VALUE ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-9 offset-sm-3">
+            <button class="btn btn-primary" type="submit">
+                <?= I18N::translate('save') ?>
+            </button>
+        </div>
+    </div>
+</form>
