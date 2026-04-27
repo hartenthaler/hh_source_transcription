@@ -66,15 +66,15 @@ final class CreateTranscriptionService
     public function createManual(CreateTranscriptionCommand $command): int
     {
         if ($command->provider_key !== ProviderKey::MANUAL) {
-            throw new InvalidArgumentException(I18N::translate('Only manual transcriptions are supported by createManual().'));
+            throw new InvalidArgumentException('Only manual transcriptions are supported by createManual().');
         }
 
         if (trim($command->source_xref) === '') {
-            throw new InvalidArgumentException(I18N::translate('source_xref must not be empty.'));
+            throw new InvalidArgumentException('source_xref must not be empty.');
         }
 
         if (trim($command->title) === '') {
-            throw new InvalidArgumentException(I18N::translate('title must not be empty.'));
+            throw new InvalidArgumentException('title must not be empty.');
         }
 
         return DB::transaction(function () use ($command): int {

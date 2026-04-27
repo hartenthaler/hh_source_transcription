@@ -36,21 +36,35 @@ declare(strict_types=1);
 namespace Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Webtrees;
 
 use Fisharebest\Webtrees\DB;
+use Fisharebest\Webtrees\I18N;
 
 final class SharedNoteGateway
 {
     public function createSharedNote(int $tree_id, string $text): string
     {
-        $xref = $this->nextNoteXref($tree_id);
+        for ($attempt = 0; $attempt < 20; $attempt++) {
+            $xref = $this->newModuleNoteXref();
 
-        DB::table('other')->insert([
-            'o_file' => $tree_id,
-            'o_type' => 'NOTE',
-            'o_id' => $xref,
-            'o_gedcom' => $this->buildNoteGedcom($xref, $text),
-        ]);
+            if ($this->xrefExists($tree_id, $xref)) {
+                continue;
+            }
 
-        return $xref;
+            DB::table('other')->insert([
+                'o_file'   => $tree_id,
+                'o_type'   => 'NOTE',
+                'o_id'     => $xref,
+                'o_gedcom' => $this->buildNoteGedcom($xref, $text),
+            ]);
+
+            return $xref;
+        }
+
+        throw new \RuntimeException('Could not create a unique shared NOTE XREF.');
+    }
+
+    private function newModuleNoteXref(): string
+    {
+        return 'STN' . strtoupper(bin2hex(random_bytes(8)));
     }
 
     public function readSharedNote(int $tree_id, string $note_xref): ?string
@@ -138,13 +152,35 @@ final class SharedNoteGateway
 
     private function nextNoteXref(int $tree_id): string
     {
-        $max = DB::table('other')
+        $rows = DB::table('other')
             ->where('o_file', '=', $tree_id)
-            ->where('o_type', '=', 'NOTE')
             ->where('o_id', 'LIKE', 'N%')
-            ->selectRaw('MAX(CAST(SUBSTRING(o_id, 2) AS UNSIGNED)) AS max_id')
-            ->value('max_id');
+            ->pluck('o_id');
 
-        return 'N' . (((int)$max) + 1);
+        $max = 0;
+
+        foreach ($rows as $xref) {
+            $xref = (string) $xref;
+
+            if (preg_match('/^N(\d+)$/', $xref, $match)) {
+                $max = max($max, (int) $match[1]);
+            }
+        }
+
+        $number = $max + 1;
+
+        while ($this->xrefExists($tree_id, 'N' . $number)) {
+            $number++;
+        }
+
+        return 'N' . $number;
+    }
+
+    private function xrefExists(int $tree_id, string $xref): bool
+    {
+        return DB::table('other')
+            ->where('o_file', '=', $tree_id)
+            ->where('o_id', '=', $xref)
+            ->exists();
     }
 }

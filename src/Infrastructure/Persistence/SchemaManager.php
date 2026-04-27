@@ -60,7 +60,7 @@ final class SchemaManager
 
         if ($current > $target) {
             throw new RuntimeException(
-                I18N::translate('Source Transcriptions database schema is newer than this module version.')
+                'Source Transcriptions database schema is newer than this module version.'
             );
         }
 
@@ -158,7 +158,7 @@ final class SchemaManager
         while ($version < $toVersion) {
             match ($version) {
                 1 => $this->migrate1To2(),
-                default => throw new RuntimeException(I18N::translate('No migration defined from schema version %s', $version)),
+                default => throw new RuntimeException('No migration defined from schema version ' . $version),
             };
 
             $version++;

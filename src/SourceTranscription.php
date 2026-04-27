@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace Hartenthaler\Webtrees\Module\SourceTranscription;
 
 use Fisharebest\Localization\Translation;
+use Fisharebest\Webtrees\DB;
 use Fisharebest\Webtrees\FlashMessages;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Module\AbstractModule;
@@ -125,16 +126,16 @@ final class SourceTranscription extends AbstractModule implements
 
         if (true) {
             $service = Registry::container()->get(CreateTranscriptionService::class);
-
+            $tree_id = 50;
             $transcription_id = $service->createManual(new CreateTranscriptionCommand(
-                tree_id: 1,
-                source_xref: 'S1',
+                tree_id: $tree_id,
+                source_xref: 'X6753',
                 media_xref: null,
                 title: 'Manual smoke test',
                 provider_key: ProviderKey::MANUAL,
                 user_id: 1,
                 initial_text: 'Dies ist eine erste manuelle Test-Transkription.',
-                comment: 'Smoke test'
+                comment: 'Smoke test 27.4.'
             ));
 
             error_log('Created manual transcription id=' . $transcription_id);

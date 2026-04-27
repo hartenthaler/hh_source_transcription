@@ -39,17 +39,18 @@ final class NoteContentFactory
         TranscriptionRevision $revision
     ): string
     {
+        $separator = ': ';
         return
-            'Transcription' . PHP_EOL .
-            'Title: ' . $title . PHP_EOL .
-            'Revision: ' . $revision->revision_no . PHP_EOL .
-            'Provider: ' . $revision->provider_key . PHP_EOL .
-            'Origin: ' . $revision->origin_type . PHP_EOL .
+            I18N::translate('Transcription') . PHP_EOL .
+            I18N::translate('Title') . $separator . $title . PHP_EOL .
+            I18N::translate('Revision') . $separator . $revision->revision_no . PHP_EOL .
+            I18N::translate('Provider') . $separator . $revision->provider_key . PHP_EOL .
+            I18N::translate('Origin') . $separator . $revision->origin_type . PHP_EOL .
             PHP_EOL .
-            '--- Begin transcription ---' . PHP_EOL .
+            '--- ' . I18N::translate('Begin transcription') .' ---' . PHP_EOL .
             PHP_EOL .
             $revision->content_text . PHP_EOL .
             PHP_EOL .
-            '--- End transcription ---';
+            '--- ' . I18N::translate('End transcription') . ' ---';
     }
 }

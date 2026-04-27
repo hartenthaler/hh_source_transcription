@@ -50,6 +50,7 @@ final class GenerateOrUpdateNoteService
         private readonly SharedNoteGateway       $sharedNoteGateway,
         private readonly NoteContentFactory      $noteContentFactory,
         private readonly HashService             $hashService,
+        private readonly SourceGateway $sourceGateway,
     )
     {
     }
@@ -64,11 +65,11 @@ final class GenerateOrUpdateNoteService
         $revision = $this->revisionRepository->find($revision_id);
 
         if ($transcription === null) {
-            throw new RuntimeException(I18N::translate('Transcription not found: %s', $transcription_id));
+            throw new RuntimeException('Transcription not found: ' . $transcription_id);
         }
 
         if ($revision === null) {
-            throw new RuntimeException(I18N::translate('Revision not found: %s', $revision_id));
+            throw new RuntimeException('Revision not found: ' . $revision_id);
         }
 
         $note_text = $this->noteContentFactory->buildTranscriptNote(
@@ -88,8 +89,16 @@ final class GenerateOrUpdateNoteService
                     $note_text
                 );
 
-                $this->createCurrentLink($transcription->id, $revision->id, $note_xref, $revision->created_by_user_id, $note_text, 'updated_from_revision');
-
+                $this->createCurrentLink(
+                    $transcription->tree_id,
+                    $transcription->source_xref,
+                    $transcription->id,
+                    $revision->id,
+                    $note_xref,
+                    $revision->created_by_user_id,
+                    $note_text,
+                    'generated_from_revision'
+                );
                 return $note_xref;
             }
 
@@ -110,8 +119,16 @@ final class GenerateOrUpdateNoteService
                         $note_text
                     );
 
-                    $this->createCurrentLink($transcription->id, $revision->id, $note_xref, $revision->created_by_user_id, $note_text, 'updated_from_revision');
-
+                    $this->createCurrentLink(
+                        $transcription->tree_id,
+                        $transcription->source_xref,
+                        $transcription->id,
+                        $revision->id,
+                        $note_xref,
+                        $revision->created_by_user_id,
+                        $note_text,
+                        'generated_from_revision'
+                    );
                     return $note_xref;
                 }
             }
@@ -121,21 +138,30 @@ final class GenerateOrUpdateNoteService
                 $note_text
             );
 
-            $this->createCurrentLink($transcription->id, $revision->id, $note_xref, $revision->created_by_user_id, $note_text, 'generated_from_revision');
-
+            $this->createCurrentLink(
+                $transcription->tree_id,
+                $transcription->source_xref,
+                $transcription->id,
+                $revision->id,
+                $note_xref,
+                $revision->created_by_user_id,
+                $note_text,
+                'generated_from_revision'
+            );
             return $note_xref;
         });
     }
 
     private function createCurrentLink(
-        int    $transcription_id,
-        int    $revision_id,
+        int $tree_id,
+        string $source_xref,
+        int $transcription_id,
+        int $revision_id,
         string $note_xref,
-        int    $user_id,
+        int $user_id,
         string $note_text,
         string $link_type
-    ): void
-    {
+    ): void {
         $this->noteLinkRepository->createLink([
             'transcription_id' => $transcription_id,
             'revision_id' => $revision_id,
@@ -148,5 +174,6 @@ final class GenerateOrUpdateNoteService
 
         $this->noteLinkRepository->markCurrent($transcription_id, $note_xref);
         $this->transcriptionRepository->setCurrentNoteXref($transcription_id, $note_xref);
+        $this->sourceGateway->linkNoteToSource($tree_id, $source_xref, $note_xref);
     }
 }

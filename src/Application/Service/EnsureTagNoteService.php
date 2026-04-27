@@ -34,14 +34,22 @@ use Fisharebest\Webtrees\I18N;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\SettingsRepository;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\TranscriptionRepository;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Webtrees\SharedNoteGateway;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Webtrees\SourceGateway;
 use Hartenthaler\Webtrees\Module\SourceTranscription\SourceTranscription;
 
 final class EnsureTagNoteService
 {
+    /**
+     * @param SettingsRepository $settingsRepository
+     * @param TranscriptionRepository $transcriptionRepository
+     * @param SharedNoteGateway $sharedNoteGateway
+     * @param SourceGateway $sourceGateway
+     */
     public function __construct(
         private readonly SettingsRepository $settingsRepository,
         private readonly TranscriptionRepository $transcriptionRepository,
         private readonly SharedNoteGateway $sharedNoteGateway,
+        private readonly SourceGateway $sourceGateway,
     ) {
     }
 
@@ -50,7 +58,7 @@ final class EnsureTagNoteService
         $transcription = $this->transcriptionRepository->find($transcription_id);
 
         if ($transcription === null) {
-            throw new \RuntimeException(I18N::translate('Transcription not found: %s', $transcription_id));
+            throw new \RuntimeException('Transcription not found: ' . $transcription_id);
         }
 
         $tag_text = $this->settingsRepository->get('default_tag_text',
@@ -73,7 +81,7 @@ final class EnsureTagNoteService
             $tag_text
         );
 
-        $this->linkNoteToSource(
+        $this->sourceGateway->linkNoteToSource(
             $transcription->tree_id,
             $transcription->source_xref,
             $note_xref
@@ -112,35 +120,5 @@ final class EnsureTagNoteService
         }
 
         return null;
-    }
-
-    private function linkNoteToSource(
-        int $tree_id,
-        string $source_xref,
-        string $note_xref
-    ): void {
-        $gedcom = DB::table('sources')
-            ->where('s_file', '=', $tree_id)
-            ->where('s_id', '=', $source_xref)
-            ->value('s_gedcom');
-
-        if ($gedcom === null) {
-            throw new \RuntimeException(I18N::translate('Source not found: %s', $source_xref));
-        }
-
-        $gedcom = rtrim((string) $gedcom);
-
-        if (preg_match('/^\d+\s+NOTE\s+@' . preg_quote($note_xref, '/') . '@/mu', $gedcom)) {
-            return;
-        }
-
-        $gedcom .= PHP_EOL . '1 NOTE @' . $note_xref . '@';
-
-        DB::table('sources')
-            ->where('s_file', '=', $tree_id)
-            ->where('s_id', '=', $source_xref)
-            ->update([
-                's_gedcom' => $gedcom,
-            ]);
     }
 }

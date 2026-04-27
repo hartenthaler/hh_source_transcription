@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SourceTranscription\n"
-"POT-Creation-Date: 2026-04-27 18:52+0200\n"
+"POT-Creation-Date: 2026-04-27 23:53+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
 "Language-Team: \n"
@@ -15,33 +15,34 @@ msgstr ""
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/Application/Service/CreateTranscriptionService.php:69
-msgid "Only manual transcriptions are supported by createManual()."
-msgstr "Von createManual() werden nur manuelle Transkriptionen unterstützt."
+#: src/Application/Factory/NoteContentFactory.php:44
+#: src/Domain/ValueObject/TranscriptionType.php:47
+msgid "Transcription"
+msgstr "Transkription"
 
-#: src/Application/Service/CreateTranscriptionService.php:73
-msgid "source_xref must not be empty."
-msgstr "Quellen-XREF darf nicht leer sein."
+#: src/Application/Factory/NoteContentFactory.php:45
+msgid "Title"
+msgstr "Titel"
 
-#: src/Application/Service/CreateTranscriptionService.php:77
-msgid "title must not be empty."
-msgstr "Titel darf nicht leer sein."
+#: src/Application/Factory/NoteContentFactory.php:46
+msgid "Revision"
+msgstr "Revision"
 
-#: src/Application/Service/EnsureTagNoteService.php:53
-#: src/Application/Service/GenerateOrUpdateNoteService.php:67
-#, php-format
-msgid "Transcription not found: %s"
-msgstr "Transkription nicht gefunden: %s"
+#: src/Application/Factory/NoteContentFactory.php:47
+msgid "Provider"
+msgstr "Anbieter"
 
-#: src/Application/Service/EnsureTagNoteService.php:128
-#, php-format
-msgid "Source not found: %s"
-msgstr "Quelle nicht gefunden: %s"
+#: src/Application/Factory/NoteContentFactory.php:48
+msgid "Origin"
+msgstr "Ursprung"
 
-#: src/Application/Service/GenerateOrUpdateNoteService.php:71
-#, php-format
-msgid "Revision not found: %s"
-msgstr "Revision nicht gefunden: %s"
+#: src/Application/Factory/NoteContentFactory.php:50
+msgid "Begin transcription"
+msgstr "Beginn der Transkription"
+
+#: src/Application/Factory/NoteContentFactory.php:54
+msgid "End transcription"
+msgstr "Ende der Transkription"
 
 #: src/Domain/ValueObject/InteractionModel.php:22
 msgid "Manual (direct editing)"
@@ -103,10 +104,6 @@ msgstr "Abgeschlossen"
 msgid "Archived"
 msgstr "Archiviert"
 
-#: src/Domain/ValueObject/TranscriptionType.php:47
-msgid "Transcription"
-msgstr "Transkription"
-
 #: src/Domain/ValueObject/TranscriptionType.php:48
 msgid "Translation"
 msgstr "Übersetzung"
@@ -115,29 +112,17 @@ msgstr "Übersetzung"
 msgid "Normalized text"
 msgstr "Normalisierter Text"
 
-#: src/Infrastructure/Persistence/SchemaManager.php:63
-msgid ""
-"Source Transcriptions database schema is newer than this module version."
-msgstr ""
-"Das Schema der Datenbank \"Transkription von Quellen\" ist neuer als diese "
-"Modulversion."
-
-#: src/Infrastructure/Persistence/SchemaManager.php:161
-#, php-format
-msgid "No migration defined from schema version %s"
-msgstr "Aus der Schemaversion %s wurde keine Migration definiert"
-
-#: src/SourceTranscription.php:185
+#: src/SourceTranscription.php:186
 msgid "Source Transcription"
 msgstr "Transkription von Quellen"
 
-#: src/SourceTranscription.php:197
+#: src/SourceTranscription.php:198
 msgid "Manage source transcriptions with manual and provider-based workflows."
 msgstr ""
 "Verwaltung von Quellen-Transkriptionen mit einem manuellen oder Anbieter-"
 "Arbeitsablauf."
 
-#: src/SourceTranscription.php:353
+#: src/SourceTranscription.php:354
 #, fuzzy, php-format
 #| msgid "The preferences for the module \"%s\" were updated."
 msgid "The preferences for the module “%s” have been updated."
@@ -169,6 +154,37 @@ msgstr "Standard"
 #: resources/views/admin-settings.phtml:85
 msgid "save"
 msgstr ""
+
+#~ msgid "Only manual transcriptions are supported by createManual()."
+#~ msgstr "Von createManual() werden nur manuelle Transkriptionen unterstützt."
+
+#~ msgid "source_xref must not be empty."
+#~ msgstr "Quellen-XREF darf nicht leer sein."
+
+#~ msgid "title must not be empty."
+#~ msgstr "Titel darf nicht leer sein."
+
+#, php-format
+#~ msgid "Transcription not found: %s"
+#~ msgstr "Transkription nicht gefunden: %s"
+
+#, php-format
+#~ msgid "Source not found: %s"
+#~ msgstr "Quelle nicht gefunden: %s"
+
+#, php-format
+#~ msgid "Revision not found: %s"
+#~ msgstr "Revision nicht gefunden: %s"
+
+#~ msgid ""
+#~ "Source Transcriptions database schema is newer than this module version."
+#~ msgstr ""
+#~ "Das Schema der Datenbank \"Transkription von Quellen\" ist neuer als "
+#~ "diese Modulversion."
+
+#, php-format
+#~ msgid "No migration defined from schema version %s"
+#~ msgstr "Aus der Schemaversion %s wurde keine Migration definiert"
 
 #, fuzzy
 #~| msgid ""
