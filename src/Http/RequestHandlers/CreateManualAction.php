@@ -17,10 +17,18 @@ class CreateManualAction implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $tree = $request->getAttribute('tree');
+        $title = I18N::translate('Create manual transcription'),
 
-        return response(view('hh_source_transcription::create-manual', [
-            'title' => I18N::translate('Create manual transcription'),
-            'tree' => $tree,
+        $content = view('hh_source_transcription::create-manual', [
+            'title'         => $title,
+            'tree'          => $tree,
+        ]);
+
+        return response(view('layouts/default', [
+            'title'   => $title,
+            'tree'    => $tree,
+            'request' => $request,
+            'content' => $content,
         ]));
     }
 }

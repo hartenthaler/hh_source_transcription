@@ -9,22 +9,30 @@ use Fisharebest\Webtrees\Registry;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\TranscriptionRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 
 use function response;
 use function view;
 
-class DashboardAction implements RequestHandlerInterface
+final class DashboardAction
 {
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $tree = $request->getAttribute('tree');
+        $title = I18N::translate('Transcriptions');
+
         $repo = Registry::container()->get(TranscriptionRepository::class);
 
-        return response(view('hh_source_transcription::dashboard', [
-            'title' => I18N::translate('Transcriptions'),
+        $content = view('hh_source_transcription::dashboard', [
+            'title' => $title,
             'tree' => $tree,
             'transcriptions' => $repo->allActive(),
+        ]);
+
+        return response(view('layouts/default', [
+            'title' => $title,
+            'tree'    => $tree,
+            'request' => $request,
+            'content' => $content,
         ]));
     }
 }

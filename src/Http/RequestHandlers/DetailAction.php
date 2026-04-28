@@ -19,15 +19,25 @@ class DetailAction implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $tree = $request->getAttribute('tree');
-        $transcription_id = (int) $request->getAttribute('transcription_id');
+        $title = I18N::translate('Transcription');
 
+        $transcription_id = (int) $request->getAttribute('transcription_id');
         $service = Registry::container()->get(GetTranscriptionDetailService::class);
         $data = $service->get($transcription_id);
 
-        return response(view('hh_source_transcription::detail', [
-            'title' => I18N::translate('Transcription'),
-            'tree' => $tree,
-            ...$data,
+        $content = view('hh_source_transcription::detail', [
+            'title'         => $title,
+            'tree'          => $tree,
+            'transcription' => $data['transcription'],
+            'revisions'     => $data['revisions'],
+            'note_text'     => $data['note_text'],
+        ]);
+
+        return response(view('layouts/default', [
+            'title'   => $title,
+            'tree'    => $tree,
+            'request' => $request,
+            'content' => $content,
         ]));
     }
 }
