@@ -306,10 +306,11 @@ Strategically very interesting for CompGen
 - rather a special case for publicly editable sources, less for private genealogical media
 
 ### Roadmap
+- V1.0 
+  - actual development version
 - V1.1
   - Context display directly at the source
-  - NOTE editable
-  - Save NOTE and Save Revision
+  - bug fixing
 - V1.2
   - Media Viewer
   - Diff Revision
@@ -319,6 +320,7 @@ Strategically very interesting for CompGen
   - composer.json
   - use active user and his rights
   - backup/restore of database tables
+  - first release version
 - V1.4
   - Discourse integration
 - V1.5
@@ -399,12 +401,15 @@ To update, simply replace the `hh_source_transcription` files with the new ones 
 ## Translation
 
 You can help to translate this module.
-The language information is stored in the folder "resources/lang/".
+The language information is stored in the folder `resources/lang/`.
 You can edit those files and return them to me.
 You can do this via a pull request (if you know how) or by e-mail.
 Updated translations will be included in the next release of this module.
 
-There are, besides English and German, no other translations available.
+There are the following translations available
+- English by @Hartenthaler
+- German by @Hartenthaler
+- Dutch by @TheDutchJewel
 
 <a name="Support"></a>
 ## Support
