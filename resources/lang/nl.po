@@ -15,66 +15,133 @@ msgstr ""
 "X-Poedit-KeywordsList: translate\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: src/SourceTranscription.php:164
+msgid "Transcription"
+msgstr "Tanscriptie"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "Revision"
+msgstr "Revisie"
+
+msgid "Provider"
+msgstr "Aanbieder"
+
+msgid "Origin"
+msgstr "Oorsprong"
+
+msgid "Begin transcription"
+msgstr "Begin van de transcriptie"
+
+msgid "End transcription"
+msgstr "Einde van de transcriptie"
+
+msgid "Manual (direct editing)"
+msgstr "Handmatig (direct bewerken)"
+
+msgid "Automated (asynchronous)"
+msgstr "Geautomatiseerd (asynchroon)"
+
+msgid "Crowd-based (asynchronous)"
+msgstr "Crowd-gebaseerd (asynchroon)"
+
+msgid "Internal collaboration"
+msgstr "Interne samenwerking"
+
+msgid "Always create a new NOTE"
+msgstr "Maak altijd een nieuwe NOTE aan"
+
+msgid "Update existing NOTE only if unchanged"
+msgstr "Bestaande NOTE alleen bijwerken als deze niet is gewijzigd"
+
+msgid "Always update existing NOTE"
+msgstr "Bestaande NOTE altijd bijwerken"
+
+msgid "Manual entry"
+msgstr "Handmatige invoer"
+
+msgid "Manual note save"
+msgstr "Handmatige NOTE opslaan"
+
+msgid "Transkribus import"
+msgstr "Transkribus importeren"
+
+msgid "Transkribus sync"
+msgstr "Transkribus-synchronisatie"
+
+msgid "New"
+msgstr "Nieuw"
+
+msgid "In progress"
+msgstr "In uitvoering"
+
+msgid "Completed"
+msgstr "Voltooid"
+
+msgid "Archived"
+msgstr "Gearchiveerd"
+
+msgid "Translation"
+msgstr "Vertaling"
+
+msgid "Normalized text"
+msgstr "Genormaliseerde tekst"
+
 msgid "Source Transcription"
 msgstr "Brontranscriptie"
 
-#: src/SourceTranscription.php:176
 msgid "Manage source transcriptions with manual and provider-based workflows."
-msgstr ""
-"Beheer bronteksten met handmatige of door aanbieder gestuurde werkstroom."
+msgstr "Beheer bronteksten met handmatige of aanbieder-gebaseerde werkstroom."
 
-#: src/SourceTranscription.php:332
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
 msgstr "De instellingen voor de module “%s” zijn bijgewerkt."
 
-#: src/SourceTranscription.php:345
-msgid "Always create a new NOTE"
-msgstr "Maak altijd een nieuwe NOTE aan"
-
-#: src/SourceTranscription.php:346
-msgid "Update existing NOTE only if unchanged"
-msgstr "Bestaande NOTE alleen bijwerken als deze niet is gewijzigd"
-
-#: src/SourceTranscription.php:347
-msgid "Always update existing NOTE"
-msgstr "Bestaande NOTE altijd bijwerken"
-
-#: resources/views/admin-settings.phtml:23
 #, php-format
-msgid ""
-"This module can only be used with a webtrees version greater or equal than "
-"%s."
-msgstr ""
-"Deze uitbreidingsmodule kan alleen worden gebruikt met een webtreesversie "
-"die gelijk is aan of hoger is dan %s."
+msgid "This module can only be used with a webtrees version greater or equal than %s."
+msgstr "Deze module kan alleen worden gebruikt met een webtreesversie die gelijk is aan of hoger is dan %s."
 
-#: resources/views/admin-settings.phtml:32
 msgid "NOTE update strategy"
 msgstr "NOTE-updatestrategie"
 
-#: resources/views/admin-settings.phtml:57
 msgid "Tag value for tagging all sources with at least one transcription"
-msgstr ""
-"Labelwaarde voor het labelen van alle bronnen met ten minste één "
-"transcriptie"
+msgstr "Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
 
-#: resources/views/admin-settings.phtml:74
 msgid "Default"
 msgstr "Standaard"
 
-#: resources/views/admin-settings.phtml:82
 msgid "save"
 msgstr "opslaan"
 
+#~ msgid "Only manual transcriptions are supported by createManual()."
+#~ msgstr "Von createManual() werden nur manuelle Transkriptionen unterstützt."
+
+#~ msgid "source_xref must not be empty."
+#~ msgstr "Quellen-XREF darf nicht leer sein."
+
+#~ msgid "title must not be empty."
+#~ msgstr "Titel darf nicht leer sein."
+
+#, php-format
+#~ msgid "Transcription not found: %s"
+#~ msgstr "Transkription nicht gefunden: %s"
+
+#, php-format
+#~ msgid "Source not found: %s"
+#~ msgstr "Quelle nicht gefunden: %s"
+
+#, php-format
+#~ msgid "Revision not found: %s"
+#~ msgstr "Revision nicht gefunden: %s"
+
+#~ msgid "Source Transcriptions database schema is newer than this module version."
+#~ msgstr "Das Schema der Datenbank \"Transkription von Quellen\" ist neuer als diese Modulversion."
+
+#, php-format
+#~ msgid "No migration defined from schema version %s"
+#~ msgstr "Aus der Schemaversion %s wurde keine Migration definiert"
+
 #, fuzzy
-#~| msgid ""
-#~| "Manage transcriptions for sources and media objects with support for "
-#~| "multiple providers gg."
-#~ msgid ""
-#~ "Manage transcriptions for sources and media objects with support for "
-#~ "multiple providers."
-#~ msgstr ""
-#~ "Verwaltung der Transkriptionen für Quellen und Medienobjekte mit Hilfe "
-#~ "verschiedener Anbieter."
+#~| msgid "Manage transcriptions for sources and media objects with support for multiple providers gg."
+#~ msgid "Manage transcriptions for sources and media objects with support for multiple providers."
+#~ msgstr "Verwaltung der Transkriptionen für Quellen und Medienobjekte mit Hilfe verschiedener Anbieter."
