@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SourceTranscription\n"
-"POT-Creation-Date: 2026-04-30 06:36+0200\n"
+"POT-Creation-Date: 2026-05-01 00:51+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
 "Language-Team: \n"
@@ -200,6 +200,7 @@ msgstr "Manuelle Eingabe"
 
 #: src/Domain/ValueObject/ProviderLabel.php:48
 #: src/Domain/ValueObject/ProviderLabel.php:57
+#: src/Domain/ValueObject/ProviderPresentation.php:76
 msgid "Transkribus"
 msgstr "Transkribus"
 
@@ -207,6 +208,14 @@ msgstr "Transkribus"
 #: src/Domain/ValueObject/ProviderLabel.php:58
 msgid "Community (Discourse)"
 msgstr "Gemeinschaft (Discourse)"
+
+#: src/Domain/ValueObject/ProviderPresentation.php:75
+msgid "Manual transcription in this webtrees installation"
+msgstr "Manuelle Transkription in dieser webtrees-Installation"
+
+#: src/Domain/ValueObject/ProviderPresentation.php:77
+msgid "Community discussion on Discourse"
+msgstr "Lesehilfe in Discourse"
 
 #: src/Domain/ValueObject/RevisionOriginType.php:48
 msgid "Manual entry"
@@ -320,20 +329,20 @@ msgstr "Standard"
 msgid "save"
 msgstr ""
 
-#: resources/views/create-manual.phtml:36 resources/views/dashboard.phtml:31
-#: resources/views/detail.phtml:46 resources/views/detail.phtml:51
+#: resources/views/create-manual.phtml:36 resources/views/dashboard.phtml:72
+#: resources/views/detail.phtml:72 resources/views/detail.phtml:77
 msgid "Source"
 msgstr ""
 
 #: resources/views/create-manual.phtml:46
 msgid "No results found"
-msgstr ""
+msgstr "Keine Ergebnisse gefunden"
 
 #: resources/views/create-manual.phtml:47
 msgid "Search for a source"
 msgstr "Suche nach einer Quelle"
 
-#: resources/views/create-manual.phtml:56
+#: resources/views/create-manual.phtml:56 resources/views/dashboard.phtml:136
 msgid "Media object"
 msgstr "Medienobjekt"
 
@@ -349,15 +358,15 @@ msgstr ""
 "Es werden nur Medienobjekte angezeigt, die mit der gewählten Quelle "
 "verknüpft sind."
 
-#: resources/views/create-manual.phtml:77 resources/views/detail.phtml:86
+#: resources/views/create-manual.phtml:77 resources/views/detail.phtml:112
 msgid "Primary language"
 msgstr "Primäre Sprache"
 
-#: resources/views/create-manual.phtml:91 resources/views/detail.phtml:89
+#: resources/views/create-manual.phtml:91 resources/views/detail.phtml:115
 msgid "Primary script"
 msgstr "Primäre Schriftart"
 
-#: resources/views/create-manual.phtml:105 resources/views/detail.phtml:92
+#: resources/views/create-manual.phtml:105 resources/views/detail.phtml:118
 msgid "Primary form"
 msgstr "Primäre Form"
 
@@ -371,11 +380,11 @@ msgstr "Starte Transkription"
 
 #: resources/views/create-manual.phtml:162
 msgid "Loading media objects…"
-msgstr "Laden der Medienobjekte"
+msgstr "Laden der Medienobjekte…"
 
 #: resources/views/create-manual.phtml:180
 msgid "No media object selected"
-msgstr "Es wurde kein Medienobjekt ausgewählt."
+msgstr "Es wurde kein Medienobjekt ausgewählt"
 
 #: resources/views/create-manual.phtml:184
 msgid "No linked media objects found"
@@ -385,39 +394,48 @@ msgstr "Es wurde kein verknüpftes Medienobjekt gefunden."
 msgid "Could not load media objects"
 msgstr "Es konnten keine Medienobjekte geladen werden"
 
-#: resources/views/dashboard.phtml:30
-msgid "ID"
-msgstr "ID"
-
-#: resources/views/dashboard.phtml:32
+#: resources/views/dashboard.phtml:73
 msgid "Media"
 msgstr ""
 
-#: resources/views/dashboard.phtml:34
+#: resources/views/dashboard.phtml:75
 msgid "Transcription provider"
 msgstr "Anbieter der Transkription"
 
-#: resources/views/dashboard.phtml:35 resources/views/detail.phtml:74
+#: resources/views/dashboard.phtml:76 resources/views/detail.phtml:100
 msgid "Status"
 msgstr "Status"
 
-#: resources/views/dashboard.phtml:36
+#: resources/views/dashboard.phtml:77
 msgid "Note"
 msgstr "NOTE"
 
-#: resources/views/dashboard.phtml:37
+#: resources/views/dashboard.phtml:78
 msgid "Actions"
 msgstr "Aktionen"
 
-#: resources/views/dashboard.phtml:52
+#: resources/views/dashboard.phtml:125
+msgid "Source record"
+msgstr "Quellendatensatz"
+
+#: resources/views/dashboard.phtml:129
+msgid "Deleted"
+msgstr "Gelöscht"
+
+#: resources/views/dashboard.phtml:140 resources/views/dashboard.phtml:169
+#: resources/views/detail.phtml:108 resources/views/detail.phtml:126
+msgid "None"
+msgstr "Nichts"
+
+#: resources/views/dashboard.phtml:175
 msgid "Open"
 msgstr "Öffnen"
 
-#: resources/views/detail.phtml:34
+#: resources/views/detail.phtml:60
 msgid "Back to dashboard"
 msgstr "Zurück zum Dashboard"
 
-#: resources/views/detail.phtml:39
+#: resources/views/detail.phtml:65
 msgid ""
 "The current webtrees NOTE is used as a working copy. Changes are only "
 "archived when saved as a new revision."
@@ -425,69 +443,71 @@ msgstr ""
 "Die aktuelle NOTE dient als Arbeitskopie. Änderungen werden erst archiviert, "
 "wenn sie als neue Revision gespeichert werden."
 
-#: resources/views/detail.phtml:60
+#: resources/views/detail.phtml:86
 msgid "Media XREF"
 msgstr "Medien XREF"
 
-#: resources/views/detail.phtml:67 resources/views/detail.phtml:115
+#: resources/views/detail.phtml:93 resources/views/detail.phtml:141
 msgid "No media object selected."
 msgstr "Es wurde kein Medienobjekt ausgewählt."
 
-#: resources/views/detail.phtml:77
+#: resources/views/detail.phtml:103
 msgid "Current NOTE"
 msgstr "Aktuelle NOTE"
 
-#: resources/views/detail.phtml:82 resources/views/detail.phtml:100
-msgid "None"
-msgstr "Nichts"
-
-#: resources/views/detail.phtml:95
+#: resources/views/detail.phtml:121
 msgid "Tag NOTE"
 msgstr "Tag NOTE"
 
-#: resources/views/detail.phtml:109
+#: resources/views/detail.phtml:135
 msgid "Media preview"
 msgstr "Medienvorschau"
 
-#: resources/views/detail.phtml:119
+#: resources/views/detail.phtml:145
 msgid "No media files found for this media object."
 msgstr "Für dieses Medienobjekt wurden keine Mediendateien gefunden."
 
-#: resources/views/detail.phtml:125
-msgid "Media files"
-msgstr "Mediendateien"
+#: resources/views/detail.phtml:151
+msgid "Media file"
+msgstr "Mediendatei"
 
-#: resources/views/detail.phtml:161
-msgid "Open media file"
-msgstr "Öffne Mediendatei"
+#: resources/views/detail.phtml:178
+msgid "This media file cannot be previewed here."
+msgstr "Diese Mediendatei kann hier nicht angezeigt werden."
 
-#: resources/views/detail.phtml:190
+#: resources/views/detail.phtml:211
 msgid "Active webtrees NOTE"
 msgstr "Aktive NOTE"
 
-#: resources/views/detail.phtml:205
+#: resources/views/detail.phtml:226
 msgid "Save NOTE"
 msgstr "Speichere NOTE"
 
-#: resources/views/detail.phtml:214
+#: resources/views/detail.phtml:235
 msgid "Archive as new revision"
 msgstr "Archivieren als neue Revision"
 
-#: resources/views/detail.phtml:224
+#: resources/views/detail.phtml:245
 msgid "Revision history"
 msgstr "Revisionshistorie"
 
-#: resources/views/detail.phtml:230
+#: resources/views/detail.phtml:251
 msgid "Transcription Provider"
 msgstr "Anbieter der Transkription"
 
-#: resources/views/detail.phtml:232
+#: resources/views/detail.phtml:253
 msgid "Current"
 msgstr "Aktuell"
 
-#: resources/views/detail.phtml:233
+#: resources/views/detail.phtml:254
 msgid "Text"
 msgstr "Text"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Open media file"
+#~ msgstr "Öffne Mediendatei"
 
 #~ msgid "Media preview will be added later."
 #~ msgstr "Medienvorschau wird später ergänzt werden."

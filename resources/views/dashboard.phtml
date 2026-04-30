@@ -1,4 +1,29 @@
 <?php
+/*
+ * webtrees: online genealogy application
+ * Copyright (C) 2026 webtrees development team
+ *                    <https://webtrees.net>
+ *
+ * Source Transcription (webtrees custom module):
+ * Copyright (C) 2026 Hermann Hartenthaler
+ *                     <https://ahnen.hartenthaler.eu>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Source Transcription
+ * A webtrees (https://webtrees.net) 2.2 custom module to transcribe sources
+ */
 
 declare(strict_types=1);
 
@@ -9,11 +34,16 @@ declare(strict_types=1);
  */
 
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Tree;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderLabel;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderPresentation;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\TranscriptionStatus;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Support\TranscriptionSlug;
 
+// formatting options
+$cell_format = 'text-decoration-none d-block';
+$muted = 'text-secondary fst-italic';
 ?>
 
 <h2><?= e($title) ?></h2>
@@ -24,10 +54,21 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\Transcri
     </a>
 </p>
 
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <div>
+        <!-- später: Suche / Filter -->
+    </div>
+
+    <div class="text-secondary">
+        <?php if (count($transcriptions) > 0) : ?>
+            <?= I18N::plural('%s transcription', '%s transcriptions', count($transcriptions), I18N::number(count($transcriptions))) ?>
+        <?php endif ?>
+    </div>
+</div>
+
 <table class="table table-bordered table-sm">
     <thead>
     <tr>
-        <th><?= I18N::translate('ID') ?></th>
         <th><?= I18N::translate('Source') ?></th>
         <th><?= I18N::translate('Media') ?></th>
         <th><?= I18N::translate('Title') ?></th>
@@ -39,16 +80,98 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\Transcri
     </thead>
     <tbody>
     <?php foreach ($transcriptions as $transcription) : ?>
+        <?php
+        $source = Registry::sourceFactory()->make($transcription->source_xref, $tree);
+
+        $detail_url = route('source-transcription-detail', [
+                'tree'             => $tree->name(),
+                'transcription_id' => $transcription->id,
+                'slug'             => TranscriptionSlug::fromTitle($transcription->title),
+        ]);
+
+        $action_url = route('source-transcription-detail', [
+                'tree'             => $tree->name(),
+                'transcription_id' => $transcription->id,
+        ]);
+
+        $provider_label = ProviderPresentation::label($transcription->provider_key);
+        $provider_url   = ProviderPresentation::url($transcription->provider_key, $tree);
+        $provider_icon  = ProviderPresentation::icon($transcription->provider_key);
+        $provider_title = ProviderPresentation::title($transcription->provider_key);
+
+        $media = null;
+        if ($transcription->media_xref !== null) {
+            $media = Registry::mediaFactory()->make($transcription->media_xref, $tree);
+        }
+
+        $note = null;
+        if ($transcription->current_note_xref !== null) {
+            $note = Registry::noteFactory()->make($transcription->current_note_xref, $tree);
+        }
+
+        $badge_class = match ($transcription->status) {
+            'draft'     => 'bg-secondary',
+            'in_work'   => 'bg-warning text-dark',
+            'review'    => 'bg-info text-dark',
+            'final'     => 'bg-success',
+            default     => 'bg-light text-dark',
+        };
+        ?>
+
         <tr>
-            <td><?= e((string) $transcription->id) ?></td>
-            <td><?= e($transcription->source_xref) ?></td>
-            <td><?= e((string) $transcription->media_xref) ?></td>
-            <td><?= e($transcription->title) ?></td>
-            <td><?= e(ProviderLabel::label($transcription->provider_key)) ?></td>
-            <td><?= e(TranscriptionStatus::labels()[$transcription->status]) ?></td>
-            <td><?= e((string) $transcription->current_note_xref) ?></td>
             <td>
-                <a class="btn btn-sm btn-secondary" href="<?= e(route('source-transcription-detail', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>">
+                <?php if ($source !== null) : ?>
+                    <a href="<?= e($source->url()) ?>" class="<?= $cell_format ?>">
+                        <?= $source->fullName() ?: I18N::translate('Source record') ?>
+                    </a>
+                <?php else : ?>
+                    <span class="<?= $muted ?>">
+                        <?= e(I18N::translate('Deleted')) ?>
+                    </span>
+                <?php endif ?>
+            </td>
+            <td>
+                <?php if ($media !== null) : ?>
+                    <a href="<?= e($media->url()) ?>" class="<?= $cell_format ?>">
+                        <?= $media->fullName() ?: I18N::translate('Media object') ?>
+                    </a>
+                <?php else : ?>
+                    <span class="<?= $muted ?>">
+                        <?= e(I18N::translate('None')) ?>
+                    </span>
+                <?php endif ?>
+            </td>
+            <td>
+                <a href="<?= e($detail_url) ?>">
+                    <?= e($transcription->title) ?>
+                </a>
+            </td>
+            <td>
+                <a href="<?= e($provider_url) ?>" title="<?= e($provider_title) ?>" class="<?= $cell_format ?>">
+                    <?php if ($provider_icon !== '') : ?>
+                        <img src="<?= e($provider_icon) ?>" alt="" width="16" height="16" class="me-1">
+                    <?php endif ?>
+                    <?= e($provider_label) ?>
+                </a>
+            </td>
+            <td>
+                <span class="badge <?= $badge_class ?>">
+                    <?= e(TranscriptionStatus::labels()[$transcription->status]) ?>
+                </span>
+            </td>
+            <td>
+                <?php if ($note !== null) : ?>
+                    <a href="<?= e($note->url()) ?>" class="<?= $cell_format ?>">
+                        <?= e('NOTE') ?>
+                    </a>
+                <?php else : ?>
+                    <span class="<?= $muted ?>">
+                        <?= e(I18N::translate('None')) ?>
+                    </span>
+                <?php endif ?>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-secondary" href="<?= e($action_url) ?>">
                     <?= I18N::translate('Open') ?>
                 </a>
             </td>

@@ -28,29 +28,27 @@
 
 declare(strict_types=1);
 
-namespace Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity;
+namespace Hartenthaler\Webtrees\Module\SourceTranscription\Support;
 
-use Fisharebest\Webtrees\Tree;
+use function mb_strtolower;
+use function preg_replace;
+use function strtr;
+use function trim;
 
-final class Transcription
+final class TranscriptionSlug
 {
-    public function __construct(
-        public readonly int     $id,
-        public readonly Tree    $tree,
-        public readonly string  $source_xref,
-        public readonly ?string $media_xref,
-        public readonly string  $title,
-        public readonly string  $interaction_model,
-        public readonly ?string $primary_language_tag,
-        public readonly ?string $primary_script_tag,
-        public readonly ?string $primary_form,
-        public readonly string  $transcription_type,
-        public readonly string  $provider_key,
-        public readonly string  $status,
-        public readonly ?string $tag_note_xref,
-        public readonly ?string $current_note_xref,
-        public readonly int     $created_by_user_id,
-        public readonly bool    $is_active,
-    ) {
+    public static function fromTitle(string $title): string
+    {
+        $slug = mb_strtolower(trim($title));
+        $slug = strtr($slug, [
+            'ä' => 'ae',
+            'ö' => 'oe',
+            'ü' => 'ue',
+            'ß' => 'ss',
+        ]);
+        $slug = preg_replace('/[^a-z0-9]+/u', '-', $slug);
+        $slug = trim((string) $slug, '-');
+
+        return $slug !== '' ? $slug : 'transcription';
     }
 }

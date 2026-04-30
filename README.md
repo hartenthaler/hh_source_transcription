@@ -219,11 +219,18 @@ The module uses an explicit schema version to allow future migrations.
 4. Generate a working note
 5. Edit the note in webtrees
 6. Save the note as a new revision when needed
-
-or select an already existing NOTE containing transcribed text as a new revision.
+7. Or select an already existing NOTE containing transcribed text as a new revision
 
 ### Discourse
-tbd
+1. Open a source with a media object
+2. Create a transcription
+3. Select provider: Discourse
+4. Formulate a "Lesehilfe" post (what you know; what is your problem?)
+5. Upload the media together with meta information in a post at https://discourse.genealogy.net/c/lesehilfe/10
+5. Present a link to Discourse for the user
+6. Import responses into webtrees after some days
+7. Select and edit the responses in webtrees and store them as a revision
+8. Update the current working note
 
 ### Transkribus
 1. Open a source with a media object
@@ -239,7 +246,7 @@ tbd
 ## Current status
 
 This project is currently in the design and initial development phase.
-It is an alpha version and not ready for production use.
+It is an early beta version and not ready for production use.
 
 The first implementation goal is
 
@@ -247,7 +254,7 @@ The first implementation goal is
 - revision storage (done)
 - note generation (done)
 - tagging of sources (done)
-- manual provider and UI (work in progress)
+- UI for manual provider (work in progress)
 
 ### Current limitations
 There are no permissions of the user checked yet.
@@ -287,15 +294,18 @@ Strategically very interesting for CompGen
   - actual development version
 - V1.1
   - Context display directly at the source
+  - switch to Provider Factory model
+  - new information: who edited what when (in database tables and as CHAN tag in NOTE)
+  - Dashboard shows small thumbnail for media files
 - V1.2
-  - Media Viewer
-  - TinyMCE or CKEditor (ask Bernd Schwendinger)
+  - Media Viewer (incl. audio/video)
+  - TinyMCE or CKEditor as text editor (ask Bernd Schwendinger)
+  - Dashboard: sort table (title, status, provider_key, created_at / updated_at); pagination; filter (status/, provider)
   - Diff Revision
   - Restore Revision
 - V1.3
   - webtrees internal collaboration
   - configuration: support tagging yes/no
-  - composer.json
   - use rights of active user
   - backup/restore of database tables
   - first GitHub release version
@@ -304,6 +314,7 @@ Strategically very interesting for CompGen
 - V1.5
   - Transkribus integration
 - V1.6
+  - test concept
   - File import
   - use metadata in TIFF, PDF, JPEG, PNG, and WebP (XMP/IPTC) like dc:language
   - store metadata in source images (EXIF/XMP)

@@ -105,10 +105,10 @@ final class SourceTranscription extends AbstractModule implements
     //ROUTE
     private const string ROUTE_DASHBOARD = '/tree/{tree}/source-transcriptions';
     private const string ROUTE_CREATE_MANUAL = '/tree/{tree}/source-transcriptions/create-manual';
-    private const string ROUTE_DETAIL = '/tree/{tree}/source-transcriptions/{transcription_id}';
     private const string ROUTE_UPDATE_NOTE = '/tree/{tree}/source-transcriptions/{transcription_id}/update-note';
     private const string ROUTE_SAVE_NOTE_AS_REVISION = '/tree/{tree}/source-transcriptions/{transcription_id}/save-note-as-revision';
     private const string ROUTE_MEDIA_FOR_SOURCE = '/tree/{tree}/source-transcriptions/media-for-source';
+    private const string ROUTE_DETAIL = '/tree/{tree}/source-transcriptions/{transcription_id}/{slug}';
 
     /**
      * SourceTranscription constructor.

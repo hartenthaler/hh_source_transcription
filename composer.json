@@ -1,0 +1,26 @@
+{
+  "name": "hartenthaler/hh-source-transcription",
+  "description": "webtrees module for managing source transcriptions with revision history and providers",
+  "type": "library",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Hermann Hartenthaler"
+    }
+  ],
+  "require": {
+    "php": ">=8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hartenthaler\\Webtrees\\Module\\SourceTranscription\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Hartenthaler\\Webtrees\\Module\\SourceTranscription\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
