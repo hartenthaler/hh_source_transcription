@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 
 msgid "Transcription"
-msgstr "Tanscriptie"
+msgstr "Transcriptie"
 
 msgid "Title"
 msgstr "Titel"
@@ -31,10 +31,10 @@ msgid "Origin"
 msgstr "Oorsprong"
 
 msgid "Begin transcription"
-msgstr "Begin van de transcriptie"
+msgstr "Begin transcriptie"
 
 msgid "End transcription"
-msgstr "Einde van de transcriptie"
+msgstr "Einde transcriptie"
 
 msgid "Manual (direct editing)"
 msgstr "Handmatig (direct bewerken)"
@@ -49,13 +49,112 @@ msgid "Internal collaboration"
 msgstr "Interne samenwerking"
 
 msgid "Always create a new NOTE"
-msgstr "Maak altijd een nieuwe NOTE aan"
+msgstr "Altijd een nieuwe NOTE aanmaken"
 
 msgid "Update existing NOTE only if unchanged"
 msgstr "Bestaande NOTE alleen bijwerken als deze niet is gewijzigd"
 
 msgid "Always update existing NOTE"
 msgstr "Bestaande NOTE altijd bijwerken"
+
+msgid "Handwritten Kurrent"
+msgstr "Handgeschreven Kurrent"
+
+msgid "Handwritten Sütterlin"
+msgstr "Handgeschreven Sütterlin"
+
+msgid "Handwritten Latin script"
+msgstr "Handgeschreven Latijns schrift"
+
+msgid "Printed Fraktur"
+msgstr "Gedrukte Fraktur"
+
+msgid "Printed Antiqua"
+msgstr "Gedrukte Antiqua"
+
+msgid "Inscription on gravestone"
+msgstr "Grafsteeninscriptie"
+
+msgid "Audio interview"
+msgstr "Audio-interview"
+
+msgid "Audio lecture"
+msgstr "Audiolezing"
+
+msgid "Video interview"
+msgstr "Video-interview"
+
+msgid "Video lecture"
+msgstr "Videolezing"
+
+msgid "Mixed"
+msgstr "Gemengd"
+
+msgid "Other"
+msgstr "Overige"
+
+msgid "Unknown"
+msgstr "Onbekend"
+
+msgid "Form not specified"
+msgstr "Vorm niet gespecificeerd"
+
+msgid "German"
+msgstr "Duits"
+
+msgid "Low German"
+msgstr "Nederduits"
+
+msgid "Western Frisian"
+msgstr "West-Fries"
+
+msgid "Latin"
+msgstr "Latijn"
+
+msgid "English"
+msgstr "Engels"
+
+msgid "French"
+msgstr "Frans"
+
+msgid "Dutch"
+msgstr "Nederlands"
+
+msgid "Undetermined"
+msgstr "Onbepaald"
+
+msgid "Language not specified"
+msgstr "Taal niet gespecificeerd"
+
+msgid "Latin script"
+msgstr "Latijns schrift"
+
+msgid "Latin script, Fraktur variant"
+msgstr "Latijns schrift, Fraktur-variant"
+
+msgid "Cyrillic script"
+msgstr "Cyrillisch schrift"
+
+msgid "Greek script"
+msgstr "Grieks schrift"
+
+msgid "Hebrew script"
+msgstr "Hebreeuws schrift"
+
+msgid "Unknown script"
+msgstr "Onbekend schrift"
+
+msgid "Script not specified"
+msgstr "Schrift niet gespecificeerd"
+
+msgid "Manual"
+msgstr "Handmatige invoer"
+
+msgid "Transkribus"
+msgstr "Transkribus"
+
+msgid "Community (Discourse)"
+msgstr "Gemeenschap (Discourse)"
 
 msgid "Manual entry"
 msgstr "Handmatige invoer"
@@ -87,6 +186,28 @@ msgstr "Vertaling"
 msgid "Normalized text"
 msgstr "Genormaliseerde tekst"
 
+msgid "Create manual transcription"
+msgstr "Start handmatige transcriptie"
+
+msgid "Transcriptions"
+msgstr "Transcripties"
+
+msgid "Saved from UI"
+msgstr "Opgeslagen via gebruikersinterface"
+
+#, php-format
+msgid "The current NOTE has been saved as revision %s."
+msgstr "De huidige NOTE is opgeslagen als revisie %s."
+
+msgid "Created from UI"
+msgstr "Gemaakt via gebruikersinterface"
+
+msgid "The transcription has been created."
+msgstr "De transcriptie is gemaakt."
+
+msgid "The NOTE has been updated."
+msgstr "De NOTE is bijgewerkt."
+
 msgid "Source Transcription"
 msgstr "Brontranscriptie"
 
@@ -112,6 +233,145 @@ msgstr "Standaard"
 
 msgid "save"
 msgstr "opslaan"
+
+msgid "Source"
+msgstr "Bron"
+
+msgid "No results found"
+msgstr "Geen resultaten gevonden"
+
+msgid "Search for a source"
+msgstr "Zoeken naar een bron"
+
+msgid "Media object"
+msgstr "Mediaobject"
+
+msgid "Select a source first"
+msgstr "Kies eerst een bron"
+
+msgid "Only media objects linked to the selected source are shown."
+msgstr "Alleen media-items die aan de geselecteerde bron zijn gekoppeld worden getoond."
+
+msgid "Primary language"
+msgstr "Primaire taal"
+
+msgid "Primary script"
+msgstr "Primair schrift"
+
+msgid "Primary form"
+msgstr "Primaire vorm"
+
+msgid "Initial text"
+msgstr "Oorspronkelijke tekst"
+
+msgid "Create transcription"
+msgstr "Start transcriptie"
+
+msgid "Loading media objects…"
+msgstr "Mediaobjecten worden geladen…"
+
+msgid "No media object selected"
+msgstr "Geen mediaobject geselecteerd"
+
+msgid "No linked media objects found"
+msgstr "Geen gekoppelde mediaobjecten gevonden"
+
+msgid "Could not load media objects"
+msgstr "Mediaobjecten konden niet worden geladen"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "Transcription provider"
+msgstr "Transcriptieaanbieder"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Note"
+msgstr "Notitie"
+
+msgid "Actions"
+msgstr "Acties"
+
+msgid "Open"
+msgstr "Openen"
+
+msgid "Back to dashboard"
+msgstr "Terug naar dashboard"
+
+msgid ""
+"The current webtrees NOTE is used as a working copy. Changes are only archived when saved as a new "
+"revision."
+msgstr ""
+"De huidige webtrees-NOTE wordt gebruikt als werkkopie. Wijzigingen worden pas gearchiveerd wanneer ze als "
+"nieuwe revisie worden opgeslagen."
+
+msgid "Media XREF"
+msgstr "Media-XREF"
+
+msgid "No media object selected."
+msgstr "Geen mediaobject geselecteerd."
+
+msgid "Current NOTE"
+msgstr "Huidige NOTE"
+
+msgid "None"
+msgstr "Niets"
+
+msgid "Tag NOTE"
+msgstr "Label NOTE"
+
+msgid "Media preview"
+msgstr "Mediavoorvertoning"
+
+msgid "No media files found for this media object."
+msgstr "Geen mediabestanden gevonden voor dit mediaobject."
+
+msgid "Media files"
+msgstr "Mediabestanden"
+
+msgid "Open media file"
+msgstr "Open mediabestand"
+
+msgid "Active webtrees NOTE"
+msgstr "Actieve webtrees-NOTE"
+
+msgid "Save NOTE"
+msgstr "Opslaan NOTE"
+
+msgid "Archive as new revision"
+msgstr "Archiveren als nieuwe revisie"
+
+msgid "Revision history"
+msgstr "Revisiegeschiedenis"
+
+msgid "Transcription Provider"
+msgstr "Transcriptieaanbieder"
+
+msgid "Current"
+msgstr "Huidig"
+
+msgid "Text"
+msgstr "Tekst"
+
+#~ msgid "Media preview will be added later."
+#~ msgstr "Medienvorschau wird später ergänzt werden."
+
+#~ msgid "Not specified"
+#~ msgstr "keine Angabe"
+
+#~ msgid "Source XREF"
+#~ msgstr "Quellen XREF"
+
+#~ msgid "Hash"
+#~ msgstr "Prüfsumme"
+
+#~ msgid "Tree ID"
+#~ msgstr "Baum-ID"
 
 #~ msgid "Only manual transcriptions are supported by createManual()."
 #~ msgstr "Von createManual() werden nur manuelle Transkriptionen unterstützt."
