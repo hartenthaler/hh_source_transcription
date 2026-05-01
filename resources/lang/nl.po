@@ -156,6 +156,12 @@ msgstr "Transkribus"
 msgid "Community (Discourse)"
 msgstr "Gemeenschap (Discourse)"
 
+msgid "Manual transcription in this webtrees installation"
+msgstr "Handmatige transcriptie in deze webtrees-installatie"
+
+msgid "Community discussion on Discourse"
+msgstr "Discussiegroep op Discourse"
+
 msgid "Manual entry"
 msgstr "Handmatige invoer"
 
@@ -279,9 +285,6 @@ msgstr "Geen gekoppelde mediaobjecten gevonden"
 msgid "Could not load media objects"
 msgstr "Mediaobjecten konden niet worden geladen"
 
-msgid "ID"
-msgstr "ID"
-
 msgid "Media"
 msgstr "Media"
 
@@ -296,6 +299,15 @@ msgstr "Notitie"
 
 msgid "Actions"
 msgstr "Acties"
+
+msgid "Source record"
+msgstr "Bronrecord"
+
+msgid "Deleted"
+msgstr "Verwijderd"
+
+msgid "None"
+msgstr "Niets"
 
 msgid "Open"
 msgstr "Openen"
@@ -319,9 +331,6 @@ msgstr "Geen mediaobject geselecteerd."
 msgid "Current NOTE"
 msgstr "Huidige NOTE"
 
-msgid "None"
-msgstr "Niets"
-
 msgid "Tag NOTE"
 msgstr "Label NOTE"
 
@@ -331,11 +340,11 @@ msgstr "Mediavoorvertoning"
 msgid "No media files found for this media object."
 msgstr "Geen mediabestanden gevonden voor dit mediaobject."
 
-msgid "Media files"
-msgstr "Mediabestanden"
+msgid "Media file"
+msgstr "Mediabestand"
 
-msgid "Open media file"
-msgstr "Open mediabestand"
+msgid "This media file cannot be previewed here."
+msgstr "Van dit mediabestand kan geen voorbeeld worden bekeken."
 
 msgid "Active webtrees NOTE"
 msgstr "Actieve webtrees-NOTE"
@@ -357,6 +366,12 @@ msgstr "Huidig"
 
 msgid "Text"
 msgstr "Tekst"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Open media file"
+#~ msgstr "Öffne Mediendatei"
 
 #~ msgid "Media preview will be added later."
 #~ msgstr "Medienvorschau wird später ergänzt werden."
