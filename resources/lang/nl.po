@@ -36,6 +36,24 @@ msgstr "Begin transcriptie"
 msgid "End transcription"
 msgstr "Einde transcriptie"
 
+msgid "New"
+msgstr "Nieuw"
+
+msgid "In progress"
+msgstr "In uitvoering"
+
+msgid "Ready for review"
+msgstr "Klaar voor beoordeling"
+
+msgid "Final"
+msgstr "Voltooid"
+
+msgid "Reopened"
+msgstr "Heropend"
+
+msgid "Canceled"
+msgstr "Geannuleerd"
+
 msgid "Manual (direct editing)"
 msgstr "Handmatig (direct bewerken)"
 
@@ -166,25 +184,13 @@ msgid "Manual entry"
 msgstr "Handmatige invoer"
 
 msgid "Manual note save"
-msgstr "Handmatige NOTE opslaan"
+msgstr "NOTE handmatig opslaan"
 
 msgid "Transkribus import"
 msgstr "Transkribus importeren"
 
 msgid "Transkribus sync"
 msgstr "Transkribus-synchronisatie"
-
-msgid "New"
-msgstr "Nieuw"
-
-msgid "In progress"
-msgstr "In uitvoering"
-
-msgid "Completed"
-msgstr "Voltooid"
-
-msgid "Archived"
-msgstr "Gearchiveerd"
 
 msgid "Translation"
 msgstr "Vertaling"
@@ -214,6 +220,12 @@ msgstr "De transcriptie is gemaakt."
 msgid "The NOTE has been updated."
 msgstr "De NOTE is bijgewerkt."
 
+msgid "First transcription provider available: manual transcription."
+msgstr "Eerste transcriptieaanbieder beschikbaar: handmatige transcriptie."
+
+msgid "What's new?"
+msgstr "Wat is er nieuw?"
+
 msgid "Source Transcription"
 msgstr "Brontranscriptie"
 
@@ -230,6 +242,12 @@ msgstr "Deze module kan alleen worden gebruikt met een webtreesversie die gelijk
 
 msgid "NOTE update strategy"
 msgstr "NOTE-updatestrategie"
+
+msgid "Use of TinyMDE as the editor for transcription notes"
+msgstr "Gebruik van TinyMDE als editor voor transcriptienotities"
+
+msgid "Should tagging be supported"
+msgstr "Moet labeling worden ondersteund"
 
 msgid "Tag value for tagging all sources with at least one transcription"
 msgstr "Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
@@ -276,11 +294,11 @@ msgstr "Start transcriptie"
 msgid "Loading media objects…"
 msgstr "Mediaobjecten worden geladen…"
 
-msgid "No media object selected"
-msgstr "Geen mediaobject geselecteerd"
-
 msgid "No linked media objects found"
 msgstr "Geen gekoppelde mediaobjecten gevonden"
+
+msgid "No media object selected"
+msgstr "Geen mediaobject geselecteerd"
 
 msgid "Could not load media objects"
 msgstr "Mediaobjecten konden niet worden geladen"
@@ -315,6 +333,12 @@ msgstr "Openen"
 msgid "Back to dashboard"
 msgstr "Terug naar dashboard"
 
+msgid "Information"
+msgstr "Informatie"
+
+msgid "Media file"
+msgstr "Mediabestand"
+
 msgid ""
 "The current webtrees NOTE is used as a working copy. Changes are only archived when saved as a new "
 "revision."
@@ -322,17 +346,11 @@ msgstr ""
 "De huidige webtrees-NOTE wordt gebruikt als werkkopie. Wijzigingen worden pas gearchiveerd wanneer ze als "
 "nieuwe revisie worden opgeslagen."
 
-msgid "Media XREF"
-msgstr "Media-XREF"
-
 msgid "No media object selected."
 msgstr "Geen mediaobject geselecteerd."
 
 msgid "Current NOTE"
 msgstr "Huidige NOTE"
-
-msgid "Tag NOTE"
-msgstr "Label NOTE"
 
 msgid "Media preview"
 msgstr "Mediavoorvertoning"
@@ -340,14 +358,11 @@ msgstr "Mediavoorvertoning"
 msgid "No media files found for this media object."
 msgstr "Geen mediabestanden gevonden voor dit mediaobject."
 
-msgid "Media file"
-msgstr "Mediabestand"
-
 msgid "This media file cannot be previewed here."
 msgstr "Van dit mediabestand kan geen voorbeeld worden bekeken."
 
-msgid "Active webtrees NOTE"
-msgstr "Actieve webtrees-NOTE"
+msgid "Active NOTE"
+msgstr "Actieve NOTE"
 
 msgid "Save NOTE"
 msgstr "Opslaan NOTE"
@@ -358,14 +373,29 @@ msgstr "Archiveren als nieuwe revisie"
 msgid "Revision history"
 msgstr "Revisiegeschiedenis"
 
-msgid "Transcription Provider"
-msgstr "Transcriptieaanbieder"
-
 msgid "Current"
 msgstr "Huidig"
 
 msgid "Text"
 msgstr "Tekst"
+
+#~ msgid "Completed"
+#~ msgstr "Abgeschlossen"
+
+#~ msgid "Archived"
+#~ msgstr "Archiviert"
+
+#~ msgid "%d transcription"
+#~ msgstr "% Transkription"
+
+#~ msgid "Media XREF"
+#~ msgstr "Medien XREF"
+
+#~ msgid "Tag NOTE"
+#~ msgstr "Tag NOTE"
+
+#~ msgid "Transcription Provider"
+#~ msgstr "Anbieter der Transkription"
 
 #~ msgid "ID"
 #~ msgstr "ID"
