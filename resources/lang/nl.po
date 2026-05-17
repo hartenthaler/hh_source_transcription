@@ -646,11 +646,14 @@ msgstr "Gebruik van TinyMDE als editor voor transcriptienotities"
 msgid "Should tagging be supported?"
 msgstr "Moet labeling worden ondersteund?"
 
-msgid "Tag value for tagging all sources with at least one transcription"
-msgstr "Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
+msgid "Dashboard entries per page"
+msgstr "Aantal dashboardvermeldingen per pagina"
 
 msgid "Default"
 msgstr "Standaard"
+
+msgid "Tag value for tagging all sources with at least one transcription"
+msgstr "Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
 
 msgid "save"
 msgstr "opslaan"
@@ -873,23 +876,27 @@ msgstr "Test Discourse-autorisatie"
 msgid "Discourse authorization stored for %s."
 msgstr "Discourse-autorisatie opgeslagen voor %s."
 
-msgid "Transkribus jobs"
-msgstr "Transkribus-taken"
-
-msgid "Media"
-msgstr "Media"
+msgid "Show/hide"
+msgstr "Weergeven/verbergen"
 
 msgid "Status"
 msgstr "Status"
 
-msgid "Upload references"
-msgstr "Uploadreferenties"
+msgid "All"
+msgstr "Alle"
 
-msgid "Message"
-msgstr "Bericht"
+msgid "Transcription provider"
+msgstr "Transcriptieaanbieder"
 
-msgid "Deleted"
-msgstr "Verwijderd"
+msgid "Filter"
+msgstr "Filter"
+
+msgid "Reset"
+msgstr "Opnieuw instellen"
+
+#, php-format
+msgid "%s-%s of %s"
+msgstr "%s-%s van %s"
 
 #, php-format
 msgid "%s transcription"
@@ -900,8 +907,14 @@ msgstr[1] "%s transcripties"
 msgid "Transcription title"
 msgstr "Transcriptietitel"
 
-msgid "Transcription provider"
-msgstr "Transcriptieaanbieder"
+msgid "Media"
+msgstr "Media"
+
+msgid "Created"
+msgstr "Gemaakt"
+
+msgid "Updated"
+msgstr "Bijgewerkt"
 
 msgid "Note"
 msgstr "Notitie"
@@ -912,11 +925,35 @@ msgstr "Acties"
 msgid "Source record"
 msgstr "Bronrecord"
 
+msgid "Deleted"
+msgstr "Verwijderd"
+
 msgid "External media URL"
 msgstr "URL van extern mediabestand"
 
 msgid "Open"
 msgstr "Openen"
+
+msgid "Pagination"
+msgstr "Paginering"
+
+msgid "Previous"
+msgstr "Vorige"
+
+msgid "Next"
+msgstr "Volgende"
+
+msgid "No transcriptions match the selected filters."
+msgstr "Geen transcripties gevonden die aan de geselecteerde filters voldoen."
+
+msgid "Transkribus jobs"
+msgstr "Transkribus-taken"
+
+msgid "Upload references"
+msgstr "Uploadreferenties"
+
+msgid "Message"
+msgstr "Bericht"
 
 msgid "Back to dashboard"
 msgstr "Terug naar dashboard"
@@ -1048,9 +1085,6 @@ msgstr "Beeldinstellingen"
 msgid "Zoom out"
 msgstr "Uitzoomen"
 
-msgid "Reset"
-msgstr "Opnieuw instellen"
-
 msgid "Zoom in"
 msgstr "Inzoomen"
 
@@ -1069,9 +1103,7 @@ msgstr "Dit mediabestand kan hier niet worden voorvertoond. Gebruik de onderstaa
 msgid "Download file"
 msgstr "Bestand downloaden"
 
-#~ msgid ""
-#~ "An administrator creates an API key in the Discourse administration under Admin > API > API keys. Use the forum base URL, the Discourse username for requests and the generated API key. For a key limited to one user, the API username must match that user; for an all-users key, "
-#~ "choose the user whose permissions should be used."
+#~ msgid "An administrator creates an API key in the Discourse administration under Admin > API > API keys. Use the forum base URL, the Discourse username for requests and the generated API key. For a key limited to one user, the API username must match that user; for an all-users key, choose the user whose permissions should be used."
 #~ msgstr "Ein Administrator erstellt einen API-Schlüssel in der Discourse-Verwaltung unter „Admin > API > API-Schlüssel“.  Der Prozess wie Discourse-Nutzer einen API-Schlüssel erhalten, ist noch in Diskussion."
 
 #~ msgid "Discourse URL"
