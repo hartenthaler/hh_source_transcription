@@ -171,8 +171,19 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription
     </div>
 </div>
 
-<div class="row mb-3">
-    <div class="col-md-6">
+<div class="d-flex justify-content-end mb-2">
+    <div class="btn-group btn-group-sm" role="group" aria-label="<?= e(I18N::translate('Transcription layout')) ?>">
+        <button class="btn btn-outline-secondary" type="button" data-source-transcription-layout="side-by-side">
+            <?= I18N::translate('Side by side') ?>
+        </button>
+        <button class="btn btn-outline-secondary" type="button" data-source-transcription-layout="vertical">
+            <?= I18N::translate('Top and bottom') ?>
+        </button>
+    </div>
+</div>
+
+<div class="row mb-3" id="source-transcription-workspace" data-source-transcription-workspace>
+    <div class="col-md-6" data-source-transcription-panel="media">
         <div class="card h-100">
             <div class="card-header"><?= I18N::translate('Media preview') ?></div>
             <div class="card-body">
@@ -187,7 +198,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription
         </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6" data-source-transcription-panel="note">
         <div class="card h-100">
             <div class="card-header"><?= I18N::translate('Current NOTE') ?></div>
             <div class="card-body">
@@ -314,10 +325,45 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        const layoutStorageKey = 'hh_source_transcription.detail_layout';
+        const workspace = document.querySelector('[data-source-transcription-workspace]');
+        const layoutButtons = document.querySelectorAll('[data-source-transcription-layout]');
+        const mediaPanel = document.querySelector('[data-source-transcription-panel="media"]');
+        const notePanel = document.querySelector('[data-source-transcription-panel="note"]');
         const noteText = document.getElementById('current_note_text');
 
-        if (!noteText) {
-            return;
+        function setLayout(layout) {
+            const vertical = layout === 'vertical';
+
+            if (!workspace || !mediaPanel || !notePanel) {
+                return;
+            }
+
+            mediaPanel.classList.toggle('col-md-6', !vertical);
+            notePanel.classList.toggle('col-md-6', !vertical);
+            mediaPanel.classList.toggle('col-12', vertical);
+            notePanel.classList.toggle('col-12', vertical);
+            notePanel.classList.toggle('mt-3', vertical);
+            workspace.dataset.sourceTranscriptionWorkspace = layout;
+
+            layoutButtons.forEach(function (button) {
+                const active = button.dataset.sourceTranscriptionLayout === layout;
+                button.classList.toggle('active', active);
+                button.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+        }
+
+        if (workspace && mediaPanel && notePanel) {
+            const savedLayout = localStorage.getItem(layoutStorageKey);
+            setLayout(savedLayout === 'vertical' ? 'vertical' : 'side-by-side');
+
+            layoutButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const layout = button.dataset.sourceTranscriptionLayout === 'vertical' ? 'vertical' : 'side-by-side';
+                    localStorage.setItem(layoutStorageKey, layout);
+                    setLayout(layout);
+                });
+            });
         }
 
         function copyNoteTextToStatusForm(form) {
@@ -327,6 +373,10 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription
                 hiddenNoteText.value = noteText.value;
                 hiddenNoteText.disabled = false;
             }
+        }
+
+        if (!noteText) {
+            return;
         }
 
         document.querySelectorAll('button[form="source-transcription-collaboration-status-form"][value="finalize"], button[form="source-transcription-manual-status-form"][value="finalize"]').forEach(function (button) {
