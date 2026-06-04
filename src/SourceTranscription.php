@@ -98,7 +98,7 @@ final class SourceTranscription extends AbstractModule implements
     use ModuleMenuTrait;
 
     //Custom module version
-	public const string CUSTOM_VERSION = '2.2.6.2';
+	public const string CUSTOM_VERSION = '2.2.6.3';
 
     //Supported webtrees version
     public const string MINIMUM_WEBTREES_VERSION = '2.2.5';
