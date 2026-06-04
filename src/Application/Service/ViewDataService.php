@@ -33,6 +33,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranscriptionSt
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranskribusJobFileStatus;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranskribusJobStatus;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderPresentation;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\MediaFilesForMediaAction;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\MediaForSourceAction;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\SourceForManualAction;
@@ -76,8 +77,8 @@ final class ViewDataService
     public function statusBadgeHtml(bool $status): string
     {
         return $status
-            ? '<span class="badge bg-success">' . I18N::translate('yes') . '</span>'
-            : '<span class="badge bg-secondary">' . I18N::translate('no') . '</span>';
+            ? '<span class="badge bg-success">' . MoreI18N::xlate('yes') . '</span>'
+            : '<span class="badge bg-secondary">' . MoreI18N::xlate('no') . '</span>';
     }
 
     public function providerStatusBadgeHtml(?string $status): string

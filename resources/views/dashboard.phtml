@@ -27,6 +27,7 @@ declare(strict_types=1);
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Tree;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 ?>
 
 <h2 class="mb-3"><?= e($title) ?></h2>
@@ -94,7 +95,7 @@ use Fisharebest\Webtrees\Tree;
         </select>
     </div>
     <div class="col-12 col-md-auto">
-        <button type="submit" class="btn btn-primary"><?= I18N::translate('Filter') ?></button>
+        <button type="submit" class="btn btn-primary"><?= MoreI18N::xlate('Filter') ?></button>
         <a class="btn btn-secondary" href="<?= e($dashboard['url']) ?>"><?= I18N::translate('Reset') ?></a>
     </div>
 </form>
@@ -127,7 +128,7 @@ use Fisharebest\Webtrees\Tree;
                 </a>
             </th>
             <th><?= I18N::translate('Source') ?></th>
-            <th><?= I18N::translate('Media') ?></th>
+            <th><?= MoreI18N::xlate('Media') ?></th>
             <th>
                 <a href="<?= e($dashboard['sort_urls']['provider']) ?>">
                     <?= I18N::translate('Transcription provider') ?><?= $dashboard['sort_indicators']['provider'] ?>
@@ -148,7 +149,7 @@ use Fisharebest\Webtrees\Tree;
                     <?= I18N::translate('Updated') ?><?= $dashboard['sort_indicators']['updated'] ?>
                 </a>
             </th>
-            <th><?= I18N::translate('Note') ?></th>
+            <th><?= MoreI18N::xlate('Note') ?></th>
             <th><?= I18N::translate('Actions') ?></th>
         </tr>
         </thead>
@@ -191,7 +192,7 @@ use Fisharebest\Webtrees\Tree;
                     </li>
                 <?php endforeach ?>
                 <li class="page-item <?= $dashboard['pagination']['disabled_next'] ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= e($dashboard['pagination']['next']) ?>"><?= I18N::translate('Next') ?></a>
+                    <a class="page-link" href="<?= e($dashboard['pagination']['next']) ?>"><?= MoreI18N::xlate('Next') ?></a>
                 </li>
             </ul>
         </nav>
@@ -219,7 +220,7 @@ use Fisharebest\Webtrees\Tree;
             <tr>
                 <th><?= I18N::translate('Job title') ?></th>
                 <th><?= I18N::translate('Source') ?></th>
-                <th><?= I18N::translate('Media') ?></th>
+                <th><?= MoreI18N::xlate('Media') ?></th>
                 <th><?= I18N::translate('Status') ?></th>
                 <th><?= I18N::translate('Upload references') ?></th>
                 <th><?= I18N::translate('Message') ?></th>

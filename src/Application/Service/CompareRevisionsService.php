@@ -33,6 +33,7 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\UserService;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 use Fisharebest\Webtrees\Tree;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\TranscriptionRevision;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\RevisionOriginType;
@@ -62,8 +63,8 @@ final class CompareRevisionsService
             [
                 'is_current_revision',
                 I18N::translate('Current revision'),
-                $left->is_current_revision ? I18N::translate('yes') : I18N::translate('no'),
-                $right->is_current_revision ? I18N::translate('yes') : I18N::translate('no'),
+                $left->is_current_revision ? MoreI18N::xlate('yes') : MoreI18N::xlate('no'),
+                $right->is_current_revision ? MoreI18N::xlate('yes') : MoreI18N::xlate('no'),
             ],
             ['provider_key', I18N::translate('Provider'), ProviderPresentation::label($left->provider_key), ProviderPresentation::label($right->provider_key)],
             ['origin_type', I18N::translate('Origin'), RevisionOriginType::labels()[$left->origin_type] ?? $left->origin_type, RevisionOriginType::labels()[$right->origin_type] ?? $right->origin_type],

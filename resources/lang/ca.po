@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SourceTranscription\n"
-"POT-Creation-Date: 2026-05-14 01:10+0200\n"
+"POT-Creation-Date: 2026-06-04 23:25+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: src/Application/Factory/NoteContentFactory.php:51
 #: src/Domain/Enum/TranscriptionType.php:47
-#: src/Http/RequestHandlers/DetailAction.php:58
+#: src/Http/RequestHandlers/DetailAction.php:59
 msgid "Transcription"
 msgstr "Transcripció"
 
@@ -31,7 +31,7 @@ msgid "Source"
 msgstr "Font"
 
 #: src/Application/Factory/NoteContentFactory.php:61
-#: src/Application/Service/CompareRevisionsService.php:59
+#: src/Application/Service/CompareRevisionsService.php:69
 msgid "Provider"
 msgstr "Proveïdor"
 
@@ -48,6 +48,7 @@ msgid "Primary form"
 msgstr "Forma primaria"
 
 #: src/Application/Factory/NoteContentFactory.php:80
+#: src/Application/Service/ViewDataService.php:382
 msgid "Media object"
 msgstr "Objecte multimèdia"
 
@@ -95,70 +96,190 @@ msgstr "Crea una transcripció"
 msgid "The transcription status has changed to: %s"
 msgstr "La transcripció s'ha creat"
 
-#: src/Application/Service/CompareRevisionsService.php:52
+#: src/Application/Service/CompareRevisionsService.php:53
+#: src/Application/Service/ViewDataService.php:459
+#, fuzzy, php-format
+#| msgid "Revision"
+msgid "Revision %s"
+msgstr "Revisió"
+
+#: src/Application/Service/CompareRevisionsService.php:62
 msgid "Revision"
 msgstr "Revisió"
 
-#: src/Application/Service/CompareRevisionsService.php:55
+#: src/Application/Service/CompareRevisionsService.php:65
 #, fuzzy
 #| msgid "Archive as new revision"
 msgid "Current revision"
 msgstr "Arxiva com a nova revisió"
 
-#: src/Application/Service/CompareRevisionsService.php:56
-#: src/Application/Service/CompareRevisionsService.php:57
-msgid "yes"
-msgstr ""
-
-#: src/Application/Service/CompareRevisionsService.php:56
-#: src/Application/Service/CompareRevisionsService.php:57
-msgid "no"
-msgstr ""
-
-#: src/Application/Service/CompareRevisionsService.php:60
+#: src/Application/Service/CompareRevisionsService.php:70
 msgid "Origin"
 msgstr "Origen"
 
-#: src/Application/Service/CompareRevisionsService.php:61
+#: src/Application/Service/CompareRevisionsService.php:71
 msgid "Origin reference"
 msgstr ""
 
-#: src/Application/Service/CompareRevisionsService.php:62
+#: src/Application/Service/CompareRevisionsService.php:72
 msgid "Content format"
 msgstr ""
 
-#: src/Application/Service/CompareRevisionsService.php:63
+#: src/Application/Service/CompareRevisionsService.php:73
 msgid "Content hash"
 msgstr ""
 
-#: src/Application/Service/CompareRevisionsService.php:64
+#: src/Application/Service/CompareRevisionsService.php:74
 #, fuzzy
 #| msgid "Created from UI"
 msgid "Created by"
 msgstr "Creat per la interfície d'usuari"
 
-#: src/Application/Service/CompareRevisionsService.php:65
+#: src/Application/Service/CompareRevisionsService.php:75
 #, fuzzy
 #| msgid "Created from UI"
 msgid "Created at"
 msgstr "Creat per la interfície d'usuari"
 
-#: src/Application/Service/CompareRevisionsService.php:66
+#: src/Application/Service/CompareRevisionsService.php:76
 msgid "Import comment"
 msgstr ""
 
-#: src/Application/Service/CompareRevisionsService.php:67
+#: src/Application/Service/CompareRevisionsService.php:77
 #, fuzzy
 #| msgid "Current NOTE"
 msgid "Generated NOTE"
 msgstr "Nota actual"
 
-#: src/Application/Service/CompareRevisionsService.php:68
+#: src/Application/Service/CompareRevisionsService.php:78
 msgid "NOTE changed by"
 msgstr ""
 
-#: src/Application/Service/CompareRevisionsService.php:69
+#: src/Application/Service/CompareRevisionsService.php:79
 msgid "NOTE changed at"
+msgstr ""
+
+#: src/Application/Service/SourceBadgeService.php:54
+#, fuzzy
+#| msgid "Create manual transcription"
+msgid "This source already has a transcription."
+msgstr "Crear una transcripció manual"
+
+#: src/Application/Service/SourceBadgeService.php:63
+msgid ""
+"This source has media suitable for transcription, but no transcription yet."
+msgstr ""
+
+#: src/Application/Service/SourceBadgeService.php:71
+msgid ""
+"This source has no suitable linked media yet, but can still be transcribed."
+msgstr ""
+
+#: src/Application/Service/ViewDataService.php:87
+msgid "successful"
+msgstr ""
+
+#: src/Application/Service/ViewDataService.php:88
+msgid "failed"
+msgstr ""
+
+#: src/Application/Service/ViewDataService.php:89
+msgid "not tested"
+msgstr ""
+
+#: src/Application/Service/ViewDataService.php:96
+#: src/Application/Service/ViewDataService.php:366
+#: src/Application/Service/ViewDataService.php:376
+#: src/Application/Service/ViewDataService.php:436
+#: src/SourceTranscription.php:1188 src/SourceTranscription.php:1198
+#: src/SourceTranscription.php:1208 src/SourceTranscription.php:1228
+#: src/SourceTranscription.php:1258
+msgid "None"
+msgstr "No"
+
+#: src/Application/Service/ViewDataService.php:186
+#: src/Application/Service/ViewDataService.php:189
+#: src/Application/Service/ViewDataService.php:357
+msgid "Deleted"
+msgstr "Suprimit"
+
+#: src/Application/Service/ViewDataService.php:278
+#: src/Application/Service/ViewDataService.php:299
+msgid "No results found"
+msgstr "No s'han trobat resultats"
+
+#: src/Application/Service/ViewDataService.php:279
+#: src/Application/Service/ViewDataService.php:300
+msgid "Search for a source"
+msgstr "Cerca una font"
+
+#: src/Application/Service/ViewDataService.php:280
+#: src/Application/Service/ViewDataService.php:301
+msgid "Select a source first"
+msgstr "Selecciona primer una font"
+
+#: src/Application/Service/ViewDataService.php:281
+#, fuzzy
+#| msgid "Loading media objectsâ€¦"
+msgid "Loading media objects…"
+msgstr "Carregant objectes multimèdia…"
+
+#: src/Application/Service/ViewDataService.php:282
+#: src/Application/Service/ViewDataService.php:305
+msgid "No linked media objects found"
+msgstr "No s’ha trobat cap objecte multimèdia enllaçat"
+
+#: src/Application/Service/ViewDataService.php:283
+msgid "No media object selected"
+msgstr "No s’ha seleccionat cap objecte multimèdia"
+
+#: src/Application/Service/ViewDataService.php:284
+#: src/Application/Service/ViewDataService.php:308
+msgid "Could not load media objects"
+msgstr "No s’ha seleccionat cap objecte multimèdia"
+
+#: src/Application/Service/ViewDataService.php:302
+#, fuzzy
+#| msgid "Select a source first"
+msgid "Select a media object first."
+msgstr "Selecciona primer una font"
+
+#: src/Application/Service/ViewDataService.php:303
+#, fuzzy
+#| msgid "Loading media objectsâ€¦"
+msgid "Loading media objects..."
+msgstr "Carregant objectes multimèdia…"
+
+#: src/Application/Service/ViewDataService.php:304
+#, fuzzy
+#| msgid "Loading media objectsâ€¦"
+msgid "Loading media files..."
+msgstr "Carregant objectes multimèdia…"
+
+#: src/Application/Service/ViewDataService.php:306
+#, fuzzy
+#| msgid "Could not load media objects"
+msgid "Select a media object"
+msgstr "No s’ha seleccionat cap objecte multimèdia"
+
+#: src/Application/Service/ViewDataService.php:307
+#, fuzzy
+#| msgid "No linked media objects found"
+msgid "No media files found."
+msgstr "No s’ha trobat cap objecte multimèdia enllaçat"
+
+#: src/Application/Service/ViewDataService.php:309
+#, fuzzy
+#| msgid "Could not load media objects"
+msgid "Could not load media files."
+msgstr "No s’ha seleccionat cap objecte multimèdia"
+
+#: src/Application/Service/ViewDataService.php:356
+msgid "Source record"
+msgstr "Registre de la font"
+
+#: src/Application/Service/ViewDataService.php:408
+msgid "External media URL"
 msgstr ""
 
 #: src/Domain/Enum/InteractionModel.php:48
@@ -610,15 +731,15 @@ msgstr "La transcripció s'ha creat"
 msgid "Compare revisions"
 msgstr ""
 
-#: src/Http/RequestHandlers/CreateManualAction.php:50
+#: src/Http/RequestHandlers/CreateManualAction.php:52
 msgid "Create manual transcription"
 msgstr "Crear una transcripció manual"
 
-#: src/Http/RequestHandlers/CreateTranskribusJobAction.php:41
+#: src/Http/RequestHandlers/CreateTranskribusJobAction.php:43
 msgid "Upload images to Transkribus"
 msgstr ""
 
-#: src/Http/RequestHandlers/DashboardAction.php:54
+#: src/Http/RequestHandlers/DashboardAction.php:60
 msgid "Source capture and analysis"
 msgstr ""
 
@@ -633,26 +754,25 @@ msgstr ""
 msgid "The transcription status has been updated."
 msgstr "La transcripció s'ha creat"
 
-#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:72
-#, php-format
-msgid "%s KB"
-msgstr ""
-
-#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:84
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:85
 #, fuzzy
 #| msgid "This media file cannot be previewed here."
 msgid "External media files cannot be uploaded directly."
 msgstr "Aquest fitxer multimèdia no es pot previsualitzar ací."
 
-#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:88
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:89
 msgid "The file does not exist on this server."
 msgstr ""
 
-#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:92
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:94
+msgid "The selected provider does not support media uploads."
+msgstr ""
+
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:98
 msgid "Unsupported file format. Use JPEG, TIFF or PNG."
 msgstr ""
 
-#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:96
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:104
 msgid "The file is larger than 20 MB."
 msgstr ""
 
@@ -705,164 +825,203 @@ msgid ""
 "webtrees users."
 msgstr "Primer proveïdor de transcripció disponible: transcripció manual."
 
-#: src/SourceTranscription.php:359
+#: src/SourceTranscription.php:384
 msgid "What's new?"
 msgstr "Què hi ha de nou?"
 
-#: src/SourceTranscription.php:452
+#: src/SourceTranscription.php:479
 msgid "Source Transcription"
 msgstr "Transcripció de la font"
 
-#: src/SourceTranscription.php:464
+#: src/SourceTranscription.php:491
 msgid "Manage source transcriptions with manual and provider-based workflows."
 msgstr ""
 "Gestiona les transcripcions de fonts amb fluxos de treball manuals i basats "
 "en proveïdors."
 
-#: src/SourceTranscription.php:556
+#: src/SourceTranscription.php:598
 msgid "Transcriptions"
 msgstr "Traduccions"
 
-#: src/SourceTranscription.php:714
+#: src/SourceTranscription.php:771
 msgid "The provider credentials have been deleted."
 msgstr ""
 
-#: src/SourceTranscription.php:738
+#: src/SourceTranscription.php:795
 msgid "The provider credentials could not be loaded."
 msgstr ""
 
-#: src/SourceTranscription.php:747
+#: src/SourceTranscription.php:804
 msgid "The provider credentials have been saved."
 msgstr ""
 
-#: src/SourceTranscription.php:773
+#: src/SourceTranscription.php:832
 #, fuzzy, php-format
 #| msgid "The preferences for the module â€œ%sâ€ have been updated."
 msgid "The preferences for the module “%s” have been updated."
 msgstr "S’han actualitzat les preferències del mòdul «%s»."
 
-#: src/SourceTranscription.php:901
+#: src/SourceTranscription.php:973
 msgid "The module database tables are incomplete."
 msgstr ""
 
-#: src/SourceTranscription.php:924 src/SourceTranscription.php:1039
+#: src/SourceTranscription.php:996 src/SourceTranscription.php:1115
 #, fuzzy
 #| msgid "Unknown script"
 msgid "Unknown tree"
 msgstr "Escriptura desconeguda"
 
-#: src/SourceTranscription.php:928
+#: src/SourceTranscription.php:1000
 msgid "The referenced family tree no longer exists."
 msgstr ""
 
-#: src/SourceTranscription.php:937
+#: src/SourceTranscription.php:1009
 #, php-format
 msgid "The referenced source does not exist: %s"
 msgstr ""
 
-#: src/SourceTranscription.php:941
+#: src/SourceTranscription.php:1013
 #, php-format
 msgid "The referenced media object does not exist: %s"
 msgstr ""
 
-#: src/SourceTranscription.php:945
+#: src/SourceTranscription.php:1021
 #, fuzzy
 #| msgid "Only media objects linked to the selected source are shown."
 msgid "The referenced media object is no longer linked to the source."
 msgstr ""
 "Només es mostren els objectes multimèdia enllaçats amb la font seleccionada."
 
-#: src/SourceTranscription.php:950
+#: src/SourceTranscription.php:1026
 #, fuzzy
 #| msgid "The transcription has been created."
 msgid "The transcription has no current NOTE."
 msgstr "La transcripció s'ha creat"
 
-#: src/SourceTranscription.php:955
+#: src/SourceTranscription.php:1031
 #, fuzzy, php-format
 #| msgid "The current NOTE has been saved as revision %s."
 msgid "The current NOTE does not exist: %s"
 msgstr " La NOTA actual s’ha guardat com a revisió %s."
 
-#: src/SourceTranscription.php:957
+#: src/SourceTranscription.php:1033
 #, php-format
 msgid ""
 "The current NOTE is not linked to the expected source or media object: %s"
 msgstr ""
 
-#: src/SourceTranscription.php:976
+#: src/SourceTranscription.php:1052
 #, fuzzy
 #| msgid "The current NOTE has been saved as revision %s."
 msgid "The current NOTE has changed since it was last linked to a revision."
 msgstr " La NOTA actual s’ha guardat com a revisió %s."
 
-#: src/SourceTranscription.php:982
+#: src/SourceTranscription.php:1058
 msgid "Tagging is enabled, but the transcription has no tag NOTE."
 msgstr ""
 
-#: src/SourceTranscription.php:987
+#: src/SourceTranscription.php:1063
 #, php-format
 msgid "The tag NOTE does not exist: %s"
 msgstr ""
 
-#: src/SourceTranscription.php:989
+#: src/SourceTranscription.php:1065
 #, fuzzy, php-format
 #| msgid "Only media objects linked to the selected source are shown."
 msgid "The tag NOTE is not linked to the expected source or media object: %s"
 msgstr ""
 "Només es mostren els objectes multimèdia enllaçats amb la font seleccionada."
 
-#: src/SourceTranscription.php:1013
+#: src/SourceTranscription.php:1089
 #, php-format
 msgid "Revision %s belongs to a transcription that no longer exists."
 msgstr ""
 
-#: src/SourceTranscription.php:1030
+#: src/SourceTranscription.php:1106
 #, php-format
 msgid "Revision %s references a NOTE that no longer exists: %s"
 msgstr ""
 
-#: src/SourceTranscription.php:1045
+#: src/SourceTranscription.php:1121
 #, fuzzy
 #| msgid "The transcription has been created."
 msgid "The transcription has no revisions."
 msgstr "La transcripció s'ha creat"
 
-#: src/SourceTranscription.php:1047
+#: src/SourceTranscription.php:1123
 #, fuzzy, php-format
 #| msgid "The transcription has been created."
 msgid "The transcription has %s current revisions; expected exactly one."
 msgstr "La transcripció s'ha creat"
 
-#: src/SourceTranscription.php:1060
+#: src/SourceTranscription.php:1136
 msgid ""
 "The current revision references a different NOTE than the transcription "
 "current NOTE."
 msgstr ""
 
-#: src/SourceTranscription.php:1083
+#: src/SourceTranscription.php:1159
 #, php-format
 msgid ""
 "An active collaboration entry references a user that no longer exists: %s"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:33
-msgid "successful"
+#: src/SourceTranscription.php:1188
+#, php-format
+msgid ""
+"Media file %s has no filename extension; FORM is %s and MIME type is %s."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:34
-msgid "failed"
+#: src/SourceTranscription.php:1198
+#, php-format
+msgid ""
+"Media file %s has no GEDCOM FORM value; filename extension is %s and MIME "
+"type is %s."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:35
-msgid "not tested"
+#: src/SourceTranscription.php:1208
+#, php-format
+msgid ""
+"Media file %s has no GEDCOM TYPE value; filename extension is %s and MIME "
+"type is %s."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:47
-msgid "Control panel"
+#: src/SourceTranscription.php:1218
+#, php-format
+msgid ""
+"Media file %s has inconsistent filename extension and GEDCOM FORM: extension "
+"%s, FORM %s."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:52
+#: src/SourceTranscription.php:1228
+#, php-format
+msgid ""
+"Media file %s has no specific MIME type: %s. Filename extension is %s and "
+"FORM is %s."
+msgstr ""
+
+#: src/SourceTranscription.php:1238
+#, php-format
+msgid ""
+"Media file %s has inconsistent filename extension and MIME type: extension "
+"%s, MIME type %s."
+msgstr ""
+
+#: src/SourceTranscription.php:1248
+#, php-format
+msgid ""
+"Media file %s has inconsistent GEDCOM FORM and MIME type: FORM %s, MIME type "
+"%s."
+msgstr ""
+
+#: src/SourceTranscription.php:1258
+#, php-format
+msgid ""
+"Media file %s has inconsistent GEDCOM TYPE and technical metadata: TYPE %s, "
+"extension %s, MIME type %s."
+msgstr ""
+
+#: resources/views/admin-settings.phtml:44
 #, fuzzy, php-format
 #| msgid ""
 #| "Format-PHPThis module can only be used with a webtrees version greater or "
@@ -874,50 +1033,67 @@ msgstr ""
 "Aquest mòdul només es pot utilitzar amb una versió de webtrees igual o "
 "superior a %s."
 
-#: resources/views/admin-settings.phtml:62
+#: resources/views/admin-settings.phtml:54
 msgid "NOTE update strategy"
 msgstr "Estratègia d’actualització de la NOTA"
 
-#: resources/views/admin-settings.phtml:87
+#: resources/views/admin-settings.phtml:79
 msgid "Use of TinyMDE as the editor for transcription notes"
 msgstr "Ús de TinyMDE com a editor per a les notes de transcripció"
 
-#: resources/views/admin-settings.phtml:106
+#: resources/views/admin-settings.phtml:98
+msgid "Dashboard table entries per page"
+msgstr ""
+
+#: resources/views/admin-settings.phtml:115
+#: resources/views/admin-settings.phtml:182
+msgid "Default"
+msgstr "Per defecte"
+
+#: resources/views/admin-settings.phtml:123
 #, fuzzy
 #| msgid "Should tagging be supported"
 msgid "Should tagging be supported?"
 msgstr "Ús de TinyMDE com a editor per a les notes de transcripció"
 
-#: resources/views/admin-settings.phtml:125
+#: resources/views/admin-settings.phtml:142
+#, fuzzy
+#| msgid "Source Transcription"
+msgid "Show source transcription badges"
+msgstr "Transcripció de la font"
+
+#: resources/views/admin-settings.phtml:158
+msgid ""
+"Append colored T badges to source titles to show whether transcription work "
+"exists or is still pending."
+msgstr ""
+
+#: resources/views/admin-settings.phtml:165
 msgid "Tag value for tagging all sources with at least one transcription"
 msgstr ""
 "Valor de l’etiqueta per marcar totes les fonts amb almenys una transcripció"
 
-#: resources/views/admin-settings.phtml:142
-msgid "Default"
-msgstr "Per defecte"
-
-#: resources/views/admin-settings.phtml:150
-#: resources/views/admin-settings.phtml:297
+#: resources/views/admin-settings.phtml:190
+#: resources/views/admin-settings.phtml:337
 msgid "save"
 msgstr "guardar"
 
-#: resources/views/admin-settings.phtml:156
+#: resources/views/admin-settings.phtml:196
 msgid "Provider credentials"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:161
+#: resources/views/admin-settings.phtml:201
 msgid ""
 "Discourse uses the User API Key authorization flow. Users authorize the "
 "module from the transcription dashboard; the module stores the returned user-"
 "specific key for later requests."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:163
+#: resources/views/admin-settings.phtml:203
 msgid "Discourse documentation"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:169
+#: resources/views/admin-settings.phtml:209
 msgid ""
 "For uploads, use a Transkribus API key as the secret if your account "
 "provides one. As a fallback, you can use the regular Transkribus account "
@@ -925,230 +1101,176 @@ msgid ""
 "Processing API."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:171
+#: resources/views/admin-settings.phtml:211
 msgid "Transkribus API documentation"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:187
+#: resources/views/admin-settings.phtml:227
 msgid "webtrees user"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:221
+#: resources/views/admin-settings.phtml:261
 msgid "Token URL"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:227
+#: resources/views/admin-settings.phtml:267
 msgid ""
 "OpenID Connect token endpoint used to obtain a temporary Transkribus access "
 "token."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:234
+#: resources/views/admin-settings.phtml:274
 msgid "Upload URL"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:240
+#: resources/views/admin-settings.phtml:280
 msgid ""
 "Endpoint used for the first upload step. Keep the default unless Transkribus "
 "changes the upload endpoint for your API account."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:247
+#: resources/views/admin-settings.phtml:287
 msgid "Client ID"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:253
+#: resources/views/admin-settings.phtml:293
 msgid ""
 "Use \"processing-api-client\" for the Processing API. Use \"transkribus-api-"
 "client\" only for the legacy REST API."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:260
+#: resources/views/admin-settings.phtml:300
 msgid "Username"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:266
+#: resources/views/admin-settings.phtml:306
 msgid ""
 "Transkribus login name or email address. Leave unchanged when using an API "
 "key as the secret."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:273
+#: resources/views/admin-settings.phtml:313
 msgid "Password or API key"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:277
+#: resources/views/admin-settings.phtml:317
 msgid "stored; leave empty to keep"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:279
+#: resources/views/admin-settings.phtml:319
 msgid ""
 "Use an API key starting with \"sk_\" for direct upload authentication, or "
 "the account password for token-based authentication."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:300
+#: resources/views/admin-settings.phtml:340
 msgid "Save and test"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:303
+#: resources/views/admin-settings.phtml:343
 #, fuzzy
 #| msgid "Deleted"
 msgid "delete"
 msgstr "Suprimit"
 
-#: resources/views/admin-settings.phtml:309
+#: resources/views/admin-settings.phtml:349
 msgid "Diagnostics"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:316
+#: resources/views/admin-settings.phtml:356
 msgid "Run consistency check"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:321
+#: resources/views/admin-settings.phtml:361
 msgid "Consistency check"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:325
+#: resources/views/admin-settings.phtml:365
 msgid "No consistency issues found."
 msgstr ""
 
-#: resources/views/admin-settings.phtml:330
-msgid "Errors"
-msgstr ""
-
-#: resources/views/admin-settings.phtml:336
-#: resources/views/admin-settings.phtml:361
-#: resources/views/admin-settings.phtml:407
-#: resources/views/admin-settings.phtml:468
-msgid "Family tree"
-msgstr ""
-
-#: resources/views/admin-settings.phtml:338
-msgid "Error"
-msgstr ""
-
-#: resources/views/admin-settings.phtml:355
+#: resources/views/admin-settings.phtml:395
 msgid "Warnings"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:363
-msgid "Warning"
-msgstr ""
-
-#: resources/views/admin-settings.phtml:380
-msgid "Database"
-msgstr ""
-
-#: resources/views/admin-settings.phtml:386
+#: resources/views/admin-settings.phtml:426
 msgid "Schema version"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:394
+#: resources/views/admin-settings.phtml:434
 msgid "Database tables"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:401
+#: resources/views/admin-settings.phtml:441
 #, fuzzy
 #| msgid "Create transcription"
 msgid "Trees with transcriptions"
 msgstr "Crea una transcripció"
 
-#: resources/views/admin-settings.phtml:409
+#: resources/views/admin-settings.phtml:449
 #, fuzzy
 #| msgid "Revision"
 msgid "Revisions"
 msgstr "Revisió"
 
-#: resources/views/admin-settings.phtml:415
+#: resources/views/admin-settings.phtml:455
 #, fuzzy
 #| msgid "Create transcription"
 msgid "No active transcriptions found."
 msgstr "Crea una transcripció"
 
-#: resources/views/admin-settings.phtml:433
+#: resources/views/admin-settings.phtml:473
 msgid "NOTE editor"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:439
+#: resources/views/admin-settings.phtml:479
 msgid "linkenhancer installed"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:443
+#: resources/views/admin-settings.phtml:483
 msgid "linkenhancer enabled"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:447
+#: resources/views/admin-settings.phtml:487
 msgid "TinyMDE setting enabled"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:451
+#: resources/views/admin-settings.phtml:491
 msgid "TinyMDE service available"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:455
+#: resources/views/admin-settings.phtml:495
 msgid "TinyMDE rule registered"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:462
+#: resources/views/admin-settings.phtml:502
 msgid "Markdown option by tree"
 msgstr ""
 
-#: resources/views/admin-settings.phtml:469
-msgid "Markdown"
-msgstr ""
-
-#: resources/views/compare-revisions.phtml:31
-#: resources/views/compare-revisions.phtml:32 resources/views/detail.phtml:578
-#: resources/views/detail.phtml:592
-#, fuzzy, php-format
-#| msgid "Revision"
-msgid "Revision %s"
-msgstr "Revisió"
-
-#: resources/views/compare-revisions.phtml:57
+#: resources/views/compare-revisions.phtml:32
 #, fuzzy
 #| msgid "Create transcription"
 msgid "Back to transcription"
 msgstr "Crea una transcripció"
 
-#: resources/views/compare-revisions.phtml:61
+#: resources/views/compare-revisions.phtml:36
 msgid "Metadata differences"
 msgstr ""
 
-#: resources/views/compare-revisions.phtml:66
+#: resources/views/compare-revisions.phtml:41
 msgid "Field"
 msgstr ""
 
-#: resources/views/compare-revisions.phtml:82
+#: resources/views/compare-revisions.phtml:57
 msgid "Text differences"
 msgstr ""
 
-#: resources/views/compare-revisions.phtml:95
+#: resources/views/compare-revisions.phtml:70
 msgid "Both revisions have no text content."
 msgstr ""
 
-#: resources/views/create-manual.phtml:46
-#: resources/views/create-transkribus-job.phtml:43
-msgid "No results found"
-msgstr "No s'han trobat resultats"
-
-#: resources/views/create-manual.phtml:47
-#: resources/views/create-transkribus-job.phtml:44
-msgid "Search for a source"
-msgstr "Cerca una font"
-
-#: resources/views/create-manual.phtml:66
-#: resources/views/create-manual.phtml:158
-#: resources/views/create-manual.phtml:209
-#: resources/views/create-transkribus-job.phtml:57
-#: resources/views/create-transkribus-job.phtml:125
-#: resources/views/create-transkribus-job.phtml:250
-msgid "Select a source first"
-msgstr "Selecciona primer una font"
-
 #: resources/views/create-manual.phtml:70
-#: resources/views/create-transkribus-job.phtml:61
+#: resources/views/create-transkribus-job.phtml:59
 msgid "Only media objects linked to the selected source are shown."
 msgstr ""
 "Només es mostren els objectes multimèdia enllaçats amb la font seleccionada."
@@ -1161,176 +1283,142 @@ msgstr "Text inicial"
 msgid "Create transcription"
 msgstr "Crea una transcripció"
 
-#: resources/views/create-manual.phtml:162
-#, fuzzy
-#| msgid "Loading media objectsâ€¦"
-msgid "Loading media objects…"
-msgstr "Carregant objectes multimèdia…"
-
-#: resources/views/create-manual.phtml:179
-#: resources/views/create-transkribus-job.phtml:146
-msgid "No linked media objects found"
-msgstr "No s’ha trobat cap objecte multimèdia enllaçat"
-
-#: resources/views/create-manual.phtml:185
-msgid "No media object selected"
-msgstr "No s’ha seleccionat cap objecte multimèdia"
-
-#: resources/views/create-manual.phtml:200
-#: resources/views/create-transkribus-job.phtml:168
-msgid "Could not load media objects"
-msgstr "No s’ha seleccionat cap objecte multimèdia"
-
-#: resources/views/create-transkribus-job.phtml:25
-#: resources/views/dashboard.phtml:92
+#: resources/views/create-transkribus-job.phtml:23
+#: resources/views/dashboard.phtml:221
 msgid "Job title"
 msgstr ""
 
-#: resources/views/create-transkribus-job.phtml:68
+#: resources/views/create-transkribus-job.phtml:66
 #, fuzzy
 #| msgid "Media file"
 #| msgid_plural "Media files"
 msgid "Media files"
 msgstr "Fitxer multimèdia"
 
-#: resources/views/create-transkribus-job.phtml:73
-#: resources/views/create-transkribus-job.phtml:104
-#: resources/views/create-transkribus-job.phtml:176
-#, fuzzy
-#| msgid "Select a source first"
-msgid "Select a media object first."
-msgstr "Selecciona primer una font"
-
-#: resources/views/create-transkribus-job.phtml:77
+#: resources/views/create-transkribus-job.phtml:75
 msgid "Accepted formats: JPEG, TIFF, PNG. Maximum file size: 20 MB per image."
 msgstr ""
 
-#: resources/views/create-transkribus-job.phtml:83
+#: resources/views/create-transkribus-job.phtml:81
 #, fuzzy
 #| msgid "Transkribus"
 msgid "Upload to Transkribus"
 msgstr "Transkribus"
 
-#: resources/views/create-transkribus-job.phtml:129
-#, fuzzy
-#| msgid "Loading media objectsâ€¦"
-msgid "Loading media objects..."
-msgstr "Carregant objectes multimèdia…"
-
-#: resources/views/create-transkribus-job.phtml:152
-#, fuzzy
-#| msgid "Could not load media objects"
-msgid "Select a media object"
-msgstr "No s’ha seleccionat cap objecte multimèdia"
-
-#: resources/views/create-transkribus-job.phtml:180
-#, fuzzy
-#| msgid "Loading media objectsâ€¦"
-msgid "Loading media files..."
-msgstr "Carregant objectes multimèdia…"
-
-#: resources/views/create-transkribus-job.phtml:198
-#, fuzzy
-#| msgid "No linked media objects found"
-msgid "No media files found."
-msgstr "No s’ha trobat cap objecte multimèdia enllaçat"
-
-#: resources/views/create-transkribus-job.phtml:241
-#, fuzzy
-#| msgid "Could not load media objects"
-msgid "Could not load media files."
-msgstr "No s’ha seleccionat cap objecte multimèdia"
-
-#: resources/views/dashboard.phtml:69
+#: resources/views/dashboard.phtml:44
 msgid "Renew Discourse authorization"
 msgstr ""
 
-#: resources/views/dashboard.phtml:69
+#: resources/views/dashboard.phtml:44
 #, fuzzy
 #| msgid "Community (Discourse)"
 msgid "Authorize Discourse"
 msgstr "Comunitat (fòrum Discourse)  "
 
-#: resources/views/dashboard.phtml:72
+#: resources/views/dashboard.phtml:47
 msgid "Authorize Discourse test"
 msgstr ""
 
-#: resources/views/dashboard.phtml:77
+#: resources/views/dashboard.phtml:52
 #, php-format
 msgid "Discourse authorization stored for %s."
 msgstr ""
 
-#: resources/views/dashboard.phtml:87
-#, fuzzy
-#| msgid "Transkribus"
-msgid "Transkribus jobs"
-msgstr "Transkribus"
+#: resources/views/dashboard.phtml:64 resources/views/dashboard.phtml:213
+msgid "Show/hide"
+msgstr ""
 
-#: resources/views/dashboard.phtml:94 resources/views/dashboard.phtml:185
-msgid "Media"
-msgstr "Multimèdia"
-
-#: resources/views/dashboard.phtml:95 resources/views/dashboard.phtml:187
-#: resources/views/detail.phtml:195
+#: resources/views/dashboard.phtml:76 resources/views/dashboard.phtml:139
+#: resources/views/dashboard.phtml:224 resources/views/detail.phtml:143
 msgid "Status"
 msgstr "Estat"
 
-#: resources/views/dashboard.phtml:96
-msgid "Upload references"
+#: resources/views/dashboard.phtml:78 resources/views/dashboard.phtml:89
+msgid "All"
 msgstr ""
 
-#: resources/views/dashboard.phtml:97 resources/views/detail.phtml:314
-msgid "Message"
+#: resources/views/dashboard.phtml:87 resources/views/dashboard.phtml:134
+msgid "Transcription provider"
+msgstr "Proveïdor de transcripcions"
+
+#: resources/views/dashboard.phtml:99
+#: resources/views/partials/media-viewer.phtml:86
+msgid "Reset"
 msgstr ""
 
-#: resources/views/dashboard.phtml:121 resources/views/dashboard.phtml:128
-#: resources/views/dashboard.phtml:247
-msgid "Deleted"
-msgstr "Suprimit"
+#: resources/views/dashboard.phtml:107
+#, php-format
+msgid "%s-%s of %s"
+msgstr ""
 
-#: resources/views/dashboard.phtml:173
+#: resources/views/dashboard.phtml:115
 #, php-format
 msgid "%s transcription"
 msgid_plural "%s transcriptions"
 msgstr[0] "transcripció %s"
 msgstr[1] "transcripcions %s"
 
-#: resources/views/dashboard.phtml:183
+#: resources/views/dashboard.phtml:127
 #, fuzzy
 #| msgid "Transcription text"
 msgid "Transcription title"
 msgstr "Text de la transcripció"
 
-#: resources/views/dashboard.phtml:186
-msgid "Transcription provider"
-msgstr "Proveïdor de transcripcions"
+#: resources/views/dashboard.phtml:144
+#, fuzzy
+#| msgid "Created from UI"
+msgid "Created"
+msgstr "Creat per la interfície d'usuari"
 
-#: resources/views/dashboard.phtml:188
-msgid "Note"
-msgstr "Nota"
+#: resources/views/dashboard.phtml:149
+msgid "Updated"
+msgstr ""
 
-#: resources/views/dashboard.phtml:189
+#: resources/views/dashboard.phtml:153
 msgid "Actions"
 msgstr "Accions"
 
-#: resources/views/dashboard.phtml:243
-msgid "Source record"
-msgstr "Registre de la font"
-
-#: resources/views/dashboard.phtml:274 resources/views/dashboard.phtml:298
-#: resources/views/detail.phtml:213
-msgid "None"
-msgstr "No"
-
-#: resources/views/dashboard.phtml:304
+#: resources/views/dashboard.phtml:176
+#: resources/views/partials/media-viewer.phtml:89
+#: resources/views/partials/media-viewer.phtml:118
 msgid "Open"
 msgstr "Obre"
 
-#: resources/views/detail.phtml:101
+#: resources/views/dashboard.phtml:184
+#, fuzzy
+#| msgid "Translation"
+msgid "Pagination"
+msgstr "Traducció"
+
+#: resources/views/dashboard.phtml:187
+msgid "Previous"
+msgstr ""
+
+#: resources/views/dashboard.phtml:202
+#, fuzzy
+#| msgid "The transcription has been created."
+msgid "No transcriptions match the selected filters."
+msgstr "La transcripció s'ha creat"
+
+#: resources/views/dashboard.phtml:211
+#, fuzzy
+#| msgid "Transkribus"
+msgid "Transkribus jobs"
+msgstr "Transkribus"
+
+#: resources/views/dashboard.phtml:225
+msgid "Upload references"
+msgstr ""
+
+#: resources/views/dashboard.phtml:226 resources/views/detail.phtml:307
+msgid "Message"
+msgstr ""
+
+#: resources/views/detail.phtml:57
 msgid "Back to dashboard"
 msgstr "Torna al tauler"
 
-#: resources/views/detail.phtml:107
+#: resources/views/detail.phtml:63
 #, fuzzy
 #| msgid ""
 #| "La NOTA actual de webtrees s’utilitza com a còpia de treball. Els canvis "
@@ -1341,99 +1429,143 @@ msgid ""
 "archived when saved as a new revision."
 msgstr " arxiven quan es guarden com una nova revisió."
 
-#: resources/views/detail.phtml:113
+#: resources/views/detail.phtml:69
 msgid ""
 "The current webtrees NOTE has changed since it was last linked to a "
 "revision. Use \"Archive as new revision\" to preserve these changes before "
 "making another revision current or otherwise replacing the NOTE."
 msgstr ""
 
-#: resources/views/detail.phtml:119
+#: resources/views/detail.phtml:74
 msgid "Information"
 msgstr "Informació"
 
-#: resources/views/detail.phtml:138
+#: resources/views/detail.phtml:90
 msgid "Media file"
 msgid_plural "Media files"
 msgstr[0] "Fitxer multimèdia"
 msgstr[1] "Fitxers multimèdia"
 
-#: resources/views/detail.phtml:172 resources/views/detail.phtml:351
+#: resources/views/detail.phtml:121 resources/views/detail.phtml:192
 msgid "No media object selected."
 msgstr "No s’ha seleccionat cap objecte multimèdia."
 
-#: resources/views/detail.phtml:203 resources/views/detail.phtml:422
+#: resources/views/detail.phtml:147 resources/views/detail.phtml:204
 msgid "Current NOTE"
 msgstr "Nota actual"
 
-#: resources/views/detail.phtml:245
+#: resources/views/detail.phtml:176
+#, fuzzy
+#| msgid "Transcription text"
+msgid "Transcription layout"
+msgstr "Text de la transcripció"
+
+#: resources/views/detail.phtml:178
+msgid "Side by side"
+msgstr ""
+
+#: resources/views/detail.phtml:181
+msgid "Top and bottom"
+msgstr ""
+
+#: resources/views/detail.phtml:189
+msgid "Media preview"
+msgstr " previsualització del fitxer multimèdia"
+
+#: resources/views/detail.phtml:194
+msgid "No media files found for this media object."
+msgstr "No s’han trobat fitxers multimèdia per a aquest objecte multimèdia."
+
+#: resources/views/detail.phtml:225
+msgid "Save NOTE"
+msgstr "Guarda la NOTA"
+
+#: resources/views/detail.phtml:227
+msgid "Archive as new revision"
+msgstr "Arxiva com a nova revisió"
+
+#: resources/views/detail.phtml:238 resources/views/detail.phtml:249
+#, fuzzy
+#| msgid "Final"
+msgctxt "Button: mark this transcription as final"
+msgid "Finalize"
+msgstr "Final"
+
+#: resources/views/detail.phtml:241 resources/views/detail.phtml:252
+#, fuzzy
+#| msgid "Reopened"
+msgctxt "Button: reopen this finalized transcription for editing"
+msgid "Reopen"
+msgstr "Reobert"
+
+#: resources/views/detail.phtml:262
 #, fuzzy
 #| msgid "Internal collaboration"
 msgctxt "Panel heading for the webtrees-internal collaboration workflow"
 msgid "Internal collaboration"
 msgstr "Col·laboració interna"
 
-#: resources/views/detail.phtml:251
+#: resources/views/detail.phtml:266
 msgid "Team"
 msgstr ""
 
-#: resources/views/detail.phtml:257
+#: resources/views/detail.phtml:271
 #, fuzzy
 #| msgid "Initial text"
 msgctxt "Collaboration team role"
 msgid "Initiator"
 msgstr "Text inicial"
 
-#: resources/views/detail.phtml:257
+#: resources/views/detail.phtml:271
 msgctxt "Collaboration team role, singular noun"
 msgid "Collaborator"
 msgstr ""
 
-#: resources/views/detail.phtml:265
+#: resources/views/detail.phtml:277
 msgid "This transcription is not currently open for internal collaboration."
 msgstr ""
 
-#: resources/views/detail.phtml:274
+#: resources/views/detail.phtml:283
 #, fuzzy
 #| msgid "Ready for review"
 msgctxt "Button: submit the transcription for review"
 msgid "Ready for review"
 msgstr "Preparat per a revisió"
 
-#: resources/views/detail.phtml:281
+#: resources/views/detail.phtml:288
 #, fuzzy
 #| msgid "No results found"
 msgid "No eligible users found."
 msgstr "No s'han trobat resultats"
 
-#: resources/views/detail.phtml:290
+#: resources/views/detail.phtml:294
 msgctxt ""
 "Form label for selecting multiple collaboration team members; not a plural "
 "variant of the role label"
 msgid "Collaborators"
 msgstr ""
 
-#: resources/views/detail.phtml:321
+#: resources/views/detail.phtml:311
 #, fuzzy
 #| msgid "The current NOTE has been saved as revision %s."
 msgid "Save the current NOTE as a starting revision"
 msgstr " La NOTA actual s’ha guardat com a revisió %s."
 
-#: resources/views/detail.phtml:329
+#: resources/views/detail.phtml:317
 #, fuzzy
 #| msgid "Internal collaboration"
 msgctxt "Button: update the selected collaboration team"
 msgid "Update collaboration"
 msgstr "Col·laboració interna"
 
-#: resources/views/detail.phtml:329
+#: resources/views/detail.phtml:317
 #, fuzzy
 #| msgid "Internal collaboration"
 msgctxt "Button: open this transcription for collaboration"
 msgid "Open for collaboration"
 msgstr "Col·laboració interna"
 
-#: resources/views/detail.phtml:335
+#: resources/views/detail.phtml:322
 msgctxt ""
 "Hint shown when collaboration cannot be started because the transcription is "
 "final or canceled"
@@ -1441,15 +1573,66 @@ msgid ""
 "Reopen the transcription before starting or changing internal collaboration."
 msgstr ""
 
-#: resources/views/detail.phtml:345
-msgid "Media preview"
-msgstr " previsualització del fitxer multimèdia"
+#: resources/views/detail.phtml:407
+msgid "Revision history"
+msgstr "Historial de revisions"
 
-#: resources/views/detail.phtml:355
-msgid "No media files found for this media object."
-msgstr "No s’han trobat fitxers multimèdia per a aquest objecte multimèdia."
+#: resources/views/detail.phtml:415
+#, fuzzy
+#| msgid "Revision"
+msgid "First revision"
+msgstr "Revisió"
 
-#: resources/views/detail.phtml:361
+#: resources/views/detail.phtml:419 resources/views/detail.phtml:429
+#: resources/views/detail.phtml:441
+msgid "Current"
+msgstr "Actual"
+
+#: resources/views/detail.phtml:425
+#, fuzzy
+#| msgid "Revision"
+msgid "Second revision"
+msgstr "Revisió"
+
+#: resources/views/detail.phtml:445
+msgid "NOTE change"
+msgstr ""
+
+#: resources/views/detail.phtml:448
+#, fuzzy
+#| msgid "Actions"
+msgid "Action"
+msgstr "Accions"
+
+#: resources/views/detail.phtml:473
+msgid ""
+"Make this revision current? The current NOTE will be overwritten with the "
+"text of this revision."
+msgstr ""
+
+#: resources/views/detail.phtml:474
+#, fuzzy
+#| msgid "Current"
+msgid "Make current"
+msgstr "Actual"
+
+#: resources/views/lists/sources-table.phtml:100
+msgid "Abbreviation"
+msgstr ""
+
+#: resources/views/lists/sources-table.phtml:101
+msgid "Author"
+msgstr ""
+
+#: resources/views/lists/sources-table.phtml:102
+msgid "Publication"
+msgstr ""
+
+#: resources/views/lists/sources-table.phtml:107
+msgid "Last change"
+msgstr ""
+
+#: resources/views/partials/media-viewer.phtml:34
 #, fuzzy
 #| msgid "Media file"
 #| msgid_plural "Media files"
@@ -1457,78 +1640,50 @@ msgctxt "Label for selecting one media file"
 msgid "Media file"
 msgstr "Fitxer multimèdia"
 
-#: resources/views/detail.phtml:389
-msgid "This media file cannot be previewed here."
+#: resources/views/partials/media-viewer.phtml:75
+#, fuzzy
+#| msgid "This media file cannot be previewed here."
+msgid "This external media URL cannot be embedded here."
 msgstr "Aquest fitxer multimèdia no es pot previsualitzar ací."
 
-#: resources/views/detail.phtml:463
-msgid "Save NOTE"
-msgstr "Guarda la NOTA"
-
-#: resources/views/detail.phtml:466
-msgid "Archive as new revision"
-msgstr "Arxiva com a nova revisió"
-
-#: resources/views/detail.phtml:480 resources/views/detail.phtml:496
-#, fuzzy
-#| msgid "Final"
-msgctxt "Button: mark this transcription as final"
-msgid "Finalize"
-msgstr "Final"
-
-#: resources/views/detail.phtml:486 resources/views/detail.phtml:502
-#, fuzzy
-#| msgid "Reopened"
-msgctxt "Button: reopen this finalized transcription for editing"
-msgid "Reopen"
-msgstr "Reobert"
-
-#: resources/views/detail.phtml:553
-msgid "Revision history"
-msgstr "Historial de revisions"
-
-#: resources/views/detail.phtml:573
-#, fuzzy
-#| msgid "Revision"
-msgid "First revision"
-msgstr "Revisió"
-
-#: resources/views/detail.phtml:579 resources/views/detail.phtml:593
-#: resources/views/detail.phtml:610
-msgid "Current"
-msgstr "Actual"
-
-#: resources/views/detail.phtml:587
-#, fuzzy
-#| msgid "Revision"
-msgid "Second revision"
-msgstr "Revisió"
-
-#: resources/views/detail.phtml:614
-msgid "NOTE change"
+#: resources/views/partials/media-viewer.phtml:79
+msgid "Open external media"
 msgstr ""
 
-#: resources/views/detail.phtml:615
-msgid "Text"
+#: resources/views/partials/media-viewer.phtml:84
+msgid "Image controls"
 msgstr ""
 
-#: resources/views/detail.phtml:617
-#, fuzzy
-#| msgid "Actions"
-msgid "Action"
-msgstr "Accions"
+#: resources/views/partials/media-viewer.phtml:100
+msgid "Open PDF in a new window"
+msgstr ""
 
-#: resources/views/detail.phtml:658
+#: resources/views/partials/media-viewer.phtml:107
+msgid "The text preview is shortened."
+msgstr ""
+
+#: resources/views/partials/media-viewer.phtml:128
+#: resources/views/partials/media-viewer.phtml:138
+msgid "Stop"
+msgstr ""
+
+#: resources/views/partials/media-viewer.phtml:143
+#, fuzzy
+#| msgid "This media file cannot be previewed here."
 msgid ""
-"Make this revision current? The current NOTE will be overwritten with the "
-"text of this revision."
+"This media file cannot be previewed here. Use the download link below to "
+"save the file."
+msgstr "Aquest fitxer multimèdia no es pot previsualitzar ací."
+
+#: resources/views/partials/media-viewer.phtml:147
+msgid "Download file"
 msgstr ""
 
-#: resources/views/detail.phtml:660
-#, fuzzy
-#| msgid "Current"
-msgid "Make current"
-msgstr "Actual"
+#~ msgid "Media"
+#~ msgstr "Multimèdia"
+
+#~ msgid "Note"
+#~ msgstr "Nota"
 
 #~ msgid "End transcription"
 #~ msgstr "Final de la transcripció"

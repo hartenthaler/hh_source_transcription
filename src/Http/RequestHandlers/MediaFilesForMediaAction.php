@@ -26,6 +26,7 @@ use Fisharebest\Webtrees\Registry;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Factory\TranscriptionProviderFactory;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Provider\SupportsMediaUploadRulesInterface;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderKey;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -69,7 +70,7 @@ final class MediaFilesForMediaAction
                 'filename'   => $file->filename(),
                 'mime_type'  => $file->mimeType(),
                 'file_size'  => $size,
-                'size_label' => I18N::translate('%s KB', I18N::number(intdiv($size + 1023, 1024))),
+                'size_label' => MoreI18N::xlate('%s KB', I18N::number(intdiv($size + 1023, 1024))),
                 'uploadable' => $message === '',
                 'message'    => $message,
             ];

@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 use Fisharebest\Webtrees\Http\RequestHandlers\ControlPanel;
 use Fisharebest\Webtrees\I18N;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 use Hartenthaler\Webtrees\Module\SourceTranscription\SourceTranscription;
 
 $transcription_trees = $diagnostics['transcription_trees'] ?? [];
@@ -34,7 +35,7 @@ $provider_test_result ??= null;
 
 ?>
 
-<?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => I18N::translate('Control panel'), $title]]) ?>
+<?= view('components/breadcrumbs', ['links' => [route(ControlPanel::class) => MoreI18N::xlate('Control panel'), $title]]) ?>
 
 <h2><?= e($title) ?></h2>
 <?php if (!$runs_with_webtrees_version) : ?>
@@ -348,9 +349,9 @@ $provider_test_result ??= null;
             <table class="table table-sm table-bordered">
                 <thead>
                     <tr>
-                        <th><?= I18N::translate('Family tree') ?></th>
+                        <th><?= MoreI18N::xlate('Family tree') ?></th>
                         <th><?= I18N::translate('Transcription') ?></th>
-                        <th><?= I18N::translate('Error') ?></th>
+                        <th><?= MoreI18N::xlate('Error') ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -367,15 +368,15 @@ $provider_test_result ??= null;
     <?php endif ?>
 
     <?php if ($consistency_check['warnings'] !== []) : ?>
-        <h5><?= I18N::translate('Warnings') ?></h5>
+        <h5><?= MoreI18N::xlate('Warnings') ?></h5>
 
         <div class="table-responsive mb-4">
             <table class="table table-sm table-bordered">
                 <thead>
                     <tr>
-                        <th><?= I18N::translate('Family tree') ?></th>
+                        <th><?= MoreI18N::xlate('Family tree') ?></th>
                         <th><?= I18N::translate('Transcription') ?></th>
-                        <th><?= I18N::translate('Warning') ?></th>
+                        <th><?= MoreI18N::xlate('Warning') ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -419,7 +420,7 @@ $provider_test_result ??= null;
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
-                <th><?= I18N::translate('Family tree') ?></th>
+                <th><?= MoreI18N::xlate('Family tree') ?></th>
                 <th class="text-end"><?= I18N::translate('Transcriptions') ?></th>
                 <th class="text-end"><?= I18N::translate('Revisions') ?></th>
             </tr>
@@ -480,8 +481,8 @@ $provider_test_result ??= null;
     <table class="table table-sm table-bordered">
         <thead>
             <tr>
-                <th><?= I18N::translate('Family tree') ?></th>
-                <th><?= I18N::translate('Markdown') ?></th>
+                <th><?= MoreI18N::xlate('Family tree') ?></th>
+                <th><?= MoreI18N::xlate('Markdown') ?></th>
             </tr>
         </thead>
         <tbody>

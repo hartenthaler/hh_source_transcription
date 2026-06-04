@@ -47,6 +47,7 @@ use Fisharebest\Webtrees\Source;
 use Fisharebest\Webtrees\Tree;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\TranscriptionRevision;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 ?>
 
 <h2><?= e($title) ?>: <?= e($transcription->title) ?></h2>
@@ -442,7 +443,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription
             <th><?= I18N::translate('Origin') ?></th>
             <th><?= I18N::translate('Generated NOTE') ?></th>
             <th><?= I18N::translate('NOTE change') ?></th>
-            <th><?= I18N::translate('Text') ?></th>
+            <th><?= MoreI18N::xlate('Text') ?></th>
             <?php if ($can_make_revision_current) : ?>
                 <th><?= I18N::translate('Action') ?></th>
             <?php endif ?>

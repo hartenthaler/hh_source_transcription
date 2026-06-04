@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SourceTranscription\n"
-"POT-Creation-Date: 2026-04-24 18:46+0200\n"
+"POT-Creation-Date: 2026-06-04 23:26+0200\n"
 "PO-Revision-Date: \n"
-"Last-Translator: TheDutchJewel <thedutchjewel@gmail.com>\n"
+"Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -15,1064 +15,1648 @@ msgstr ""
 "X-Poedit-KeywordsList: translate;noop;plural:1,2;translateContext:2,1c\n"
 "X-Poedit-SearchPath-0: .\n"
 
+#: src/Application/Factory/NoteContentFactory.php:51
+#: src/Domain/Enum/TranscriptionType.php:47
+#: src/Http/RequestHandlers/DetailAction.php:59
 msgid "Transcription"
 msgstr "Transcriptie"
 
+#: src/Application/Factory/NoteContentFactory.php:53
 msgid "Title"
 msgstr "Titel"
 
+#: src/Application/Factory/NoteContentFactory.php:58
 msgid "Source"
 msgstr "Bron"
 
+#: src/Application/Factory/NoteContentFactory.php:61
+#: src/Application/Service/CompareRevisionsService.php:69
 msgid "Provider"
 msgstr "Aanbieder"
 
+#: src/Application/Factory/NoteContentFactory.php:64
 msgid "Primary language"
 msgstr "Primaire taal"
 
+#: src/Application/Factory/NoteContentFactory.php:68
 msgid "Primary script"
 msgstr "Primair schrift"
 
+#: src/Application/Factory/NoteContentFactory.php:72
 msgid "Primary form"
 msgstr "Primaire vorm"
 
+#: src/Application/Factory/NoteContentFactory.php:80
+#: src/Application/Service/ViewDataService.php:382
 msgid "Media object"
 msgstr "Mediaobject"
 
+#: src/Application/Factory/NoteContentFactory.php:85
+#: src/Application/Factory/NoteContentFactory.php:103
 msgid "Transcription text"
 msgstr "Transcriptietekst"
 
+#: src/Application/Factory/NoteContentFactory.php:92
 msgctxt "Heading for one media file in a generated note"
 msgid "Media file"
 msgstr "Mediabestand"
 
+#: src/Application/Service/CollaborationNotificationService.php:42
 #, php-format
 msgid "Collaboration started for transcription: %s"
 msgstr "Samenwerking voor de transcriptie is gestart: %s"
 
+#: src/Application/Service/CollaborationNotificationService.php:45
 msgid "You have been invited to collaborate on a source transcription."
 msgstr "Je bent uitgenodigd om mee te werken aan een brontranscriptie."
 
+#: src/Application/Service/CollaborationNotificationService.php:74
 #, php-format
 msgid "New revision for transcription: %s"
 msgstr "Nieuwe revisie voor transcriptie %s"
 
+#: src/Application/Service/CollaborationNotificationService.php:75
 #, php-format
 msgid "A new revision has been created: %s"
 msgstr "Er is een nieuwe revisie aangemaakt: %s"
 
+#: src/Application/Service/CollaborationNotificationService.php:92
 #, php-format
 msgid "Status changed for transcription: %s"
 msgstr "Status gewijzigd voor transcriptie: %s"
 
+#: src/Application/Service/CollaborationNotificationService.php:93
 #, php-format
 msgid "The transcription status has changed to: %s"
 msgstr "De transcriptiestatus is gewijzigd in: %s"
 
-msgid "Revision"
-msgstr "Revisie"
-
-msgid "Current revision"
-msgstr "Huidige revisie"
-
-msgid "yes"
-msgstr "ja"
-
-msgid "no"
-msgstr "nee"
-
-msgid "Origin"
-msgstr "Herkomst"
-
-msgid "Origin reference"
-msgstr "Herkomstreferentie"
-
-msgid "Content format"
-msgstr "Content-formaat"
-
-msgid "Content hash"
-msgstr "Content-hash"
-
-msgid "Created by"
-msgstr "Gemaakt door"
-
-msgid "Created at"
-msgstr "Gemaakt op"
-
-msgid "Import comment"
-msgstr "Geïmporteerde opmerking"
-
-msgid "Generated NOTE"
-msgstr "Gegenereerde NOTE"
-
-msgid "NOTE changed by"
-msgstr "NOTE gewijzigd door"
-
-msgid "NOTE changed at"
-msgstr "NOTE gewijzigd op"
-
-msgid "Manual (direct editing)"
-msgstr "Handmatig (direct bewerken)"
-
-msgid "Automated (asynchronous)"
-msgstr "Geautomatiseerd (asynchroon)"
-
-msgid "Crowd-based (asynchronous)"
-msgstr "Crowd-gebaseerd (asynchroon)"
-
-msgid "Internal collaboration"
-msgstr "Interne samenwerking"
-
-msgid "Interaction model not specified"
-msgstr "Interactiemodel niet gespecificeerd"
-
-msgid "Handwritten church register"
-msgstr "Handgeschreven kerkregister"
-
-msgid "Handwritten deed/charter"
-msgstr "Handgeschreven akte/oorkonde"
-
-msgid "Printed deed/charter"
-msgstr "Gedrukte akte/oorkonde"
-
-msgid "Handwritten letter"
-msgstr "Handgeschreven brief"
-
-msgid "Printed newspaper"
-msgstr "Gedrukte krant"
-
-msgid "Printed journal/magazine"
-msgstr "Gedrukt tijdschrift"
-
-msgid "Printed book"
-msgstr "Gedrukt boek"
-
-msgid "Memorial record / Minutes from memory"
-msgstr "Geheugenverslag"
-
-msgid "Stenographic record"
-msgstr "Stenografisch verslag"
-
-msgid "Typewritten document"
-msgstr "Getypt document"
-
-msgid "Digital text document"
-msgstr "Digitaal tekstdocument"
-
-msgid "Digitized manuscript"
-msgstr "Gedigitaliseerd manuscript"
-
-msgid "Annotated photograph"
-msgstr "Foto met tekst"
-
-msgid "Microfilm / Microfiche"
-msgstr "Microfilm / microfiche"
-
-msgid "Gravestone inscription"
-msgstr "Grafsteeninscriptie"
-
-msgid "Building inscription"
-msgstr "Gebouwinscriptie"
-
-msgid "Audio recording"
-msgstr "Geluidsopname"
-
-msgid "Video recording"
-msgstr "Video-opname"
-
-msgid "Video interview"
-msgstr "Video-interview"
-
-msgid "Mixed"
-msgstr "Gemengd"
-
-msgid "Other"
-msgstr "Overige"
-
-msgid "Form not specified"
-msgstr "Vorm niet gespecificeerd"
-
-msgid "German"
-msgstr "Duits"
-
-msgid "Middle High German"
-msgstr "Middenhoogduits"
-
-msgid "Low German"
-msgstr "Nederduits"
-
-msgid "Western Frisian"
-msgstr "West-Fries"
-
-msgid "Latin"
-msgstr "Latijn"
-
-msgid "English"
-msgstr "Engels"
-
-msgid "French"
-msgstr "Frans"
-
-msgid "Old French"
-msgstr "Oudfrans"
-
-msgid "Spanish"
-msgstr "Spaans"
-
-msgid "Russian"
-msgstr "Russisch"
-
-msgid "Polish"
-msgstr "Pools"
-
-msgid "Italian"
-msgstr "Italiaans"
-
-msgid "Portuguese"
-msgstr "Portugees"
-
-msgid "Dutch"
-msgstr "Nederlands"
-
-msgid "Hebrew"
-msgstr "Hebreeuws"
-
-msgid "Yiddish"
-msgstr "Jiddisch"
-
-msgid "Church Slavonic"
-msgstr "Kerk-Slavisch"
-
-msgid "Arabic"
-msgstr "Arabisch"
-
-msgid "Swedish"
-msgstr "Zweeds"
-
-msgid "Hungarian"
-msgstr "Hongaars"
-
-msgid "Czech"
-msgstr "Tsjechisch"
-
-msgid "Greek"
-msgstr "Grieks"
-
-msgid "Akkadian"
-msgstr "Akkadisch"
-
-msgid "Undetermined"
-msgstr "Onbepaald"
-
-msgid "Language not specified"
-msgstr "Taal niet gespecificeerd"
-
-msgid "Latin script"
-msgstr "Latijns schrift"
-
-msgid "Fraktur (Latin Fraktur)"
-msgstr "Fraktur (Gothic script)"
-
-msgid "Cyrillic script"
-msgstr "Cyrillisch schrift"
-
-msgid "Hebrew script"
-msgstr "Hebreeuws schrift"
-
-msgid "Arabic script"
-msgstr "Arabisch schrift"
-
-msgid "Greek script"
-msgstr "Grieks schrift"
-
-msgid "Georgian script"
-msgstr "Georgisch schrift"
-
-msgid "Armenian script"
-msgstr "Armeens schrift"
-
-msgid "Glagolitic script"
-msgstr "Glagolitisch schrift"
-
-msgid "Coptic script"
-msgstr "Koptisch schrift"
-
-msgid "Syriac script"
-msgstr "Syrisch schrift"
-
-msgid "Old Italic script"
-msgstr "Latijns cursief (Oudlatijn)"
-
-msgid "Runic script"
-msgstr "Runenschrift"
-
-msgid "Osmanya script"
-msgstr "Osmanya-schrift"
-
-msgid "Gujarati script"
-msgstr "Gujarati-schrift"
-
-msgid "Cuneiform script"
-msgstr "Spijkerschrift"
-
-msgid "Unknown script"
-msgstr "Onbekend schrift"
-
-msgid "Script not specified"
-msgstr "Schrift niet gespecificeerd"
-
-msgid "Manual entry"
-msgstr "Handmatige invoer"
-
-msgid "Manual note save"
-msgstr "NOTE handmatig opslaan"
-
-msgid "Transkribus import"
-msgstr "Transkribus importeren"
-
-msgid "Transkribus sync"
-msgstr "Transkribus-synchronisatie"
-
-msgid "Origin not specified"
-msgstr "Herkomst niet gespecificeerd"
-
-msgctxt "Transcription status"
-msgid "New"
-msgstr "Nieuw"
-
-msgctxt "Transcription status"
-msgid "In progress"
-msgstr "In uitvoering"
-
-msgctxt "Transcription status"
-msgid "Ready for review"
-msgstr "Gereed voor beoordeling"
-
-msgctxt "Transcription status; adjective, not an action button"
-msgid "Final"
-msgstr "Voltooid"
-
-msgctxt "Transcription status; already reopened, not an action button"
-msgid "Reopened"
-msgstr "Heropend"
-
-msgctxt "Transcription status"
-msgid "Canceled"
-msgstr "Geannuleerd"
-
-msgid "Translation"
-msgstr "Vertaling"
-
-msgid "Normalized text"
-msgstr "Genormaliseerde tekst"
-
-msgid "Type not specified"
-msgstr "Type niet gespecificeerd"
-
-msgid "Pending"
-msgstr "In behandeling"
-
-msgid "Uploaded"
-msgstr "Geüpload"
-
-msgid "Failed"
-msgstr "Mislukt"
-
-msgid "Uploading"
-msgstr "Uploaden"
-
-msgid "Upload failed"
-msgstr "Uploaden is mislukt"
-
-msgid "Always create a new NOTE"
-msgstr "Altijd een nieuwe NOTE aanmaken"
-
-msgid "Update existing NOTE only if unchanged"
-msgstr "Bestaande NOTE alleen bijwerken als deze niet is gewijzigd"
-
-msgid "Always update existing NOTE"
-msgstr "Bestaande NOTE altijd bijwerken"
-
-msgctxt "Transcription provider label"
-msgid "Manual"
-msgstr "Handmatige invoer"
-
-msgctxt "Transcription provider label"
-msgid "Internal collaboration"
-msgstr "Interne samenwerking"
-
-msgid "Transkribus"
-msgstr "Transkribus"
-
-msgid "Community (Discourse)"
-msgstr "Gemeenschap (Discourse)"
-
-msgctxt "Tooltip for transcription provider link"
-msgid "Manual transcription in this webtrees installation"
-msgstr "Handmatige transcriptie in deze webtrees-installatie"
-
-msgctxt "Tooltip for transcription provider link"
-msgid "Internal collaboration in this webtrees installation"
-msgstr "Interne samenwerking binnen deze webtrees-installatie"
-
-msgid "Community discussion on Discourse"
-msgstr "Discussiegroep op Discourse"
-
-msgid "Saved on finalize"
-msgstr "Opgeslagen bij het afsluiten"
-
-msgid "The collaboration status has been updated."
-msgstr "De samenwerkingsstatus is bijgewerkt."
-
-msgid "Compare revisions"
-msgstr "Revisies vergelijken"
-
-msgid "Create manual transcription"
-msgstr "Start handmatige transcriptie"
-
-msgid "Upload images to Transkribus"
-msgstr "Afbeeldingen uploaden naar Transcripties"
-
-msgid "Source capture and analysis"
-msgstr "Bronvastlegging en -analyse"
-
-#, php-format
-msgid "Revision %s is now the current revision."
-msgstr "Revisie %s is nu de huidige revisie."
-
-msgid "The transcription status has been updated."
-msgstr "De transcriptiestatus is bijgewerkt."
-
-#, php-format
-msgid "%s KB"
-msgstr "%s KB"
-
-msgid "External media files cannot be uploaded directly."
-msgstr "Externe mediabestanden kunnen niet direct worden geüpload."
-
-msgid "The file does not exist on this server."
-msgstr "Het bestand bestaat niet op deze server."
-
-msgid "The selected provider does not support media uploads."
-msgstr "De geselecteerde aanbieder ondersteunt het uploaden van mediabestanden niet."
-
-msgid "Unsupported file format. Use JPEG, TIFF or PNG."
-msgstr "Niet-ondersteund bestandsformaat. Gebruik JPEG, TIFF of PNG."
-
-msgid "The file is larger than 20 MB."
-msgstr "Het bestand is groter dan 20 MB."
-
-msgid "The transcription has been opened for internal collaboration."
-msgstr "De transcriptie is vrijgegeven voor interne samenwerking."
-
-msgid "Saved from UI"
-msgstr "Opgeslagen via gebruikersinterface"
-
-#, php-format
-msgid "The current NOTE has been saved as revision %s."
-msgstr "De huidige NOTE is opgeslagen als revisie %s."
-
-msgid "You do not have permission to use the selected source or media object."
-msgstr "Je hebt geen toestemming om de geselecteerde bron of het geselecteerde mediaobject te gebruiken."
-
-msgid "Created from UI"
-msgstr "Gemaakt via gebruikersinterface"
-
-msgid "The transcription has been created."
-msgstr "De transcriptie is gemaakt."
-
-msgid "The NOTE has been updated."
-msgstr "De NOTE is bijgewerkt."
-
-#, php-format
-msgid "Transkribus job #%s: %s"
-msgstr "Transkribus-taak #%s: %s"
-
-msgid "First transcription provider available: manual transcription."
-msgstr "Eerste transcriptieaanbieder beschikbaar: handmatige transcriptie."
-
-msgid "New transcription provider available: internal collaboration with other webtrees users."
-msgstr "Nieuwe transcriptieaanbieder beschikbaar: interne samenwerking met andere webtrees-gebruikers."
-
-msgid "What's new?"
-msgstr "Wat is er nieuw?"
-
-msgid "Source Transcription"
-msgstr "Brontranscriptie"
-
-msgid "Manage source transcriptions with manual and provider-based workflows."
-msgstr "Beheer bronteksten met handmatige of aanbieder-gebaseerde werkstroom."
-
-msgid "Transcriptions"
-msgstr "Transcripties"
-
-msgid "The provider credentials have been deleted."
-msgstr "De provider-credentials zijn verwijderd."
-
-msgid "The provider credentials could not be loaded."
-msgstr "De provider-credentials konden niet worden geladen."
-
-msgid "The provider credentials have been saved."
-msgstr "De provider-credentials zijn opgeslagen ."
-
-#, php-format
-msgid "The preferences for the module “%s” have been updated."
-msgstr "De instellingen voor de module “%s” zijn bijgewerkt."
-
-msgid "The module database tables are incomplete."
-msgstr "De databasetabellen van de module zijn onvolledig."
-
-msgid "Unknown tree"
-msgstr "Onbekende stamboom"
-
-msgid "The referenced family tree no longer exists."
-msgstr "De stamboom waarnaar verwezen wordt bestaat niet meer."
-
-#, php-format
-msgid "The referenced source does not exist: %s"
-msgstr "De bron waarnaar verwezen wordt bestaat niet: %s"
-
-#, php-format
-msgid "The referenced media object does not exist: %s"
-msgstr "Het mediaobject waarnaar verwezen wordt bestaat niet: %s"
-
-msgid "The referenced media object is no longer linked to the source."
-msgstr "Het mediaobject waarnaar verwezen wordt is niet langer gekoppeld aan de bron."
-
-msgid "The transcription has no current NOTE."
-msgstr "De transcriptie heeft geen huidige NOTE."
-
-#, php-format
-msgid "The current NOTE does not exist: %s"
-msgstr "De huidige NOTE bestaat niet: %s"
-
-#, php-format
-msgid "The current NOTE is not linked to the expected source or media object: %s"
-msgstr "De huidige NOTE is niet gekoppeld aan de verwachte bron of het mediaobject: %s"
-
-msgid "The current NOTE has changed since it was last linked to a revision."
-msgstr "De huidige NOTE is gewijzigd na koppeling aan een revisie."
-
-msgid "Tagging is enabled, but the transcription has no tag NOTE."
-msgstr "Labeling is ingeschakeld, maar de transcriptie bevat geen label NOTE."
-
-#, php-format
-msgid "The tag NOTE does not exist: %s"
-msgstr "Het label NOTE bestaat niet: %s"
-
-#, php-format
-msgid "The tag NOTE is not linked to the expected source or media object: %s"
-msgstr "Het label NOTE is niet gekoppeld aan de verwachte bron of het mediaobject: %s"
-
-#, php-format
-msgid "Revision %s belongs to a transcription that no longer exists."
-msgstr "Revisie %s hoort bij een transcriptie die niet meer bestaat."
-
-#, php-format
-msgid "Revision %s references a NOTE that no longer exists: %s"
-msgstr "Revisie %s verwijst naar een NOTE die niet meer bestaat: %s"
-
-msgid "The transcription has no revisions."
-msgstr "De transcriptie bevat geen revisies."
-
-#, php-format
-msgid "The transcription has %s current revisions; expected exactly one."
-msgstr "De transcriptie bevat %s huidige revisies; er werd precies één verwacht."
-
-msgid "The current revision references a different NOTE than the transcription current NOTE."
-msgstr "De huidige revisie verwijst naar een andere NOTE dan de huidige NOTE van deze transcriptie."
-
-#, php-format
-msgid "An active collaboration entry references a user that no longer exists: %s"
-msgstr "Een actief samenwerkingsitem verwijst naar een gebruiker die niet meer bestaat: %s"
-
-msgid "None"
-msgstr "Geen"
-
-#, php-format
-msgid "Media file %s has no filename extension; FORM is %s and MIME type is %s."
-msgstr "Mediabestand %s heeft geen bestandsextensie; FORM-formaat is %s en MIME-type is %s."
-
-#, php-format
-msgid "Media file %s has no GEDCOM FORM value; filename extension is %s and MIME type is %s."
-msgstr "Mediabestand %s bevat geen GEDCOM-FORM-waarde; bestandsextensie is %s en MIME-type is %s."
-
-#, php-format
-msgid "Media file %s has no GEDCOM TYPE value; filename extension is %s and MIME type is %s."
-msgstr "Mediabestand %s bevat geen GEDCOM-TYPE-waarde; bestandsextensie is %s en MIME-type is %s."
-
-#, php-format
-msgid "Media file %s has inconsistent filename extension and GEDCOM FORM: extension %s, FORM %s."
-msgstr "Mediabestand %s heeft een inconsistente bestandsextensie en GEDCOM-FORM: extensie %s, FORM %s."
-
-#, php-format
-msgid "Media file %s has no specific MIME type: %s. Filename extension is %s and FORM is %s."
-msgstr "Mediabestand %s heeft geen specifiek MIME-type: %s. Bestandsextensie is %s en FORM is %s."
-
-#, php-format
-msgid "Media file %s has inconsistent filename extension and MIME type: extension %s, MIME type %s."
-msgstr "Mediabestand %s vertoont een inconsistentie tussen bestandsextensie en MIME-type: extensie %s, MIME-type %s."
-
-#, php-format
-msgid "Media file %s has inconsistent GEDCOM FORM and MIME type: FORM %s, MIME type %s."
-msgstr "Mediabestand %s heeft een inconsistent GEDCOM-FORM en MIME-type: FORM %s, MIME-type %s."
-
-#, php-format
-msgid "Media file %s has inconsistent GEDCOM TYPE and technical metadata: TYPE %s, extension %s, MIME type %s."
-msgstr "Mediabestand %s vertoont een inconsistentie tussen GEDCOM-TYPE en MIME-type: TYPE %s, extensie %s, MIME-type %s."
-
-msgid "successful"
-msgstr "succesvol"
-
-msgid "failed"
-msgstr "mislukt"
-
-msgid "not tested"
-msgstr "niet getest"
-
-msgid "Control panel"
-msgstr "Controlepaneel"
-
-#, php-format
-msgid "This module can only be used with a webtrees version greater or equal than %s."
-msgstr "Deze module kan alleen worden gebruikt met een webtreesversie die gelijk is aan of hoger is dan %s."
-
-msgid "NOTE update strategy"
-msgstr "NOTE-updatestrategie"
-
-msgid "Use of TinyMDE as the editor for transcription notes"
-msgstr "Gebruik van TinyMDE als editor voor transcriptienotities"
-
-msgid "Should tagging be supported?"
-msgstr "Moet labeling worden ondersteund?"
-
-msgid "Tag value for tagging all sources with at least one transcription"
-msgstr "Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
-
-msgid "Default"
-msgstr "Standaard"
-
-msgid "save"
-msgstr "opslaan"
-
-msgid "Provider credentials"
-msgstr "Provider-credentials"
-
-msgid "Discourse uses the User API Key authorization flow. Users authorize the module from the transcription dashboard; the module stores the returned user-specific key for later requests."
-msgstr "Discourse maakt gebruik van het autorisatieproces via de gebruikers-API-sleutel. Gebruikers autoriseren de module via het transcriptiedashboard; de module slaat de teruggestuurde gebruikersspecifieke sleutel op voor latere verzoeken."
-
-msgid "Discourse documentation"
-msgstr "Discourse-documentatie"
-
-msgid "For uploads, use a Transkribus API key as the secret if your account provides one. As a fallback, you can use the regular Transkribus account username and password; the token URL and client ID are prefilled for the Processing API."
-msgstr "Gebruik voor uploads een Transkribus API-sleutel als geheim, als uw account daarover beschikt. Als alternatief kunt u de gebruiksnaam en het wachtwoord van je gewone Transkribus-account gebruiken; de token-URL en client-ID worden automatisch ingevuld voor de Processing API."
-
-msgid "Transkribus API documentation"
-msgstr "Transkribus API-documentatie"
-
-msgid "webtrees user"
-msgstr "webtrees-gebruikers"
-
-msgid "Token URL"
-msgstr "Token-URL"
-
-msgid "OpenID Connect token endpoint used to obtain a temporary Transkribus access token."
-msgstr "OpenID Connect-token-eindpunt voor het ophalen van een tijdelijk Transkribus-toegangstoken."
-
-msgid "Upload URL"
-msgstr "Upload-URL"
-
-msgid "Endpoint used for the first upload step. Keep the default unless Transkribus changes the upload endpoint for your API account."
-msgstr "Eindpunt dat wordt gebruikt voor de eerste uploadstap. Houd de standaardinstelling aan, tenzij Transkribus het upload-eindpunt voor uw API-account wijzigt."
-
-msgid "Client ID"
-msgstr "Client-ID"
-
-msgid "Use \"processing-api-client\" for the Processing API. Use \"transkribus-api-client\" only for the legacy REST API."
-msgstr "Gebruik \"processing-api-client\" voor de Processing-API. Gebruik \"transkribus-api-client\" alleen voor de oude REST-API."
-
-msgid "Username"
-msgstr "Gebruikersnaam"
-
-msgid "Transkribus login name or email address. Leave unchanged when using an API key as the secret."
-msgstr "Transkribus-gebruikersnaam of e-mailadres. Laat ongewijzigd als u een API-sleutel als geheim gebruikt."
-
-msgid "Password or API key"
-msgstr "Wachtwoord of API-sleutel"
-
-msgid "stored; leave empty to keep"
-msgstr "opgeslagen; laat leeg om te behouden"
-
-msgid "Use an API key starting with \"sk_\" for direct upload authentication, or the account password for token-based authentication."
-msgstr "Gebruik een API-sleutel die begint met \"sk_\" voor authenticatie bij directe uploads, of het accountwachtwoord voor tokengebaseerde authenticatie."
-
-msgid "Save and test"
-msgstr "Opslaan en testen"
-
-msgid "delete"
-msgstr "verwijderen"
-
-msgid "Diagnostics"
-msgstr "Diagnose"
-
-msgid "Run consistency check"
-msgstr "Consistentiecontrole uitvoeren"
-
-msgid "Consistency check"
-msgstr "Consistentiecontrole"
-
-msgid "No consistency issues found."
-msgstr "Er zijn geen consistentieproblemen gevonden."
-
-msgid "Errors"
-msgstr "Fouten"
-
-msgid "Family tree"
-msgstr "Stamboom"
-
-msgid "Error"
-msgstr "Fout"
-
-msgid "Warnings"
-msgstr "Waarschuwingen"
-
-msgid "Warning"
-msgstr "Waarschuwing"
-
-msgid "Database"
-msgstr "Database"
-
-msgid "Schema version"
-msgstr "Schemaversie"
-
-msgid "Database tables"
-msgstr "Databasetabellen"
-
-msgid "Trees with transcriptions"
-msgstr "Stambomen met transcripties"
-
-msgid "Revisions"
-msgstr "Revisies"
-
-msgid "No active transcriptions found."
-msgstr "Geen actieve transcripties gevonden."
-
-msgid "NOTE editor"
-msgstr "NOTE-editor"
-
-msgid "linkenhancer installed"
-msgstr "Link-verbeteraar geïnstalleerd"
-
-msgid "linkenhancer enabled"
-msgstr "Link-verbeteraar ingeschakeld"
-
-msgid "TinyMDE setting enabled"
-msgstr "TinyMDE-instelling ingeschakeld"
-
-msgid "TinyMDE service available"
-msgstr "TinyMDE-service beschikbaar"
-
-msgid "TinyMDE rule registered"
-msgstr "TinyMDE-regel geregistreerd"
-
-msgid "Markdown option by tree"
-msgstr "Markdown-optie per stamboom"
-
-msgid "Markdown"
-msgstr "Markdown"
-
+#: src/Application/Service/CompareRevisionsService.php:53
+#: src/Application/Service/ViewDataService.php:459
 #, php-format
 msgid "Revision %s"
 msgstr "Revisie %s"
 
-msgid "Back to transcription"
-msgstr "Terug naar transcriptie"
+#: src/Application/Service/CompareRevisionsService.php:62
+msgid "Revision"
+msgstr "Revisie"
 
-msgid "Metadata differences"
-msgstr "Metadata-verschillen"
+#: src/Application/Service/CompareRevisionsService.php:65
+msgid "Current revision"
+msgstr "Huidige revisie"
 
-msgid "Field"
-msgstr "Veld"
+#: src/Application/Service/CompareRevisionsService.php:70
+msgid "Origin"
+msgstr "Herkomst"
 
-msgid "Text differences"
-msgstr "Tekstverschillen"
+#: src/Application/Service/CompareRevisionsService.php:71
+msgid "Origin reference"
+msgstr "Herkomstreferentie"
 
-msgid "Both revisions have no text content."
-msgstr "Beide revisies bevatten geen tekst."
+#: src/Application/Service/CompareRevisionsService.php:72
+msgid "Content format"
+msgstr "Content-formaat"
 
+#: src/Application/Service/CompareRevisionsService.php:73
+msgid "Content hash"
+msgstr "Content-hash"
+
+#: src/Application/Service/CompareRevisionsService.php:74
+msgid "Created by"
+msgstr "Gemaakt door"
+
+#: src/Application/Service/CompareRevisionsService.php:75
+msgid "Created at"
+msgstr "Gemaakt op"
+
+#: src/Application/Service/CompareRevisionsService.php:76
+msgid "Import comment"
+msgstr "Geïmporteerde opmerking"
+
+#: src/Application/Service/CompareRevisionsService.php:77
+msgid "Generated NOTE"
+msgstr "Gegenereerde NOTE"
+
+#: src/Application/Service/CompareRevisionsService.php:78
+msgid "NOTE changed by"
+msgstr "NOTE gewijzigd door"
+
+#: src/Application/Service/CompareRevisionsService.php:79
+msgid "NOTE changed at"
+msgstr "NOTE gewijzigd op"
+
+#: src/Application/Service/SourceBadgeService.php:54
+#, fuzzy
+#| msgid "Create manual transcription"
+msgid "This source already has a transcription."
+msgstr "Start handmatige transcriptie"
+
+#: src/Application/Service/SourceBadgeService.php:63
+msgid ""
+"This source has media suitable for transcription, but no transcription yet."
+msgstr ""
+
+#: src/Application/Service/SourceBadgeService.php:71
+msgid ""
+"This source has no suitable linked media yet, but can still be transcribed."
+msgstr ""
+
+#: src/Application/Service/ViewDataService.php:87
+msgid "successful"
+msgstr "succesvol"
+
+#: src/Application/Service/ViewDataService.php:88
+msgid "failed"
+msgstr "mislukt"
+
+#: src/Application/Service/ViewDataService.php:89
+msgid "not tested"
+msgstr "niet getest"
+
+#: src/Application/Service/ViewDataService.php:96
+#: src/Application/Service/ViewDataService.php:366
+#: src/Application/Service/ViewDataService.php:376
+#: src/Application/Service/ViewDataService.php:436
+#: src/SourceTranscription.php:1188 src/SourceTranscription.php:1198
+#: src/SourceTranscription.php:1208 src/SourceTranscription.php:1228
+#: src/SourceTranscription.php:1258
+msgid "None"
+msgstr "Geen"
+
+#: src/Application/Service/ViewDataService.php:186
+#: src/Application/Service/ViewDataService.php:189
+#: src/Application/Service/ViewDataService.php:357
+msgid "Deleted"
+msgstr "Verwijderd"
+
+#: src/Application/Service/ViewDataService.php:278
+#: src/Application/Service/ViewDataService.php:299
 msgid "No results found"
 msgstr "Geen resultaten gevonden"
 
+#: src/Application/Service/ViewDataService.php:279
+#: src/Application/Service/ViewDataService.php:300
 msgid "Search for a source"
 msgstr "Zoeken naar een bron"
 
+#: src/Application/Service/ViewDataService.php:280
+#: src/Application/Service/ViewDataService.php:301
 msgid "Select a source first"
 msgstr "Kies eerst een bron"
 
-msgid "Only media objects linked to the selected source are shown."
-msgstr "Alleen media-items die aan de geselecteerde bron zijn gekoppeld worden getoond."
-
-msgid "Initial text"
-msgstr "Oorspronkelijke tekst"
-
-msgid "Create transcription"
-msgstr "Start transcriptie"
-
+#: src/Application/Service/ViewDataService.php:281
 msgid "Loading media objects…"
 msgstr "Mediaobjecten worden geladen…"
 
+#: src/Application/Service/ViewDataService.php:282
+#: src/Application/Service/ViewDataService.php:305
 msgid "No linked media objects found"
 msgstr "Geen gekoppelde mediaobjecten gevonden"
 
+#: src/Application/Service/ViewDataService.php:283
 msgid "No media object selected"
 msgstr "Geen mediaobject geselecteerd"
 
+#: src/Application/Service/ViewDataService.php:284
+#: src/Application/Service/ViewDataService.php:308
 msgid "Could not load media objects"
 msgstr "Mediaobjecten konden niet worden geladen"
 
-msgid "Job title"
-msgstr "Taaktitel"
-
-msgid "Media files"
-msgstr "Mediabestanden"
-
+#: src/Application/Service/ViewDataService.php:302
 msgid "Select a media object first."
 msgstr "Selecteer eerst een mediaobject."
 
-msgid "Accepted formats: JPEG, TIFF, PNG. Maximum file size: 20 MB per image."
-msgstr "Toegestane formaten: JPEG, TIFF, PNG. Maximale bestandsgrootte: 20 MB per afbeelding."
-
-msgid "Upload to Transkribus"
-msgstr "Uploaden naar Transkribus"
-
+#: src/Application/Service/ViewDataService.php:303
 msgid "Loading media objects..."
 msgstr "Laden van mediaobjecten..."
 
-msgid "Select a media object"
-msgstr "Selecteer een mediaobject"
-
+#: src/Application/Service/ViewDataService.php:304
 msgid "Loading media files..."
 msgstr "Laden van mediabestanden..."
 
+#: src/Application/Service/ViewDataService.php:306
+msgid "Select a media object"
+msgstr "Selecteer een mediaobject"
+
+#: src/Application/Service/ViewDataService.php:307
 msgid "No media files found."
 msgstr "Geen mediabestanden gevonden."
 
+#: src/Application/Service/ViewDataService.php:309
 msgid "Could not load media files."
 msgstr "Mediabestanden konden niet worden geladen."
 
+#: src/Application/Service/ViewDataService.php:356
+msgid "Source record"
+msgstr "Bronrecord"
+
+#: src/Application/Service/ViewDataService.php:408
+msgid "External media URL"
+msgstr "URL van extern mediabestand"
+
+#: src/Domain/Enum/InteractionModel.php:48
+msgid "Manual (direct editing)"
+msgstr "Handmatig (direct bewerken)"
+
+#: src/Domain/Enum/InteractionModel.php:49
+msgid "Automated (asynchronous)"
+msgstr "Geautomatiseerd (asynchroon)"
+
+#: src/Domain/Enum/InteractionModel.php:50
+msgid "Crowd-based (asynchronous)"
+msgstr "Crowd-gebaseerd (asynchroon)"
+
+#: src/Domain/Enum/InteractionModel.php:51
+msgid "Internal collaboration"
+msgstr "Interne samenwerking"
+
+#: src/Domain/Enum/InteractionModel.php:63
+msgid "Interaction model not specified"
+msgstr "Interactiemodel niet gespecificeerd"
+
+#: src/Domain/Enum/PrimaryForm.php:95
+msgid "Handwritten church register"
+msgstr "Handgeschreven kerkregister"
+
+#: src/Domain/Enum/PrimaryForm.php:98
+msgid "Handwritten deed/charter"
+msgstr "Handgeschreven akte/oorkonde"
+
+#: src/Domain/Enum/PrimaryForm.php:99
+msgid "Printed deed/charter"
+msgstr "Gedrukte akte/oorkonde"
+
+#: src/Domain/Enum/PrimaryForm.php:102
+msgid "Handwritten letter"
+msgstr "Handgeschreven brief"
+
+#: src/Domain/Enum/PrimaryForm.php:105
+msgid "Printed newspaper"
+msgstr "Gedrukte krant"
+
+#: src/Domain/Enum/PrimaryForm.php:106
+msgid "Printed journal/magazine"
+msgstr "Gedrukt tijdschrift"
+
+#: src/Domain/Enum/PrimaryForm.php:107
+msgid "Printed book"
+msgstr "Gedrukt boek"
+
+#: src/Domain/Enum/PrimaryForm.php:110
+msgid "Memorial record / Minutes from memory"
+msgstr "Geheugenverslag"
+
+#: src/Domain/Enum/PrimaryForm.php:111
+msgid "Stenographic record"
+msgstr "Stenografisch verslag"
+
+#: src/Domain/Enum/PrimaryForm.php:112
+msgid "Typewritten document"
+msgstr "Getypt document"
+
+#: src/Domain/Enum/PrimaryForm.php:113
+msgid "Digital text document"
+msgstr "Digitaal tekstdocument"
+
+#: src/Domain/Enum/PrimaryForm.php:114
+msgid "Digitized manuscript"
+msgstr "Gedigitaliseerd manuscript"
+
+#: src/Domain/Enum/PrimaryForm.php:117
+msgid "Annotated photograph"
+msgstr "Foto met tekst"
+
+#: src/Domain/Enum/PrimaryForm.php:118
+msgid "Microfilm / Microfiche"
+msgstr "Microfilm / microfiche"
+
+#: src/Domain/Enum/PrimaryForm.php:121
+msgid "Gravestone inscription"
+msgstr "Grafsteeninscriptie"
+
+#: src/Domain/Enum/PrimaryForm.php:122
+msgid "Building inscription"
+msgstr "Gebouwinscriptie"
+
+#: src/Domain/Enum/PrimaryForm.php:125
+msgid "Audio recording"
+msgstr "Geluidsopname"
+
+#: src/Domain/Enum/PrimaryForm.php:126
+msgid "Video recording"
+msgstr "Video-opname"
+
+#: src/Domain/Enum/PrimaryForm.php:127
+msgid "Video interview"
+msgstr "Video-interview"
+
+#: src/Domain/Enum/PrimaryForm.php:130
+msgid "Mixed"
+msgstr "Gemengd"
+
+#: src/Domain/Enum/PrimaryForm.php:131
+msgid "Other"
+msgstr "Overige"
+
+#: src/Domain/Enum/PrimaryForm.php:143
+msgid "Form not specified"
+msgstr "Vorm niet gespecificeerd"
+
+#: src/Domain/Enum/PrimaryLanguage.php:70
+msgid "German"
+msgstr "Duits"
+
+#: src/Domain/Enum/PrimaryLanguage.php:71
+msgid "Middle High German"
+msgstr "Middenhoogduits"
+
+#: src/Domain/Enum/PrimaryLanguage.php:72
+msgid "Low German"
+msgstr "Nederduits"
+
+#: src/Domain/Enum/PrimaryLanguage.php:73
+msgid "Western Frisian"
+msgstr "West-Fries"
+
+#: src/Domain/Enum/PrimaryLanguage.php:74
+msgid "Latin"
+msgstr "Latijn"
+
+#: src/Domain/Enum/PrimaryLanguage.php:75
+msgid "English"
+msgstr "Engels"
+
+#: src/Domain/Enum/PrimaryLanguage.php:76
+msgid "French"
+msgstr "Frans"
+
+#: src/Domain/Enum/PrimaryLanguage.php:77
+msgid "Old French"
+msgstr "Oudfrans"
+
+#: src/Domain/Enum/PrimaryLanguage.php:78
+msgid "Spanish"
+msgstr "Spaans"
+
+#: src/Domain/Enum/PrimaryLanguage.php:79
+msgid "Russian"
+msgstr "Russisch"
+
+#: src/Domain/Enum/PrimaryLanguage.php:80
+msgid "Polish"
+msgstr "Pools"
+
+#: src/Domain/Enum/PrimaryLanguage.php:81
+msgid "Italian"
+msgstr "Italiaans"
+
+#: src/Domain/Enum/PrimaryLanguage.php:82
+msgid "Portuguese"
+msgstr "Portugees"
+
+#: src/Domain/Enum/PrimaryLanguage.php:83
+msgid "Dutch"
+msgstr "Nederlands"
+
+#: src/Domain/Enum/PrimaryLanguage.php:84
+msgid "Hebrew"
+msgstr "Hebreeuws"
+
+#: src/Domain/Enum/PrimaryLanguage.php:85
+msgid "Yiddish"
+msgstr "Jiddisch"
+
+#: src/Domain/Enum/PrimaryLanguage.php:86
+msgid "Church Slavonic"
+msgstr "Kerk-Slavisch"
+
+#: src/Domain/Enum/PrimaryLanguage.php:87
+msgid "Arabic"
+msgstr "Arabisch"
+
+#: src/Domain/Enum/PrimaryLanguage.php:88
+msgid "Swedish"
+msgstr "Zweeds"
+
+#: src/Domain/Enum/PrimaryLanguage.php:89
+msgid "Hungarian"
+msgstr "Hongaars"
+
+#: src/Domain/Enum/PrimaryLanguage.php:90
+msgid "Czech"
+msgstr "Tsjechisch"
+
+#: src/Domain/Enum/PrimaryLanguage.php:91
+msgid "Greek"
+msgstr "Grieks"
+
+#: src/Domain/Enum/PrimaryLanguage.php:92
+msgid "Akkadian"
+msgstr "Akkadisch"
+
+#: src/Domain/Enum/PrimaryLanguage.php:93
+msgid "Undetermined"
+msgstr "Onbepaald"
+
+#: src/Domain/Enum/PrimaryLanguage.php:105
+msgid "Language not specified"
+msgstr "Taal niet gespecificeerd"
+
+#: src/Domain/Enum/PrimaryScript.php:64
+msgid "Latin script"
+msgstr "Latijns schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:65
+msgid "Fraktur (Latin Fraktur)"
+msgstr "Fraktur (Gothic script)"
+
+#: src/Domain/Enum/PrimaryScript.php:66
+msgid "Cyrillic script"
+msgstr "Cyrillisch schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:67
+msgid "Hebrew script"
+msgstr "Hebreeuws schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:68
+msgid "Arabic script"
+msgstr "Arabisch schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:69
+msgid "Greek script"
+msgstr "Grieks schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:70
+msgid "Georgian script"
+msgstr "Georgisch schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:71
+msgid "Armenian script"
+msgstr "Armeens schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:72
+msgid "Glagolitic script"
+msgstr "Glagolitisch schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:73
+msgid "Coptic script"
+msgstr "Koptisch schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:74
+msgid "Syriac script"
+msgstr "Syrisch schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:75
+msgid "Old Italic script"
+msgstr "Latijns cursief (Oudlatijn)"
+
+#: src/Domain/Enum/PrimaryScript.php:76
+msgid "Runic script"
+msgstr "Runenschrift"
+
+#: src/Domain/Enum/PrimaryScript.php:77
+msgid "Osmanya script"
+msgstr "Osmanya-schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:78
+msgid "Gujarati script"
+msgstr "Gujarati-schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:79
+msgid "Cuneiform script"
+msgstr "Spijkerschrift"
+
+#: src/Domain/Enum/PrimaryScript.php:80
+msgid "Unknown script"
+msgstr "Onbekend schrift"
+
+#: src/Domain/Enum/PrimaryScript.php:92
+msgid "Script not specified"
+msgstr "Schrift niet gespecificeerd"
+
+#: src/Domain/Enum/RevisionOriginType.php:48
+msgid "Manual entry"
+msgstr "Handmatige invoer"
+
+#: src/Domain/Enum/RevisionOriginType.php:49
+msgid "Manual note save"
+msgstr "NOTE handmatig opslaan"
+
+#: src/Domain/Enum/RevisionOriginType.php:50
+msgid "Transkribus import"
+msgstr "Transkribus importeren"
+
+#: src/Domain/Enum/RevisionOriginType.php:51
+msgid "Transkribus sync"
+msgstr "Transkribus-synchronisatie"
+
+#: src/Domain/Enum/RevisionOriginType.php:63
+msgid "Origin not specified"
+msgstr "Herkomst niet gespecificeerd"
+
+#: src/Domain/Enum/TranscriptionStatus.php:61
+msgctxt "Transcription status"
+msgid "New"
+msgstr "Nieuw"
+
+#: src/Domain/Enum/TranscriptionStatus.php:62
+msgctxt "Transcription status"
+msgid "In progress"
+msgstr "In uitvoering"
+
+#: src/Domain/Enum/TranscriptionStatus.php:63
+msgctxt "Transcription status"
+msgid "Ready for review"
+msgstr "Gereed voor beoordeling"
+
+#: src/Domain/Enum/TranscriptionStatus.php:64
+msgctxt "Transcription status; adjective, not an action button"
+msgid "Final"
+msgstr "Voltooid"
+
+#: src/Domain/Enum/TranscriptionStatus.php:65
+msgctxt "Transcription status; already reopened, not an action button"
+msgid "Reopened"
+msgstr "Heropend"
+
+#: src/Domain/Enum/TranscriptionStatus.php:66
+msgctxt "Transcription status"
+msgid "Canceled"
+msgstr "Geannuleerd"
+
+#: src/Domain/Enum/TranscriptionType.php:48
+msgid "Translation"
+msgstr "Vertaling"
+
+#: src/Domain/Enum/TranscriptionType.php:49
+msgid "Normalized text"
+msgstr "Genormaliseerde tekst"
+
+#: src/Domain/Enum/TranscriptionType.php:61
+msgid "Type not specified"
+msgstr "Type niet gespecificeerd"
+
+#: src/Domain/Enum/TranskribusJobFileStatus.php:36
+msgid "Pending"
+msgstr "In behandeling"
+
+#: src/Domain/Enum/TranskribusJobFileStatus.php:37
+#: src/Domain/Enum/TranskribusJobStatus.php:37
+msgid "Uploaded"
+msgstr "Geüpload"
+
+#: src/Domain/Enum/TranskribusJobFileStatus.php:38
+msgid "Failed"
+msgstr "Mislukt"
+
+#: src/Domain/Enum/TranskribusJobStatus.php:36
+msgid "Uploading"
+msgstr "Uploaden"
+
+#: src/Domain/Enum/TranskribusJobStatus.php:38
+msgid "Upload failed"
+msgstr "Uploaden is mislukt"
+
+#: src/Domain/ValueObject/NoteStrategy.php:48
+msgid "Always create a new NOTE"
+msgstr "Altijd een nieuwe NOTE aanmaken"
+
+#: src/Domain/ValueObject/NoteStrategy.php:49
+msgid "Update existing NOTE only if unchanged"
+msgstr "Bestaande NOTE alleen bijwerken als deze niet is gewijzigd"
+
+#: src/Domain/ValueObject/NoteStrategy.php:50
+msgid "Always update existing NOTE"
+msgstr "Bestaande NOTE altijd bijwerken"
+
+#: src/Domain/ValueObject/ProviderLabel.php:48
+#: src/Domain/ValueObject/ProviderLabel.php:58
+msgctxt "Transcription provider label"
+msgid "Manual"
+msgstr "Handmatige invoer"
+
+#: src/Domain/ValueObject/ProviderLabel.php:49
+#: src/Domain/ValueObject/ProviderLabel.php:59
+msgctxt "Transcription provider label"
+msgid "Internal collaboration"
+msgstr "Interne samenwerking"
+
+#: src/Domain/ValueObject/ProviderLabel.php:50
+#: src/Domain/ValueObject/ProviderLabel.php:60
+#: src/Domain/ValueObject/ProviderPresentation.php:81
+msgid "Transkribus"
+msgstr "Transkribus"
+
+#: src/Domain/ValueObject/ProviderLabel.php:51
+#: src/Domain/ValueObject/ProviderLabel.php:61
+msgid "Community (Discourse)"
+msgstr "Gemeenschap (Discourse)"
+
+#: src/Domain/ValueObject/ProviderPresentation.php:79
+msgctxt "Tooltip for transcription provider link"
+msgid "Manual transcription in this webtrees installation"
+msgstr "Handmatige transcriptie in deze webtrees-installatie"
+
+#: src/Domain/ValueObject/ProviderPresentation.php:80
+msgctxt "Tooltip for transcription provider link"
+msgid "Internal collaboration in this webtrees installation"
+msgstr "Interne samenwerking binnen deze webtrees-installatie"
+
+#: src/Domain/ValueObject/ProviderPresentation.php:82
+msgid "Community discussion on Discourse"
+msgstr "Discussiegroep op Discourse"
+
+#: src/Http/RequestHandlers/CollaborationStatusAction.php:62
+#: src/Http/RequestHandlers/ManualStatusAction.php:51
+msgid "Saved on finalize"
+msgstr "Opgeslagen bij het afsluiten"
+
+#: src/Http/RequestHandlers/CollaborationStatusAction.php:76
+msgid "The collaboration status has been updated."
+msgstr "De samenwerkingsstatus is bijgewerkt."
+
+#: src/Http/RequestHandlers/CompareRevisionsAction.php:80
+msgid "Compare revisions"
+msgstr "Revisies vergelijken"
+
+#: src/Http/RequestHandlers/CreateManualAction.php:52
+msgid "Create manual transcription"
+msgstr "Start handmatige transcriptie"
+
+#: src/Http/RequestHandlers/CreateTranskribusJobAction.php:43
+msgid "Upload images to Transkribus"
+msgstr "Afbeeldingen uploaden naar Transcripties"
+
+#: src/Http/RequestHandlers/DashboardAction.php:60
+msgid "Source capture and analysis"
+msgstr "Bronvastlegging en -analyse"
+
+#: src/Http/RequestHandlers/MakeRevisionCurrentAction.php:103
+#, php-format
+msgid "Revision %s is now the current revision."
+msgstr "Revisie %s is nu de huidige revisie."
+
+#: src/Http/RequestHandlers/ManualStatusAction.php:65
+msgid "The transcription status has been updated."
+msgstr "De transcriptiestatus is bijgewerkt."
+
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:85
+msgid "External media files cannot be uploaded directly."
+msgstr "Externe mediabestanden kunnen niet direct worden geüpload."
+
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:89
+msgid "The file does not exist on this server."
+msgstr "Het bestand bestaat niet op deze server."
+
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:94
+msgid "The selected provider does not support media uploads."
+msgstr ""
+"De geselecteerde aanbieder ondersteunt het uploaden van mediabestanden niet."
+
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:98
+msgid "Unsupported file format. Use JPEG, TIFF or PNG."
+msgstr "Niet-ondersteund bestandsformaat. Gebruik JPEG, TIFF of PNG."
+
+#: src/Http/RequestHandlers/MediaFilesForMediaAction.php:104
+msgid "The file is larger than 20 MB."
+msgstr "Het bestand is groter dan 20 MB."
+
+#: src/Http/RequestHandlers/OpenCollaborationAction.php:58
+msgid "The transcription has been opened for internal collaboration."
+msgstr "De transcriptie is vrijgegeven voor interne samenwerking."
+
+#: src/Http/RequestHandlers/SaveNoteAsRevisionAction.php:94
+msgid "Saved from UI"
+msgstr "Opgeslagen via gebruikersinterface"
+
+#: src/Http/RequestHandlers/SaveNoteAsRevisionAction.php:103
+#, php-format
+msgid "The current NOTE has been saved as revision %s."
+msgstr "De huidige NOTE is opgeslagen als revisie %s."
+
+#: src/Http/RequestHandlers/StoreManualAction.php:67
+msgid "You do not have permission to use the selected source or media object."
+msgstr ""
+"Je hebt geen toestemming om de geselecteerde bron of het geselecteerde "
+"mediaobject te gebruiken."
+
+#: src/Http/RequestHandlers/StoreManualAction.php:108
+msgid "Created from UI"
+msgstr "Gemaakt via gebruikersinterface"
+
+#: src/Http/RequestHandlers/StoreManualAction.php:111
+msgid "The transcription has been created."
+msgstr "De transcriptie is gemaakt."
+
+#: src/Http/RequestHandlers/UpdateCurrentNoteAction.php:85
+msgid "The NOTE has been updated."
+msgstr "De NOTE is bijgewerkt."
+
+#: src/Http/RequestHandlers/UploadTranskribusImagesAction.php:65
+#, php-format
+msgid "Transkribus job #%s: %s"
+msgstr "Transkribus-taak #%s: %s"
+
+#: src/Infrastructure/WhatsNew/WhatsNew0.php:38
+msgid "First transcription provider available: manual transcription."
+msgstr "Eerste transcriptieaanbieder beschikbaar: handmatige transcriptie."
+
+#: src/Infrastructure/WhatsNew/WhatsNew1.php:38
+msgid ""
+"New transcription provider available: internal collaboration with other "
+"webtrees users."
+msgstr ""
+"Nieuwe transcriptieaanbieder beschikbaar: interne samenwerking met andere "
+"webtrees-gebruikers."
+
+#: src/SourceTranscription.php:384
+msgid "What's new?"
+msgstr "Wat is er nieuw?"
+
+#: src/SourceTranscription.php:479
+msgid "Source Transcription"
+msgstr "Brontranscriptie"
+
+#: src/SourceTranscription.php:491
+msgid "Manage source transcriptions with manual and provider-based workflows."
+msgstr "Beheer bronteksten met handmatige of aanbieder-gebaseerde werkstroom."
+
+#: src/SourceTranscription.php:598
+msgid "Transcriptions"
+msgstr "Transcripties"
+
+#: src/SourceTranscription.php:771
+msgid "The provider credentials have been deleted."
+msgstr "De provider-credentials zijn verwijderd."
+
+#: src/SourceTranscription.php:795
+msgid "The provider credentials could not be loaded."
+msgstr "De provider-credentials konden niet worden geladen."
+
+#: src/SourceTranscription.php:804
+msgid "The provider credentials have been saved."
+msgstr "De provider-credentials zijn opgeslagen ."
+
+#: src/SourceTranscription.php:832
+#, php-format
+msgid "The preferences for the module “%s” have been updated."
+msgstr "De instellingen voor de module “%s” zijn bijgewerkt."
+
+#: src/SourceTranscription.php:973
+msgid "The module database tables are incomplete."
+msgstr "De databasetabellen van de module zijn onvolledig."
+
+#: src/SourceTranscription.php:996 src/SourceTranscription.php:1115
+msgid "Unknown tree"
+msgstr "Onbekende stamboom"
+
+#: src/SourceTranscription.php:1000
+msgid "The referenced family tree no longer exists."
+msgstr "De stamboom waarnaar verwezen wordt bestaat niet meer."
+
+#: src/SourceTranscription.php:1009
+#, php-format
+msgid "The referenced source does not exist: %s"
+msgstr "De bron waarnaar verwezen wordt bestaat niet: %s"
+
+#: src/SourceTranscription.php:1013
+#, php-format
+msgid "The referenced media object does not exist: %s"
+msgstr "Het mediaobject waarnaar verwezen wordt bestaat niet: %s"
+
+#: src/SourceTranscription.php:1021
+msgid "The referenced media object is no longer linked to the source."
+msgstr ""
+"Het mediaobject waarnaar verwezen wordt is niet langer gekoppeld aan de bron."
+
+#: src/SourceTranscription.php:1026
+msgid "The transcription has no current NOTE."
+msgstr "De transcriptie heeft geen huidige NOTE."
+
+#: src/SourceTranscription.php:1031
+#, php-format
+msgid "The current NOTE does not exist: %s"
+msgstr "De huidige NOTE bestaat niet: %s"
+
+#: src/SourceTranscription.php:1033
+#, php-format
+msgid ""
+"The current NOTE is not linked to the expected source or media object: %s"
+msgstr ""
+"De huidige NOTE is niet gekoppeld aan de verwachte bron of het mediaobject: "
+"%s"
+
+#: src/SourceTranscription.php:1052
+msgid "The current NOTE has changed since it was last linked to a revision."
+msgstr "De huidige NOTE is gewijzigd na koppeling aan een revisie."
+
+#: src/SourceTranscription.php:1058
+msgid "Tagging is enabled, but the transcription has no tag NOTE."
+msgstr "Labeling is ingeschakeld, maar de transcriptie bevat geen label NOTE."
+
+#: src/SourceTranscription.php:1063
+#, php-format
+msgid "The tag NOTE does not exist: %s"
+msgstr "Het label NOTE bestaat niet: %s"
+
+#: src/SourceTranscription.php:1065
+#, php-format
+msgid "The tag NOTE is not linked to the expected source or media object: %s"
+msgstr ""
+"Het label NOTE is niet gekoppeld aan de verwachte bron of het mediaobject: %s"
+
+#: src/SourceTranscription.php:1089
+#, php-format
+msgid "Revision %s belongs to a transcription that no longer exists."
+msgstr "Revisie %s hoort bij een transcriptie die niet meer bestaat."
+
+#: src/SourceTranscription.php:1106
+#, php-format
+msgid "Revision %s references a NOTE that no longer exists: %s"
+msgstr "Revisie %s verwijst naar een NOTE die niet meer bestaat: %s"
+
+#: src/SourceTranscription.php:1121
+msgid "The transcription has no revisions."
+msgstr "De transcriptie bevat geen revisies."
+
+#: src/SourceTranscription.php:1123
+#, php-format
+msgid "The transcription has %s current revisions; expected exactly one."
+msgstr ""
+"De transcriptie bevat %s huidige revisies; er werd precies één verwacht."
+
+#: src/SourceTranscription.php:1136
+msgid ""
+"The current revision references a different NOTE than the transcription "
+"current NOTE."
+msgstr ""
+"De huidige revisie verwijst naar een andere NOTE dan de huidige NOTE van "
+"deze transcriptie."
+
+#: src/SourceTranscription.php:1159
+#, php-format
+msgid ""
+"An active collaboration entry references a user that no longer exists: %s"
+msgstr ""
+"Een actief samenwerkingsitem verwijst naar een gebruiker die niet meer "
+"bestaat: %s"
+
+#: src/SourceTranscription.php:1188
+#, php-format
+msgid ""
+"Media file %s has no filename extension; FORM is %s and MIME type is %s."
+msgstr ""
+"Mediabestand %s heeft geen bestandsextensie; FORM-formaat is %s en MIME-type "
+"is %s."
+
+#: src/SourceTranscription.php:1198
+#, php-format
+msgid ""
+"Media file %s has no GEDCOM FORM value; filename extension is %s and MIME "
+"type is %s."
+msgstr ""
+"Mediabestand %s bevat geen GEDCOM-FORM-waarde; bestandsextensie is %s en "
+"MIME-type is %s."
+
+#: src/SourceTranscription.php:1208
+#, php-format
+msgid ""
+"Media file %s has no GEDCOM TYPE value; filename extension is %s and MIME "
+"type is %s."
+msgstr ""
+"Mediabestand %s bevat geen GEDCOM-TYPE-waarde; bestandsextensie is %s en "
+"MIME-type is %s."
+
+#: src/SourceTranscription.php:1218
+#, php-format
+msgid ""
+"Media file %s has inconsistent filename extension and GEDCOM FORM: extension "
+"%s, FORM %s."
+msgstr ""
+"Mediabestand %s heeft een inconsistente bestandsextensie en GEDCOM-FORM: "
+"extensie %s, FORM %s."
+
+#: src/SourceTranscription.php:1228
+#, php-format
+msgid ""
+"Media file %s has no specific MIME type: %s. Filename extension is %s and "
+"FORM is %s."
+msgstr ""
+"Mediabestand %s heeft geen specifiek MIME-type: %s. Bestandsextensie is %s "
+"en FORM is %s."
+
+#: src/SourceTranscription.php:1238
+#, php-format
+msgid ""
+"Media file %s has inconsistent filename extension and MIME type: extension "
+"%s, MIME type %s."
+msgstr ""
+"Mediabestand %s vertoont een inconsistentie tussen bestandsextensie en MIME-"
+"type: extensie %s, MIME-type %s."
+
+#: src/SourceTranscription.php:1248
+#, php-format
+msgid ""
+"Media file %s has inconsistent GEDCOM FORM and MIME type: FORM %s, MIME type "
+"%s."
+msgstr ""
+"Mediabestand %s heeft een inconsistent GEDCOM-FORM en MIME-type: FORM %s, "
+"MIME-type %s."
+
+#: src/SourceTranscription.php:1258
+#, php-format
+msgid ""
+"Media file %s has inconsistent GEDCOM TYPE and technical metadata: TYPE %s, "
+"extension %s, MIME type %s."
+msgstr ""
+"Mediabestand %s vertoont een inconsistentie tussen GEDCOM-TYPE en MIME-type: "
+"TYPE %s, extensie %s, MIME-type %s."
+
+#: resources/views/admin-settings.phtml:44
+#, php-format
+msgid ""
+"This module can only be used with a webtrees version greater or equal than "
+"%s."
+msgstr ""
+"Deze module kan alleen worden gebruikt met een webtreesversie die gelijk is "
+"aan of hoger is dan %s."
+
+#: resources/views/admin-settings.phtml:54
+msgid "NOTE update strategy"
+msgstr "NOTE-updatestrategie"
+
+#: resources/views/admin-settings.phtml:79
+msgid "Use of TinyMDE as the editor for transcription notes"
+msgstr "Gebruik van TinyMDE als editor voor transcriptienotities"
+
+#: resources/views/admin-settings.phtml:98
+msgid "Dashboard table entries per page"
+msgstr ""
+
+#: resources/views/admin-settings.phtml:115
+#: resources/views/admin-settings.phtml:182
+msgid "Default"
+msgstr "Standaard"
+
+#: resources/views/admin-settings.phtml:123
+msgid "Should tagging be supported?"
+msgstr "Moet labeling worden ondersteund?"
+
+#: resources/views/admin-settings.phtml:142
+#, fuzzy
+#| msgid "Source Transcription"
+msgid "Show source transcription badges"
+msgstr "Brontranscriptie"
+
+#: resources/views/admin-settings.phtml:158
+msgid ""
+"Append colored T badges to source titles to show whether transcription work "
+"exists or is still pending."
+msgstr ""
+
+#: resources/views/admin-settings.phtml:165
+msgid "Tag value for tagging all sources with at least one transcription"
+msgstr ""
+"Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
+
+#: resources/views/admin-settings.phtml:190
+#: resources/views/admin-settings.phtml:337
+msgid "save"
+msgstr "opslaan"
+
+#: resources/views/admin-settings.phtml:196
+msgid "Provider credentials"
+msgstr "Provider-credentials"
+
+#: resources/views/admin-settings.phtml:201
+msgid ""
+"Discourse uses the User API Key authorization flow. Users authorize the "
+"module from the transcription dashboard; the module stores the returned user-"
+"specific key for later requests."
+msgstr ""
+"Discourse maakt gebruik van het autorisatieproces via de gebruikers-API-"
+"sleutel. Gebruikers autoriseren de module via het transcriptiedashboard; de "
+"module slaat de teruggestuurde gebruikersspecifieke sleutel op voor latere "
+"verzoeken."
+
+#: resources/views/admin-settings.phtml:203
+msgid "Discourse documentation"
+msgstr "Discourse-documentatie"
+
+#: resources/views/admin-settings.phtml:209
+msgid ""
+"For uploads, use a Transkribus API key as the secret if your account "
+"provides one. As a fallback, you can use the regular Transkribus account "
+"username and password; the token URL and client ID are prefilled for the "
+"Processing API."
+msgstr ""
+"Gebruik voor uploads een Transkribus API-sleutel als geheim, als uw account "
+"daarover beschikt. Als alternatief kunt u de gebruiksnaam en het wachtwoord "
+"van je gewone Transkribus-account gebruiken; de token-URL en client-ID "
+"worden automatisch ingevuld voor de Processing API."
+
+#: resources/views/admin-settings.phtml:211
+msgid "Transkribus API documentation"
+msgstr "Transkribus API-documentatie"
+
+#: resources/views/admin-settings.phtml:227
+msgid "webtrees user"
+msgstr "webtrees-gebruikers"
+
+#: resources/views/admin-settings.phtml:261
+msgid "Token URL"
+msgstr "Token-URL"
+
+#: resources/views/admin-settings.phtml:267
+msgid ""
+"OpenID Connect token endpoint used to obtain a temporary Transkribus access "
+"token."
+msgstr ""
+"OpenID Connect-token-eindpunt voor het ophalen van een tijdelijk Transkribus-"
+"toegangstoken."
+
+#: resources/views/admin-settings.phtml:274
+msgid "Upload URL"
+msgstr "Upload-URL"
+
+#: resources/views/admin-settings.phtml:280
+msgid ""
+"Endpoint used for the first upload step. Keep the default unless Transkribus "
+"changes the upload endpoint for your API account."
+msgstr ""
+"Eindpunt dat wordt gebruikt voor de eerste uploadstap. Houd de "
+"standaardinstelling aan, tenzij Transkribus het upload-eindpunt voor uw API-"
+"account wijzigt."
+
+#: resources/views/admin-settings.phtml:287
+msgid "Client ID"
+msgstr "Client-ID"
+
+#: resources/views/admin-settings.phtml:293
+msgid ""
+"Use \"processing-api-client\" for the Processing API. Use \"transkribus-api-"
+"client\" only for the legacy REST API."
+msgstr ""
+"Gebruik \"processing-api-client\" voor de Processing-API. Gebruik "
+"\"transkribus-api-client\" alleen voor de oude REST-API."
+
+#: resources/views/admin-settings.phtml:300
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+#: resources/views/admin-settings.phtml:306
+msgid ""
+"Transkribus login name or email address. Leave unchanged when using an API "
+"key as the secret."
+msgstr ""
+"Transkribus-gebruikersnaam of e-mailadres. Laat ongewijzigd als u een API-"
+"sleutel als geheim gebruikt."
+
+#: resources/views/admin-settings.phtml:313
+msgid "Password or API key"
+msgstr "Wachtwoord of API-sleutel"
+
+#: resources/views/admin-settings.phtml:317
+msgid "stored; leave empty to keep"
+msgstr "opgeslagen; laat leeg om te behouden"
+
+#: resources/views/admin-settings.phtml:319
+msgid ""
+"Use an API key starting with \"sk_\" for direct upload authentication, or "
+"the account password for token-based authentication."
+msgstr ""
+"Gebruik een API-sleutel die begint met \"sk_\" voor authenticatie bij "
+"directe uploads, of het accountwachtwoord voor tokengebaseerde authenticatie."
+
+#: resources/views/admin-settings.phtml:340
+msgid "Save and test"
+msgstr "Opslaan en testen"
+
+#: resources/views/admin-settings.phtml:343
+msgid "delete"
+msgstr "verwijderen"
+
+#: resources/views/admin-settings.phtml:349
+msgid "Diagnostics"
+msgstr "Diagnose"
+
+#: resources/views/admin-settings.phtml:356
+msgid "Run consistency check"
+msgstr "Consistentiecontrole uitvoeren"
+
+#: resources/views/admin-settings.phtml:361
+msgid "Consistency check"
+msgstr "Consistentiecontrole"
+
+#: resources/views/admin-settings.phtml:365
+msgid "No consistency issues found."
+msgstr "Er zijn geen consistentieproblemen gevonden."
+
+#: resources/views/admin-settings.phtml:395
+msgid "Warnings"
+msgstr "Waarschuwingen"
+
+#: resources/views/admin-settings.phtml:426
+msgid "Schema version"
+msgstr "Schemaversie"
+
+#: resources/views/admin-settings.phtml:434
+msgid "Database tables"
+msgstr "Databasetabellen"
+
+#: resources/views/admin-settings.phtml:441
+msgid "Trees with transcriptions"
+msgstr "Stambomen met transcripties"
+
+#: resources/views/admin-settings.phtml:449
+msgid "Revisions"
+msgstr "Revisies"
+
+#: resources/views/admin-settings.phtml:455
+msgid "No active transcriptions found."
+msgstr "Geen actieve transcripties gevonden."
+
+#: resources/views/admin-settings.phtml:473
+msgid "NOTE editor"
+msgstr "NOTE-editor"
+
+#: resources/views/admin-settings.phtml:479
+msgid "linkenhancer installed"
+msgstr "Link-verbeteraar geïnstalleerd"
+
+#: resources/views/admin-settings.phtml:483
+msgid "linkenhancer enabled"
+msgstr "Link-verbeteraar ingeschakeld"
+
+#: resources/views/admin-settings.phtml:487
+msgid "TinyMDE setting enabled"
+msgstr "TinyMDE-instelling ingeschakeld"
+
+#: resources/views/admin-settings.phtml:491
+msgid "TinyMDE service available"
+msgstr "TinyMDE-service beschikbaar"
+
+#: resources/views/admin-settings.phtml:495
+msgid "TinyMDE rule registered"
+msgstr "TinyMDE-regel geregistreerd"
+
+#: resources/views/admin-settings.phtml:502
+msgid "Markdown option by tree"
+msgstr "Markdown-optie per stamboom"
+
+#: resources/views/compare-revisions.phtml:32
+msgid "Back to transcription"
+msgstr "Terug naar transcriptie"
+
+#: resources/views/compare-revisions.phtml:36
+msgid "Metadata differences"
+msgstr "Metadata-verschillen"
+
+#: resources/views/compare-revisions.phtml:41
+msgid "Field"
+msgstr "Veld"
+
+#: resources/views/compare-revisions.phtml:57
+msgid "Text differences"
+msgstr "Tekstverschillen"
+
+#: resources/views/compare-revisions.phtml:70
+msgid "Both revisions have no text content."
+msgstr "Beide revisies bevatten geen tekst."
+
+#: resources/views/create-manual.phtml:70
+#: resources/views/create-transkribus-job.phtml:59
+msgid "Only media objects linked to the selected source are shown."
+msgstr ""
+"Alleen media-items die aan de geselecteerde bron zijn gekoppeld worden "
+"getoond."
+
+#: resources/views/create-manual.phtml:119
+msgid "Initial text"
+msgstr "Oorspronkelijke tekst"
+
+#: resources/views/create-manual.phtml:127
+msgid "Create transcription"
+msgstr "Start transcriptie"
+
+#: resources/views/create-transkribus-job.phtml:23
+#: resources/views/dashboard.phtml:221
+msgid "Job title"
+msgstr "Taaktitel"
+
+#: resources/views/create-transkribus-job.phtml:66
+msgid "Media files"
+msgstr "Mediabestanden"
+
+#: resources/views/create-transkribus-job.phtml:75
+msgid "Accepted formats: JPEG, TIFF, PNG. Maximum file size: 20 MB per image."
+msgstr ""
+"Toegestane formaten: JPEG, TIFF, PNG. Maximale bestandsgrootte: 20 MB per "
+"afbeelding."
+
+#: resources/views/create-transkribus-job.phtml:81
+msgid "Upload to Transkribus"
+msgstr "Uploaden naar Transkribus"
+
+#: resources/views/dashboard.phtml:44
 msgid "Renew Discourse authorization"
 msgstr "Vernieuw Discourse-autorisatie"
 
+#: resources/views/dashboard.phtml:44
 msgid "Authorize Discourse"
 msgstr "Discourse autoriseren"
 
+#: resources/views/dashboard.phtml:47
 msgid "Authorize Discourse test"
 msgstr "Test Discourse-autorisatie"
 
+#: resources/views/dashboard.phtml:52
 #, php-format
 msgid "Discourse authorization stored for %s."
 msgstr "Discourse-autorisatie opgeslagen voor %s."
 
-msgid "Transkribus jobs"
-msgstr "Transkribus-taken"
+#: resources/views/dashboard.phtml:64 resources/views/dashboard.phtml:213
+msgid "Show/hide"
+msgstr ""
 
-msgid "Media"
-msgstr "Media"
-
+#: resources/views/dashboard.phtml:76 resources/views/dashboard.phtml:139
+#: resources/views/dashboard.phtml:224 resources/views/detail.phtml:143
 msgid "Status"
 msgstr "Status"
 
-msgid "Upload references"
-msgstr "Uploadreferenties"
+#: resources/views/dashboard.phtml:78 resources/views/dashboard.phtml:89
+msgid "All"
+msgstr ""
 
-msgid "Message"
-msgstr "Bericht"
+#: resources/views/dashboard.phtml:87 resources/views/dashboard.phtml:134
+msgid "Transcription provider"
+msgstr "Transcriptieaanbieder"
 
-msgid "Deleted"
-msgstr "Verwijderd"
+#: resources/views/dashboard.phtml:99
+#: resources/views/partials/media-viewer.phtml:86
+msgid "Reset"
+msgstr "Opnieuw instellen"
 
+#: resources/views/dashboard.phtml:107
+#, php-format
+msgid "%s-%s of %s"
+msgstr ""
+
+#: resources/views/dashboard.phtml:115
 #, php-format
 msgid "%s transcription"
 msgid_plural "%s transcriptions"
 msgstr[0] "%s transcriptie"
 msgstr[1] "%s transcripties"
 
+#: resources/views/dashboard.phtml:127
 msgid "Transcription title"
 msgstr "Transcriptietitel"
 
-msgid "Transcription provider"
-msgstr "Transcriptieaanbieder"
+#: resources/views/dashboard.phtml:144
+#, fuzzy
+#| msgid "Created by"
+msgid "Created"
+msgstr "Gemaakt door"
 
-msgid "Note"
-msgstr "Notitie"
+#: resources/views/dashboard.phtml:149
+msgid "Updated"
+msgstr ""
 
+#: resources/views/dashboard.phtml:153
 msgid "Actions"
 msgstr "Acties"
 
-msgid "Source record"
-msgstr "Bronrecord"
-
-msgid "External media URL"
-msgstr "URL van extern mediabestand"
-
+#: resources/views/dashboard.phtml:176
+#: resources/views/partials/media-viewer.phtml:89
+#: resources/views/partials/media-viewer.phtml:118
 msgid "Open"
 msgstr "Openen"
 
+#: resources/views/dashboard.phtml:184
+#, fuzzy
+#| msgid "Translation"
+msgid "Pagination"
+msgstr "Vertaling"
+
+#: resources/views/dashboard.phtml:187
+msgid "Previous"
+msgstr ""
+
+#: resources/views/dashboard.phtml:202
+#, fuzzy
+#| msgid "The transcription has been created."
+msgid "No transcriptions match the selected filters."
+msgstr "De transcriptie is gemaakt."
+
+#: resources/views/dashboard.phtml:211
+msgid "Transkribus jobs"
+msgstr "Transkribus-taken"
+
+#: resources/views/dashboard.phtml:225
+msgid "Upload references"
+msgstr "Uploadreferenties"
+
+#: resources/views/dashboard.phtml:226 resources/views/detail.phtml:307
+msgid "Message"
+msgstr "Bericht"
+
+#: resources/views/detail.phtml:57
 msgid "Back to dashboard"
 msgstr "Terug naar dashboard"
 
-msgid "The current webtrees NOTE is used as a working copy. Changes are only archived when saved as a new revision."
-msgstr "De huidige webtrees-NOTE wordt gebruikt als werkkopie. Wijzigingen worden pas gearchiveerd wanneer ze als nieuwe revisie worden opgeslagen."
+#: resources/views/detail.phtml:63
+msgid ""
+"The current webtrees NOTE is used as a working copy. Changes are only "
+"archived when saved as a new revision."
+msgstr ""
+"De huidige webtrees-NOTE wordt gebruikt als werkkopie. Wijzigingen worden "
+"pas gearchiveerd wanneer ze als nieuwe revisie worden opgeslagen."
 
-msgid "The current webtrees NOTE has changed since it was last linked to a revision. Use \"Archive as new revision\" to preserve these changes before making another revision current or otherwise replacing the NOTE."
-msgstr "De huidige NOTE van webtrees is gewijzigd sinds deze voor het laatst aan een revisie werd gekoppeld. Gebruik \"Archiveren als nieuwe revisie\" om deze wijzigingen te bewaren voordat u een andere revisie als actueel instelt of de NOTE op een andere manier vervangt."
+#: resources/views/detail.phtml:69
+msgid ""
+"The current webtrees NOTE has changed since it was last linked to a "
+"revision. Use \"Archive as new revision\" to preserve these changes before "
+"making another revision current or otherwise replacing the NOTE."
+msgstr ""
+"De huidige NOTE van webtrees is gewijzigd sinds deze voor het laatst aan een "
+"revisie werd gekoppeld. Gebruik \"Archiveren als nieuwe revisie\" om deze "
+"wijzigingen te bewaren voordat u een andere revisie als actueel instelt of "
+"de NOTE op een andere manier vervangt."
 
+#: resources/views/detail.phtml:74
 msgid "Information"
 msgstr "Informatie"
 
+#: resources/views/detail.phtml:90
 msgid "Media file"
 msgid_plural "Media files"
 msgstr[0] "Mediabestand"
 msgstr[1] "Mediabestanden"
 
+#: resources/views/detail.phtml:121 resources/views/detail.phtml:192
 msgid "No media object selected."
 msgstr "Geen mediaobject geselecteerd."
 
+#: resources/views/detail.phtml:147 resources/views/detail.phtml:204
 msgid "Current NOTE"
 msgstr "Huidige NOTE"
 
+#: resources/views/detail.phtml:176
+#, fuzzy
+#| msgid "Transcription text"
+msgid "Transcription layout"
+msgstr "Transcriptietekst"
+
+#: resources/views/detail.phtml:178
+msgid "Side by side"
+msgstr ""
+
+#: resources/views/detail.phtml:181
+msgid "Top and bottom"
+msgstr ""
+
+#: resources/views/detail.phtml:189
 msgid "Media preview"
 msgstr "Mediavoorbeeld"
 
+#: resources/views/detail.phtml:194
 msgid "No media files found for this media object."
 msgstr "Geen mediabestanden gevonden voor dit mediaobject."
 
+#: resources/views/detail.phtml:225
 msgid "Save NOTE"
 msgstr "Opslaan NOTE"
 
+#: resources/views/detail.phtml:227
 msgid "Archive as new revision"
 msgstr "Archiveren als nieuwe revisie"
 
+#: resources/views/detail.phtml:238 resources/views/detail.phtml:249
 msgctxt "Button: mark this transcription as final"
 msgid "Finalize"
 msgstr "Voltooien"
 
+#: resources/views/detail.phtml:241 resources/views/detail.phtml:252
 msgctxt "Button: reopen this finalized transcription for editing"
 msgid "Reopen"
 msgstr "Heropenen"
 
+#: resources/views/detail.phtml:262
 msgctxt "Panel heading for the webtrees-internal collaboration workflow"
 msgid "Internal collaboration"
 msgstr "Interne samenwerking"
 
+#: resources/views/detail.phtml:266
 msgid "Team"
 msgstr "Team"
 
+#: resources/views/detail.phtml:271
 msgctxt "Collaboration team role"
 msgid "Initiator"
 msgstr "Initiator"
 
+#: resources/views/detail.phtml:271
 msgctxt "Collaboration team role, singular noun"
 msgid "Collaborator"
 msgstr "Samenwerker"
 
+#: resources/views/detail.phtml:277
 msgid "This transcription is not currently open for internal collaboration."
-msgstr "Deze transcriptie is momenteel niet beschikbaar voor interne samenwerking."
+msgstr ""
+"Deze transcriptie is momenteel niet beschikbaar voor interne samenwerking."
 
+#: resources/views/detail.phtml:283
 msgctxt "Button: submit the transcription for review"
 msgid "Ready for review"
 msgstr "Gereed voor beoordeling"
 
+#: resources/views/detail.phtml:288
 msgid "No eligible users found."
 msgstr "Geen geschikte gebruikers gevonden."
 
-msgctxt "Form label for selecting multiple collaboration team members; not a plural variant of the role label"
+#: resources/views/detail.phtml:294
+msgctxt ""
+"Form label for selecting multiple collaboration team members; not a plural "
+"variant of the role label"
 msgid "Collaborators"
 msgstr "Samenwerkers"
 
+#: resources/views/detail.phtml:311
 msgid "Save the current NOTE as a starting revision"
 msgstr "Sla de huidige NOTE op als startrevisie"
 
+#: resources/views/detail.phtml:317
 msgctxt "Button: update the selected collaboration team"
 msgid "Update collaboration"
 msgstr "Samenwerking bijwerken"
 
+#: resources/views/detail.phtml:317
 msgctxt "Button: open this transcription for collaboration"
 msgid "Open for collaboration"
 msgstr "Open voor samenwerking"
 
-msgctxt "Hint shown when collaboration cannot be started because the transcription is final or canceled"
-msgid "Reopen the transcription before starting or changing internal collaboration."
-msgstr "Heropen de transcriptie voordat je interne samenwerking start of wijzigt."
+#: resources/views/detail.phtml:322
+msgctxt ""
+"Hint shown when collaboration cannot be started because the transcription is "
+"final or canceled"
+msgid ""
+"Reopen the transcription before starting or changing internal collaboration."
+msgstr ""
+"Heropen de transcriptie voordat je interne samenwerking start of wijzigt."
 
+#: resources/views/detail.phtml:407
 msgid "Revision history"
 msgstr "Revisiegeschiedenis"
 
+#: resources/views/detail.phtml:415
 msgid "First revision"
 msgstr "Eerste revisie"
 
+#: resources/views/detail.phtml:419 resources/views/detail.phtml:429
+#: resources/views/detail.phtml:441
 msgid "Current"
 msgstr "Huidig"
 
+#: resources/views/detail.phtml:425
 msgid "Second revision"
 msgstr "Tweede revisie"
 
+#: resources/views/detail.phtml:445
 msgid "NOTE change"
 msgstr "NOTE-wijziging"
 
-msgid "Text"
-msgstr "Tekst"
-
+#: resources/views/detail.phtml:448
 msgid "Action"
 msgstr "Actie"
 
-msgid "Make this revision current? The current NOTE will be overwritten with the text of this revision."
-msgstr "Deze revisie als de huidige revisie instellen? De huidige NOTE wordt overschreven met de tekst van deze revisie."
+#: resources/views/detail.phtml:473
+msgid ""
+"Make this revision current? The current NOTE will be overwritten with the "
+"text of this revision."
+msgstr ""
+"Deze revisie als de huidige revisie instellen? De huidige NOTE wordt "
+"overschreven met de tekst van deze revisie."
 
+#: resources/views/detail.phtml:474
 msgid "Make current"
 msgstr "Maak huidig"
 
+#: resources/views/lists/sources-table.phtml:100
+msgid "Abbreviation"
+msgstr ""
+
+#: resources/views/lists/sources-table.phtml:101
+msgid "Author"
+msgstr ""
+
+#: resources/views/lists/sources-table.phtml:102
+msgid "Publication"
+msgstr ""
+
+#: resources/views/lists/sources-table.phtml:107
+#, fuzzy
+#| msgid "NOTE change"
+msgid "Last change"
+msgstr "NOTE-wijziging"
+
+#: resources/views/partials/media-viewer.phtml:34
 msgctxt "Label for selecting one media file"
 msgid "Media file"
 msgstr "Mediabestand"
 
+#: resources/views/partials/media-viewer.phtml:75
 msgid "This external media URL cannot be embedded here."
 msgstr "De URL van het externe mediabestand kan hier niet worden ingesloten."
 
+#: resources/views/partials/media-viewer.phtml:79
 msgid "Open external media"
 msgstr "Open extern mediabestand"
 
+#: resources/views/partials/media-viewer.phtml:84
 msgid "Image controls"
 msgstr "Beeldinstellingen"
 
-msgid "Zoom out"
-msgstr "Uitzoomen"
-
-msgid "Reset"
-msgstr "Opnieuw instellen"
-
-msgid "Zoom in"
-msgstr "Inzoomen"
-
+#: resources/views/partials/media-viewer.phtml:100
 msgid "Open PDF in a new window"
 msgstr "Open PDF in een nieuw venster"
 
+#: resources/views/partials/media-viewer.phtml:107
 msgid "The text preview is shortened."
 msgstr "Het tekstvoorbeeld is ingekort."
 
+#: resources/views/partials/media-viewer.phtml:128
+#: resources/views/partials/media-viewer.phtml:138
 msgid "Stop"
 msgstr "Stop"
 
-msgid "This media file cannot be previewed here. Use the download link below to save the file."
-msgstr "Dit mediabestand kan hier niet worden voorvertoond. Gebruik de onderstaande downloadlink om het op te slaan."
+#: resources/views/partials/media-viewer.phtml:143
+msgid ""
+"This media file cannot be previewed here. Use the download link below to "
+"save the file."
+msgstr ""
+"Dit mediabestand kan hier niet worden voorvertoond. Gebruik de onderstaande "
+"downloadlink om het op te slaan."
 
+#: resources/views/partials/media-viewer.phtml:147
 msgid "Download file"
 msgstr "Bestand downloaden"
 
+#~ msgid "yes"
+#~ msgstr "ja"
+
+#~ msgid "no"
+#~ msgstr "nee"
+
+#, php-format
+#~ msgid "%s KB"
+#~ msgstr "%s KB"
+
+#~ msgid "Control panel"
+#~ msgstr "Controlepaneel"
+
+#~ msgid "Errors"
+#~ msgstr "Fouten"
+
+#~ msgid "Family tree"
+#~ msgstr "Stamboom"
+
+#~ msgid "Error"
+#~ msgstr "Fout"
+
+#~ msgid "Warning"
+#~ msgstr "Waarschuwing"
+
+#~ msgid "Database"
+#~ msgstr "Database"
+
+#~ msgid "Markdown"
+#~ msgstr "Markdown"
+
+#~ msgid "Media"
+#~ msgstr "Media"
+
+#~ msgid "Note"
+#~ msgstr "Notitie"
+
+#~ msgid "Text"
+#~ msgstr "Tekst"
+
+#~ msgid "Zoom out"
+#~ msgstr "Uitzoomen"
+
+#~ msgid "Zoom in"
+#~ msgstr "Inzoomen"
+
 #~ msgid ""
-#~ "An administrator creates an API key in the Discourse administration under Admin > API > API keys. Use the forum base URL, the Discourse username for requests and the generated API key. For a key limited to one user, the API username must match that user; for an all-users key, "
-#~ "choose the user whose permissions should be used."
-#~ msgstr "Ein Administrator erstellt einen API-Schlüssel in der Discourse-Verwaltung unter „Admin > API > API-Schlüssel“.  Der Prozess wie Discourse-Nutzer einen API-Schlüssel erhalten, ist noch in Diskussion."
+#~ "An administrator creates an API key in the Discourse administration under "
+#~ "Admin > API > API keys. Use the forum base URL, the Discourse username "
+#~ "for requests and the generated API key. For a key limited to one user, "
+#~ "the API username must match that user; for an all-users key, choose the "
+#~ "user whose permissions should be used."
+#~ msgstr ""
+#~ "Ein Administrator erstellt einen API-Schlüssel in der Discourse-"
+#~ "Verwaltung unter „Admin > API > API-Schlüssel“.  Der Prozess wie "
+#~ "Discourse-Nutzer einen API-Schlüssel erhalten, ist noch in Diskussion."
 
 #~ msgid "Discourse URL"
 #~ msgstr "Discourse URL"
@@ -1089,8 +1673,13 @@ msgstr "Bestand downloaden"
 #~ msgid "API key"
 #~ msgstr "API Schlüssel"
 
-#~ msgid "The API key is shown only once in Discourse; store it here or create a new key if it was lost."
-#~ msgstr "Der API-Schlüssel wird in Discourse nur einmal angezeigt; speichern Sie ihn hier oder erstellen Sie einen neuen Schlüssel, falls er verloren gegangen ist."
+#~ msgid ""
+#~ "The API key is shown only once in Discourse; store it here or create a "
+#~ "new key if it was lost."
+#~ msgstr ""
+#~ "Der API-Schlüssel wird in Discourse nur einmal angezeigt; speichern Sie "
+#~ "ihn hier oder erstellen Sie einen neuen Schlüssel, falls er verloren "
+#~ "gegangen ist."
 
 #~ msgid "End transcription"
 #~ msgstr "Ende der Transkription"
@@ -1170,14 +1759,23 @@ msgstr "Bestand downloaden"
 #~ msgid "Revision not found: %s"
 #~ msgstr "Revision nicht gefunden: %s"
 
-#~ msgid "Source Transcriptions database schema is newer than this module version."
-#~ msgstr "Das Schema der Datenbank \"Transkription von Quellen\" ist neuer als diese Modulversion."
+#~ msgid ""
+#~ "Source Transcriptions database schema is newer than this module version."
+#~ msgstr ""
+#~ "Das Schema der Datenbank \"Transkription von Quellen\" ist neuer als "
+#~ "diese Modulversion."
 
 #, php-format
 #~ msgid "No migration defined from schema version %s"
 #~ msgstr "Aus der Schemaversion %s wurde keine Migration definiert"
 
 #, fuzzy
-#~| msgid "Manage transcriptions for sources and media objects with support for multiple providers gg."
-#~ msgid "Manage transcriptions for sources and media objects with support for multiple providers."
-#~ msgstr "Verwaltung der Transkriptionen für Quellen und Medienobjekte mit Hilfe verschiedener Anbieter."
+#~| msgid ""
+#~| "Manage transcriptions for sources and media objects with support for "
+#~| "multiple providers gg."
+#~ msgid ""
+#~ "Manage transcriptions for sources and media objects with support for "
+#~ "multiple providers."
+#~ msgstr ""
+#~ "Verwaltung der Transkriptionen für Quellen und Medienobjekte mit Hilfe "
+#~ "verschiedener Anbieter."

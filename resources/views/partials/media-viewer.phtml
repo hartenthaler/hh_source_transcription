@@ -14,6 +14,7 @@ declare(strict_types=1);
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\MediaFile;
 use Fisharebest\Webtrees\View;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 ?>
 
 <?php View::push('styles') ?>
@@ -81,9 +82,9 @@ use Fisharebest\Webtrees\View;
         <?php elseif ($file_data['viewer_type'] === 'image') : ?>
             <div class="source-transcription-image-viewer" data-source-transcription-image-viewer data-image-url="<?= e($file_data['url']) ?>" data-image-title="<?= e($title) ?>">
                 <div class="source-transcription-media-toolbar" aria-label="<?= e(I18N::translate('Image controls')) ?>">
-                    <button class="btn btn-sm btn-outline-secondary" type="button" data-zoom-out title="<?= e(I18N::translate('Zoom out')) ?>">-</button>
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-zoom-out title="<?= e(MoreI18N::xlate('Zoom out')) ?>">-</button>
                     <button class="btn btn-sm btn-outline-secondary" type="button" data-zoom-reset title="<?= e(I18N::translate('Reset')) ?>"><?= I18N::translate('Reset') ?></button>
-                    <button class="btn btn-sm btn-outline-secondary" type="button" data-zoom-in title="<?= e(I18N::translate('Zoom in')) ?>">+</button>
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-zoom-in title="<?= e(MoreI18N::xlate('Zoom in')) ?>">+</button>
                     <a class="btn btn-sm btn-outline-secondary" href="<?= e($file_data['url']) ?>" target="_blank" rel="noopener noreferrer">
                         <?= I18N::translate('Open') ?>
                     </a>
