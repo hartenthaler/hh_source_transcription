@@ -17,6 +17,9 @@ declare(strict_types=1);
  * @var string $tag_prefix
  * @var string $tag_value
  * @var array $provider_credentials
+ * @var string $provider_status_badge_html
+ * @var string $provider_test_alert_class
+ * @var array<string,string> $status_badges
  * @var array|null $provider_test_result
  * @var array|null $consistency_check
  */
@@ -28,20 +31,6 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\SourceTranscription;
 $transcription_trees = $diagnostics['transcription_trees'] ?? [];
 $consistency_check ??= null;
 $provider_test_result ??= null;
-
-$providerStatusBadge = static function (?string $status): string {
-    return match ($status) {
-        'success' => '<span class="badge bg-success">' . I18N::translate('successful') . '</span>',
-        'failed' => '<span class="badge bg-danger">' . I18N::translate('failed') . '</span>',
-        default => '<span class="badge bg-secondary">' . I18N::translate('not tested') . '</span>',
-    };
-};
-
-$statusBadge = static function (bool $status): string {
-    return $status
-        ? '<span class="badge bg-success">' . I18N::translate('yes') . '</span>'
-        : '<span class="badge bg-secondary">' . I18N::translate('no') . '</span>';
-};
 
 ?>
 
@@ -103,27 +92,8 @@ $statusBadge = static function (bool $status): string {
     </div>
 
     <div class="row mb-3">
-        <label class="col-sm-3 col-form-label" for="tagging_support">
-            <?= I18N::translate('Should tagging be supported?') ?>
-        </label>
-
-        <div class="col-sm-9">
-            <div class="form-check">
-                <input
-                        class="form-check-input"
-                        id="tagging_support"
-                        name="tagging_support"
-                        type="checkbox"
-                        value="enabled"
-                        <?= $tagging_support === 'enabled' ? 'checked' : '' ?>
-                >
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-3">
         <label class="col-sm-3 col-form-label" for="dashboard_page_size">
-            <?= I18N::translate('Dashboard entries per page') ?>
+            <?= I18N::translate('Dashboard table entries per page') ?>
         </label>
 
         <div class="col-sm-9">
@@ -141,6 +111,26 @@ $statusBadge = static function (bool $status): string {
 
             <div class="form-text">
                 <?= I18N::translate('Default') . ': ' . I18N::number(SourceTranscription::DEFAULT_DASHBOARD_PAGE_SIZE) ?>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label" for="tagging_support">
+            <?= I18N::translate('Should tagging be supported?') ?>
+        </label>
+
+        <div class="col-sm-9">
+            <div class="form-check">
+                <input
+                        class="form-check-input"
+                        id="tagging_support"
+                        name="tagging_support"
+                        type="checkbox"
+                        value="enabled"
+                        <?= $tagging_support === 'enabled' ? 'checked' : '' ?>
+                >
             </div>
         </div>
     </div>
@@ -199,7 +189,7 @@ $statusBadge = static function (bool $status): string {
 </div>
 
 <?php if ($provider_test_result !== null) : ?>
-    <div class="alert <?= $provider_test_result['success'] ? 'alert-success' : 'alert-danger' ?>">
+    <div class="alert <?= e($provider_test_alert_class) ?>">
         <?= e($provider_test_result['message']) ?>
     </div>
 <?php endif ?>
@@ -308,7 +298,7 @@ $statusBadge = static function (bool $status): string {
 
         <div class="row mb-3">
             <div class="col-sm-9 offset-sm-3">
-                <?= $providerStatusBadge($provider_credentials['transkribus']['last_test_status']) ?>
+                <?= $provider_status_badge_html ?>
                 <?php if ($provider_credentials['transkribus']['last_test_message'] !== null) : ?>
                     <span class="text-muted"><?= e($provider_credentials['transkribus']['last_test_message']) ?></span>
                 <?php endif ?>
@@ -417,7 +407,7 @@ $statusBadge = static function (bool $status): string {
             </tr>
             <tr>
                 <th scope="row"><?= I18N::translate('Database tables') ?></th>
-                <td><?= $statusBadge((bool) $diagnostics['schema']['tables_exist']) ?></td>
+                <td><?= $status_badges['schema_tables_exist'] ?></td>
             </tr>
         </tbody>
     </table>
@@ -462,23 +452,23 @@ $statusBadge = static function (bool $status): string {
         <tbody>
             <tr>
                 <th scope="row"><?= I18N::translate('linkenhancer installed') ?></th>
-                <td><?= $statusBadge((bool) $diagnostics['linkenhancer']['installed']) ?></td>
+                <td><?= $status_badges['linkenhancer_installed'] ?></td>
             </tr>
             <tr>
                 <th scope="row"><?= I18N::translate('linkenhancer enabled') ?></th>
-                <td><?= $statusBadge((bool) $diagnostics['linkenhancer']['enabled']) ?></td>
+                <td><?= $status_badges['linkenhancer_enabled'] ?></td>
             </tr>
             <tr>
                 <th scope="row"><?= I18N::translate('TinyMDE setting enabled') ?></th>
-                <td><?= $statusBadge((bool) $diagnostics['tiny_mde']['setting_enabled']) ?></td>
+                <td><?= $status_badges['tiny_mde_setting_enabled'] ?></td>
             </tr>
             <tr>
                 <th scope="row"><?= I18N::translate('TinyMDE service available') ?></th>
-                <td><?= $statusBadge((bool) $diagnostics['tiny_mde']['service_available']) ?></td>
+                <td><?= $status_badges['tiny_mde_service_available'] ?></td>
             </tr>
             <tr>
                 <th scope="row"><?= I18N::translate('TinyMDE rule registered') ?></th>
-                <td><?= $statusBadge((bool) $diagnostics['tiny_mde']['custom_rule_registered']) ?></td>
+                <td><?= $status_badges['tiny_mde_custom_rule_registered'] ?></td>
             </tr>
         </tbody>
     </table>
@@ -501,7 +491,7 @@ $statusBadge = static function (bool $status): string {
                         <?= e($tree_status['title']) ?>
                         <span class="text-muted small">(<?= e($tree_status['name']) ?>)</span>
                     </th>
-                    <td><?= $statusBadge((bool) $tree_status['markdown_enabled']) ?></td>
+                    <td><?= $tree_status['markdown_badge_html'] ?></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

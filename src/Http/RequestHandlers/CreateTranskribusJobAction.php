@@ -21,6 +21,8 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers;
 
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Registry;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\ViewDataService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -43,6 +45,7 @@ final class CreateTranskribusJobAction implements RequestHandlerInterface
         $content = view('hh_source_transcription::create-transkribus-job', [
             'title' => $title,
             'tree'  => $tree,
+            'form'  => Registry::container()->get(ViewDataService::class)->createTranskribusFormData($tree),
         ]);
 
         return response(view('layouts/default', [

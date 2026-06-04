@@ -5,15 +5,11 @@ declare(strict_types=1);
 /**
  * @var string $title
  * @var Tree $tree
+ * @var array<string,mixed> $form
  */
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Tree;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\PrimaryForm;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\PrimaryLanguage;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\PrimaryScript;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\MediaForSourceAction;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\SourceForManualAction;
 
 ?>
 
@@ -42,9 +38,9 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                         class="form-select tom-select"
                         id="source_xref"
                         name="source_xref"
-                        data-wt-url="<?= e(route(SourceForManualAction::class, ['tree' => $tree->name(), 'at' => '@'])) ?>"
-                        data-wt-i18n-no-results="<?= e(I18N::translate('No results found')) ?>"
-                        placeholder="<?= e(I18N::translate('Search for a source')) ?>"
+                        data-wt-url="<?= e($form['source_url']) ?>"
+                        data-wt-i18n-no-results="<?= e($form['messages']['no_results']) ?>"
+                        placeholder="<?= e($form['messages']['search_source']) ?>"
                         required
                 ></select>
             </div>
@@ -83,7 +79,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         <div class="col-sm-9">
             <select class="form-select" id="primary_language_tag" name="primary_language_tag">
                 <option value=""><?= I18N::translate('Language not specified') ?></option>
-                <?php foreach (PrimaryLanguage::labels() as $value => $label) : ?>
+                <?php foreach ($form['language_options'] as $value => $label) : ?>
                     <option value="<?= e($value) ?>"><?= e($label) ?></option>
                 <?php endforeach ?>
             </select>
@@ -97,7 +93,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         <div class="col-sm-9">
             <select class="form-select" id="primary_script_tag" name="primary_script_tag">
                 <option value=""><?= I18N::translate('Script not specified') ?></option>
-                <?php foreach (PrimaryScript::labels() as $value => $label) : ?>
+                <?php foreach ($form['script_options'] as $value => $label) : ?>
                     <option value="<?= e($value) ?>"><?= e($label) ?></option>
                 <?php endforeach ?>
             </select>
@@ -111,7 +107,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         <div class="col-sm-9">
             <select class="form-select" id="primary_form" name="primary_form">
                 <option value=""><?= I18N::translate('Form not specified') ?></option>
-                <?php foreach (PrimaryForm::labels() as $value => $label) : ?>
+                <?php foreach ($form['form_options'] as $value => $label) : ?>
                     <option value="<?= e($value) ?>"><?= e($label) ?></option>
                 <?php endforeach ?>
             </select>
@@ -138,7 +134,8 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         const mediaSelect = document.getElementById('media_xref');
         const mediaStatus = document.getElementById('media_xref_status');
 
-        const mediaUrl = <?= json_encode(route(MediaForSourceAction::class, ['tree' => $tree->name()])) ?>;
+        const mediaUrl = <?= json_encode($form['media_url'], JSON_THROW_ON_ERROR) ?>;
+        const messages = <?= json_encode($form['messages'], JSON_THROW_ON_ERROR) ?>;
 
         function setMediaStatus(message, isWarning) {
             mediaStatus.textContent = message;
@@ -168,11 +165,11 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
             sourceXref = (sourceXref || '').replaceAll('@', '').trim();
 
             if (!sourceXref) {
-                resetMediaSelect(<?= json_encode(I18N::translate('Select a source first')) ?>, true);
+                resetMediaSelect(messages.select_source_first, true);
                 return;
             }
 
-            resetMediaSelect(<?= json_encode(I18N::translate('Loading media objects…')) ?>, false);
+            resetMediaSelect(messages.loading_media, false);
 
             const separator = mediaUrl.includes('?') ? '&' : '?';
 
@@ -189,13 +186,13 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                     mediaSelect.innerHTML = '';
 
                     if (!Array.isArray(items) || items.length === 0) {
-                        resetMediaSelect(<?= json_encode(I18N::translate('No linked media objects found')) ?>, true);
+                        resetMediaSelect(messages.no_linked_media, true);
                         return;
                     }
 
                     const emptyOption = document.createElement('option');
                     emptyOption.value = '';
-                    emptyOption.textContent = <?= json_encode(I18N::translate('No media object selected')) ?>;
+                    emptyOption.textContent = messages.no_media_selected;
                     mediaSelect.appendChild(emptyOption);
 
                     for (const item of items) {
@@ -210,13 +207,13 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                     setMediaStatus(
                         mediaSelect.value
                             ? ''
-                            : <?= json_encode(I18N::translate('No media object selected')) ?>,
+                            : messages.no_media_selected,
                         true
                     );
                 })
                 .catch(error => {
                     console.error(error);
-                    resetMediaSelect(<?= json_encode(I18N::translate('Could not load media objects')) ?>, true);
+                    resetMediaSelect(messages.could_not_load_media, true);
                 });
         }
 
@@ -225,14 +222,14 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         });
 
         sourceSelect.addEventListener('input', function () {
-            resetMediaSelect(<?= json_encode(I18N::translate('Select a source first')) ?>, true);
+            resetMediaSelect(messages.select_source_first, true);
         });
 
         mediaSelect.addEventListener('change', function () {
             setMediaStatus(
                 mediaSelect.value
                     ? ''
-                    : <?= json_encode(I18N::translate('No media object selected')) ?>,
+                    : messages.no_media_selected,
                 true
             );
         });

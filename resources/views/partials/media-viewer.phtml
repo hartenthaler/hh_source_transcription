@@ -8,38 +8,23 @@ declare(strict_types=1);
 
 /**
  * @var array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, url: string, download_url: string, mime: string, extension: string, is_external: bool, is_embeddable_external: bool, viewer_type: string, text_content: string, text_truncated: bool}> $media_files
+ * @var array{css_url:string,js_url:string,openseadragon_url:?string,openseadragon_available:bool} $assets
  */
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\MediaFile;
 use Fisharebest\Webtrees\View;
-
-$resources_dir = dirname(__DIR__, 2);
-$module_dir = dirname(__DIR__, 3);
-$asset_route = [
-    'module' => '_hh_source_transcription_',
-    'action' => 'Asset',
-];
-$css_asset = 'css/media-viewer.css';
-$js_asset = 'js/media-viewer.js';
-$openseadragon_asset = 'openseadragon/openseadragon.min.js';
-$css_path = $resources_dir . DIRECTORY_SEPARATOR . $css_asset;
-$js_path = $resources_dir . DIRECTORY_SEPARATOR . $js_asset;
-$openseadragon_path = $module_dir . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . $openseadragon_asset;
-$css_hash = is_file($css_path) ? (string) filemtime($css_path) : '0';
-$js_hash = is_file($js_path) ? (string) filemtime($js_path) : '0';
-$openseadragon_hash = is_file($openseadragon_path) ? (string) filemtime($openseadragon_path) : '0';
 ?>
 
 <?php View::push('styles') ?>
-<link rel="stylesheet" href="<?= e(route('module', $asset_route + ['asset' => $css_asset, 'hash' => $css_hash])) ?>">
+<link rel="stylesheet" href="<?= e($assets['css_url']) ?>">
 <?php View::endpush() ?>
 
 <?php View::push('javascript') ?>
-<?php if (is_file($openseadragon_path)) : ?>
-    <script src="<?= e(route('source-transcription-vendor-asset', ['asset' => $openseadragon_asset, 'hash' => $openseadragon_hash])) ?>"></script>
+<?php if ($assets['openseadragon_available']) : ?>
+    <script src="<?= e($assets['openseadragon_url']) ?>"></script>
 <?php endif ?>
-<script src="<?= e(route('module', $asset_route + ['asset' => $js_asset, 'hash' => $js_hash])) ?>"></script>
+<script src="<?= e($assets['js_url']) ?>"></script>
 <?php View::endpush() ?>
 
 <?php if (count($media_files) > 1) : ?>
@@ -60,7 +45,6 @@ $openseadragon_hash = is_file($openseadragon_path) ? (string) filemtime($opensea
 
 <?php foreach ($media_files as $index => $file_data) : ?>
     <?php
-    $file = $file_data['file'];
     $title = $file_data['title'] !== '' ? $file_data['title'] : $file_data['filename'];
     $can_embed = !$file_data['is_external'] || $file_data['is_embeddable_external'];
     ?>

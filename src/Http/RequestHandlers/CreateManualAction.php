@@ -32,6 +32,8 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers;
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Auth;
+use Fisharebest\Webtrees\Registry;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\ViewDataService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -52,6 +54,7 @@ class CreateManualAction implements RequestHandlerInterface
         $content = view('hh_source_transcription::create-manual', [
             'title'         => $title,
             'tree'          => $tree,
+            'form'          => Registry::container()->get(ViewDataService::class)->createManualFormData($tree),
         ]);
 
         return response(view('layouts/default', [

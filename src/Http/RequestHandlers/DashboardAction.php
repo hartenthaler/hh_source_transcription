@@ -33,6 +33,7 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Registry;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\ViewDataService;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranscriptionStatus;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderKey;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\ProviderCredentialRepository;
@@ -62,6 +63,7 @@ final class DashboardAction
         $job_repo = Registry::container()->get(TranskribusJobRepository::class);
         $settings = Registry::container()->get(SettingsRepository::class);
         $credential_repo = Registry::container()->get(ProviderCredentialRepository::class);
+        $view_data_service = Registry::container()->get(ViewDataService::class);
         $discourse_credential = $credential_repo->find(Auth::user()->id(), ProviderKey::DISCOURSE);
 
         $query_params = $request->getQueryParams();
@@ -84,7 +86,16 @@ final class DashboardAction
         $content = view('hh_source_transcription::dashboard', [
             'title'            => $title,
             'tree'             => $tree,
-            'transcriptions'   => $dashboard['items'],
+            'dashboard'        => $view_data_service->dashboardViewData($tree, $dashboard['filters'] ?? [
+                'sort'        => $sort,
+                'direction'   => $direction,
+                'status'      => $status,
+                'provider'    => $provider,
+                'page'        => $dashboard['page'],
+                'per_page'    => $dashboard['per_page'],
+                'total'       => $dashboard['total'],
+                'total_pages' => $dashboard['total_pages'],
+            ], $dashboard['items'], $provider_keys),
             'dashboard_filters' => [
                 'sort'        => $sort,
                 'direction'   => $direction,
@@ -97,8 +108,7 @@ final class DashboardAction
             ],
             'status_options'   => TranscriptionStatus::labels(),
             'provider_options' => $provider_keys,
-            'transkribus_jobs' => $transkribus_jobs,
-            'transkribus_job_files' => $transkribus_job_files,
+            'transkribus_job_rows' => $view_data_service->transkribusJobRows($tree, $transkribus_jobs, $transkribus_job_files),
             'discourse_authorized' => (bool) ($discourse_credential['has_secret'] ?? false),
             'discourse_settings' => $discourse_credential['settings'] ?? [],
             'discourse_last_test_status' => $discourse_credential['last_test_status'] ?? null,

@@ -63,6 +63,7 @@ use Hartenthaler\{Webtrees\Module\SourceTranscription\Infrastructure\Persistence
     Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\ProviderCredentialRepository,
     Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Schema\SchemaManager,
     Webtrees\Module\SourceTranscription\Application\Provider\ProviderConnectionTester,
+    Webtrees\Module\SourceTranscription\Application\Service\ViewDataService,
     Webtrees\Module\SourceTranscription\Domain\ValueObject\NoteStrategy,
     Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderKey,
     Webtrees\Module\SourceTranscription\Http\RequestHandlers\CollaborationStatusAction,
@@ -666,11 +667,21 @@ final class SourceTranscription extends AbstractModule implements
         int $selected_user_id = 0,
         string $selected_provider_key = ProviderKey::TRANSKRIBUS
     ): ResponseInterface {
+        $view_data_service = Registry::container()->get(ViewDataService::class);
+        $provider_credentials = $this->providerCredentialViewData($selected_user_id, $selected_provider_key);
+        $diagnostics = $this->adminDiagnostics($settings);
+        $diagnostics['trees'] = array_map(
+            static fn (array $tree_status): array => $tree_status + [
+                'markdown_badge_html' => $view_data_service->statusBadgeHtml((bool) $tree_status['markdown_enabled']),
+            ],
+            $diagnostics['trees']
+        );
+
         return $this->viewResponse(self::CUSTOM_TITLE . '::' . 'admin-settings', [
             'title'                         => $this->title(),
             'module'                        => $this,
             'runs_with_webtrees_version'    => SourceTranscription::runsWithInstalledWebtreesVersion(),
-            'diagnostics'                   => $this->adminDiagnostics($settings),
+            'diagnostics'                   => $diagnostics,
             'consistency_check'             => $consistency_check,
             'default_note_strategy'         => $settings->get(
                 'default_note_strategy',
@@ -682,8 +693,11 @@ final class SourceTranscription extends AbstractModule implements
             'dashboard_page_size'           => $this->dashboardPageSize($settings),
             'tag_prefix'                    => self::DEFAULT_TAG_PREFIX,
             'tag_value'                     => $tag_value,
-            'provider_credentials'          => $this->providerCredentialViewData($selected_user_id, $selected_provider_key),
+            'provider_credentials'          => $provider_credentials,
+            'provider_status_badge_html'    => $view_data_service->providerStatusBadgeHtml($provider_credentials['transkribus']['last_test_status'] ?? null),
+            'provider_test_alert_class'     => $provider_test_result === null ? '' : ((bool) $provider_test_result['success'] ? 'alert-success' : 'alert-danger'),
             'provider_test_result'          => $provider_test_result,
+            'status_badges'                 => $this->adminStatusBadges($diagnostics, $view_data_service),
         ]);
     }
 
@@ -1500,6 +1514,22 @@ final class SourceTranscription extends AbstractModule implements
     private function gedcomLinksToNoteOrMedia(string $gedcom, string $tag, string $xref): bool
     {
         return preg_match('/^\d+\s+' . preg_quote($tag, '/') . '\s+@' . preg_quote($xref, '/') . '@/mu', $gedcom) === 1;
+    }
+
+    /**
+     * @param array<string,mixed> $diagnostics
+     * @return array<string,string>
+     */
+    private function adminStatusBadges(array $diagnostics, ViewDataService $view_data_service): array
+    {
+        return [
+            'schema_tables_exist' => $view_data_service->statusBadgeHtml((bool) $diagnostics['schema']['tables_exist']),
+            'linkenhancer_installed' => $view_data_service->statusBadgeHtml((bool) $diagnostics['linkenhancer']['installed']),
+            'linkenhancer_enabled' => $view_data_service->statusBadgeHtml((bool) $diagnostics['linkenhancer']['enabled']),
+            'tiny_mde_setting_enabled' => $view_data_service->statusBadgeHtml((bool) $diagnostics['tiny_mde']['setting_enabled']),
+            'tiny_mde_service_available' => $view_data_service->statusBadgeHtml((bool) $diagnostics['tiny_mde']['service_available']),
+            'tiny_mde_custom_rule_registered' => $view_data_service->statusBadgeHtml((bool) $diagnostics['tiny_mde']['custom_rule_registered']),
+        ];
     }
 
     /**

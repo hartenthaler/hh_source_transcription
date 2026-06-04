@@ -7,22 +7,6 @@
  * Source Transcription (webtrees custom module):
  * Copyright (C) 2026 Hermann Hartenthaler
  *                     <https://ahnen.hartenthaler.eu>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; If not, see <https://www.gnu.org/licenses/>.
- *
- * Source Transcription
- * A webtrees (https://webtrees.net) 2.2 custom module to transcribe sources
  */
 
 declare(strict_types=1);
@@ -32,11 +16,13 @@ declare(strict_types=1);
  * @var Tree $tree
  * @var Transcription $transcription
  * @var array<int, TranscriptionRevision> $revisions
+ * @var array<string,mixed> $detail
  * @var ?string $note_text
  * @var array{changed_since_link:bool,current_hash:?string,tracked_hash:?string,tracked_note_xref:?string,link_type:?string} $note_status
  * @var ?Source $source
  * @var ?Media $media_object
  * @var string $media_restriction
+ * @var string $media_restriction_html
  * @var array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string}> $media_files
  * @var array<int, mixed> $eligible_collaborators
  * @var array<int, array{name: string, role: string}> $active_collaborators
@@ -45,6 +31,7 @@ declare(strict_types=1);
  * @var bool $can_make_revision_current
  * @var bool $can_open_collaboration
  * @var bool $collaboration_is_editable
+ * @var bool $can_show_collaboration_reopen_hint
  * @var bool $can_submit_review
  * @var bool $can_finalize
  * @var bool $can_reopen
@@ -54,72 +41,12 @@ declare(strict_types=1);
  */
 
 use Fisharebest\Webtrees\I18N;
-use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Media;
 use Fisharebest\Webtrees\MediaFile;
-use Fisharebest\Webtrees\Registry;
-use Fisharebest\Webtrees\Site;
 use Fisharebest\Webtrees\Source;
-use Fisharebest\Webtrees\Timestamp;
 use Fisharebest\Webtrees\Tree;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\TranscriptionRevision;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\PrimaryForm;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\PrimaryLanguage;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\PrimaryScript;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderPresentation;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\RevisionOriginType;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranscriptionStatus;
-
-$note = null;
-if ($transcription->current_note_xref !== null) {
-    $note = Registry::noteFactory()->make($transcription->current_note_xref, $tree);
-}
-
-$badge_class = match (TranscriptionStatus::tryFrom($transcription->status)) {
-    TranscriptionStatus::NEW              => 'bg-secondary',
-    TranscriptionStatus::IN_PROGRESS      => 'bg-warning text-dark',
-    TranscriptionStatus::READY_FOR_REVIEW => 'bg-info text-dark',
-    TranscriptionStatus::FINAL            => 'bg-success',
-    TranscriptionStatus::REOPENED         => 'bg-primary',
-    TranscriptionStatus::CANCELED         => 'bg-light text-dark',
-    null                                  => 'bg-light text-dark',
-};
-
-// formatting options - CSS class
-$cell_format = 'text-decoration-none d-block';
-$muted = 'text-secondary fst-italic';
-
-$provider_label = ProviderPresentation::label($transcription->provider_key);
-$provider_url   = ProviderPresentation::url($transcription->provider_key, $tree);
-$provider_icon  = ProviderPresentation::icon($transcription->provider_key);
-$provider_title = ProviderPresentation::title($transcription->provider_key);
-
-$format_timestamp = static function (?string $timestamp) use ($muted): string {
-    if ($timestamp === null || $timestamp === '') {
-        return '<span class="' . $muted . '">' . e(I18N::translate('None')) . '</span>';
-    }
-
-    $parsed_timestamp = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $timestamp, new DateTimeZone('UTC'));
-
-    if ($parsed_timestamp === false) {
-        $parsed_timestamp = DateTimeImmutable::createFromFormat('Y-m-d H:i', $timestamp, new DateTimeZone('UTC'));
-    }
-
-    if ($parsed_timestamp === false) {
-        return e($timestamp);
-    }
-
-    $localized_timestamp = new Timestamp(
-        $parsed_timestamp->getTimestamp(),
-        Site::getPreference('TIMEZONE'),
-        I18N::locale()->code()
-    );
-
-    return '<time datetime="' . e($localized_timestamp->toDateTimeString()) . '" title="' . e($localized_timestamp->isoFormat('LLLL')) . '" dir="auto">' .
-        e($localized_timestamp->isoFormat('L LT')) .
-        '</time>';
-};
 ?>
 
 <h2><?= e($title) ?>: <?= e($transcription->title) ?></h2>
@@ -143,9 +70,7 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
 <?php endif ?>
 
 <div class="card mb-3">
-    <div class="card-header">
-        <?= I18N::translate('Information') ?>
-    </div>
+    <div class="card-header"><?= I18N::translate('Information') ?></div>
 
     <div class="card-body">
         <div class="row">
@@ -156,9 +81,7 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                             <th style="width: 33%"><?= I18N::translate('Source') ?></th>
                             <td>
                                 <?php if ($source) : ?>
-                                    <a href="<?= e($source->url()) ?>">
-                                        <?= $source->fullName() ?>
-                                    </a>
+                                    <a href="<?= e($source->url()) ?>"><?= $source->fullName() ?></a>
                                 <?php endif ?>
                             </td>
                         </tr>
@@ -168,14 +91,14 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                                 <?php if ($media_object) : ?>
                                     <div>
                                         <?php if ($media_files === []) : ?>
-                                            <a href="<?= e($media_object->url()) ?>" class="<?= $cell_format ?>">
+                                            <a href="<?= e($media_object->url()) ?>" class="<?= e($detail['cell_format']) ?>">
                                                 <?= $media_object->fullName() ?>
                                             </a>
                                         <?php endif ?>
 
                                         <?php foreach ($media_files as $index => $file_data) : ?>
                                             <div class="<?= $index === 0 ? '' : 'mt-2 pt-2 border-top' ?>">
-                                                <a href="<?= e($media_object->url()) ?>" class="<?= $cell_format ?>">
+                                                <a href="<?= e($media_object->url()) ?>" class="<?= e($detail['cell_format']) ?>">
                                                     <?= e($file_data['title'] !== '' ? $file_data['title'] : $file_data['filename']) ?>
                                                 </a>
                                                 <div class="small text-muted">
@@ -190,15 +113,11 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                                             </div>
                                         <?php endforeach ?>
                                     </div>
-                                    <?php if ($media_restriction !== '') : ?>
-                                        <div class="small text-danger">
-                                            <?= Registry::elementFactory()->make('OBJE:RESN')->labelValue($media_restriction, $tree) ?>
-                                        </div>
+                                    <?php if ($media_restriction_html !== '') : ?>
+                                        <div class="small text-danger"><?= $media_restriction_html ?></div>
                                     <?php endif ?>
                                 <?php else : ?>
-                                    <span class="<?= $muted ?>">
-                                        <?= I18N::translate('No media object selected.') ?>
-                                    </span>
+                                    <span class="<?= e($detail['muted']) ?>"><?= I18N::translate('No media object selected.') ?></span>
                                 <?php endif ?>
                             </td>
                         </tr>
@@ -211,37 +130,21 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                         <tr>
                             <th style="width: 33%"><?= I18N::translate('Provider') ?></th>
                             <td>
-                                <a href="<?= e($provider_url) ?>" title="<?= e($provider_title) ?>" class="<?= $cell_format ?>">
-                                    <?php if ($provider_icon !== '') : ?>
-                                        <img src="<?= e($provider_icon) ?>" alt="" width="16" height="16" class="me-1">
+                                <a href="<?= e($detail['provider']['url']) ?>" title="<?= e($detail['provider']['title']) ?>" class="<?= e($detail['cell_format']) ?>">
+                                    <?php if ($detail['provider']['icon'] !== '') : ?>
+                                        <img src="<?= e($detail['provider']['icon']) ?>" alt="" width="16" height="16" class="me-1">
                                     <?php endif ?>
-                                    <?= e($provider_label) ?>
+                                    <?= e($detail['provider']['label']) ?>
                                 </a>
                             </td>
                         </tr>
                         <tr>
                             <th><?= I18N::translate('Status') ?></th>
-                            <td>
-                                <span class="badge <?= $badge_class ?>">
-                                    <?= e(TranscriptionStatus::labels()[$transcription->status]) ?>
-                                </span>
-                            </td>
+                            <td><span class="badge <?= e($detail['status_badge_class']) ?>"><?= e($detail['status_label']) ?></span></td>
                         </tr>
                         <tr>
                             <th><?= I18N::translate('Current NOTE') ?></th>
-                            <td>
-                                <?php if ($transcription->current_note_xref !== null && $note !== null) : ?>
-                                    <a href="<?= e($note->url()) ?>" class="<?= $cell_format ?>">
-                                        <?= $note->fullName() ?>
-                                    </a>
-                                <?php elseif ($transcription->current_note_xref !== null) : ?>
-                                    <?= e($transcription->current_note_xref) ?>
-                                <?php else : ?>
-                                    <span class="<?= $muted ?>">
-                                        <?= I18N::translate('None') ?>
-                                    </span>
-                                <?php endif ?>
-                            </td>
+                            <td><?= $detail['current_note_html'] ?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -251,15 +154,15 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                     <tbody>
                         <tr>
                             <th style="width: 33%"><?= I18N::translate('Primary language') ?></th>
-                            <td><?= e(PrimaryLanguage::label($transcription->primary_language_tag)) ?></td>
+                            <td><?= e($detail['primary_language']) ?></td>
                         </tr>
                         <tr>
                             <th><?= I18N::translate('Primary script') ?></th>
-                            <td><?= e(PrimaryScript::label($transcription->primary_script_tag)) ?></td>
+                            <td><?= e($detail['primary_script']) ?></td>
                         </tr>
                         <tr>
                             <th><?= I18N::translate('Primary form') ?></th>
-                            <td><?= e(PrimaryForm::label($transcription->primary_form)) ?></td>
+                            <td><?= e($detail['primary_form']) ?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -271,21 +174,14 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
 <div class="row mb-3">
     <div class="col-md-6">
         <div class="card h-100">
-            <div class="card-header">
-                <?= I18N::translate('Media preview') ?>
-            </div>
-
+            <div class="card-header"><?= I18N::translate('Media preview') ?></div>
             <div class="card-body">
                 <?php if ($media_object === null) : ?>
-                    <div class="alert alert-secondary mb-0">
-                        <?= I18N::translate('No media object selected.') ?>
-                    </div>
+                    <div class="alert alert-secondary mb-0"><?= I18N::translate('No media object selected.') ?></div>
                 <?php elseif ($media_files === []) : ?>
-                    <div class="alert alert-warning mb-0">
-                        <?= I18N::translate('No media files found for this media object.') ?>
-                    </div>
+                    <div class="alert alert-warning mb-0"><?= I18N::translate('No media files found for this media object.') ?></div>
                 <?php else : ?>
-                    <?= view('hh_source_transcription::partials/media-viewer', ['media_files' => $media_files]) ?>
+                    <?= view('hh_source_transcription::partials/media-viewer', ['media_files' => $media_files, 'assets' => $detail['media_viewer_assets']]) ?>
                 <?php endif ?>
             </div>
         </div>
@@ -293,30 +189,17 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
 
     <div class="col-md-6">
         <div class="card h-100">
-            <div class="card-header">
-                <?= I18N::translate('Current NOTE') ?>
-            </div>
-
+            <div class="card-header"><?= I18N::translate('Current NOTE') ?></div>
             <div class="card-body">
                 <?php if ($is_internal_collaboration && ($can_finalize || $can_reopen)) : ?>
-                    <form
-                        id="source-transcription-collaboration-status-form"
-                        method="post"
-                        action="<?= e(route('source-transcription-collaboration-status', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>"
-                        class="d-none"
-                    >
+                    <form id="source-transcription-collaboration-status-form" method="post" action="<?= e(route('source-transcription-collaboration-status', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>" class="d-none">
                         <?= csrf_field() ?>
                         <input type="hidden" name="note_text" value="" disabled>
                     </form>
                 <?php endif ?>
 
                 <?php if (!$is_internal_collaboration && ($can_finalize_manual || $can_reopen_manual)) : ?>
-                    <form
-                        id="source-transcription-manual-status-form"
-                        method="post"
-                        action="<?= e(route('source-transcription-manual-status', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>"
-                        class="d-none"
-                    >
+                    <form id="source-transcription-manual-status-form" method="post" action="<?= e(route('source-transcription-manual-status', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>" class="d-none">
                         <?= csrf_field() ?>
                         <input type="hidden" name="note_text" value="" disabled>
                     </form>
@@ -325,41 +208,25 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                 <?php if ($can_edit_note) : ?>
                     <form method="post" action="<?= e(route('source-transcription-update-note', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>">
                         <?= csrf_field() ?>
-
-                        <textarea
-                            class="form-control font-monospace"
-                            id="current_note_text"
-                            name="note_text"
-                            rows="24"
-                        ><?= e((string) $note_text) ?></textarea>
-
+                        <textarea class="form-control font-monospace" id="current_note_text" name="note_text" rows="24"><?= e((string) $note_text) ?></textarea>
                         <div class="mt-3 d-flex gap-2">
-                            <button class="btn btn-primary" type="submit">
-                                <?= I18N::translate('Save NOTE') ?>
-                            </button>
+                            <button class="btn btn-primary" type="submit"><?= I18N::translate('Save NOTE') ?></button>
                             <button class="btn btn-success" type="submit" formaction="<?= e(route('source-transcription-save-note-as-revision', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>">
                                 <?= I18N::translate('Archive as new revision') ?>
                             </button>
                         </div>
                     </form>
                 <?php else : ?>
-                    <div class="border p-2 bg-light font-monospace" style="white-space: pre-wrap; height: 500px; overflow-y: auto;">
-                        <?= e((string) $note_text) ?>
-                    </div>
+                    <div class="border p-2 bg-light font-monospace" style="white-space: pre-wrap; height: 500px; overflow-y: auto;"><?= e((string) $note_text) ?></div>
                 <?php endif ?>
 
                 <?php if ($is_internal_collaboration && ($can_finalize || $can_reopen)) : ?>
                     <div class="mt-3 d-flex gap-2 flex-wrap">
                         <?php if ($can_finalize) : ?>
-                            <button class="btn btn-success" type="submit" form="source-transcription-collaboration-status-form" name="collaboration_action" value="finalize">
-                                <?= I18N::translateContext('Button: mark this transcription as final', 'Finalize') ?>
-                            </button>
+                            <button class="btn btn-success" type="submit" form="source-transcription-collaboration-status-form" name="collaboration_action" value="finalize"><?= I18N::translateContext('Button: mark this transcription as final', 'Finalize') ?></button>
                         <?php endif ?>
-
                         <?php if ($can_reopen) : ?>
-                            <button class="btn btn-warning" type="submit" form="source-transcription-collaboration-status-form" name="collaboration_action" value="reopen">
-                                <?= I18N::translateContext('Button: reopen this finalized transcription for editing', 'Reopen') ?>
-                            </button>
+                            <button class="btn btn-warning" type="submit" form="source-transcription-collaboration-status-form" name="collaboration_action" value="reopen"><?= I18N::translateContext('Button: reopen this finalized transcription for editing', 'Reopen') ?></button>
                         <?php endif ?>
                     </div>
                 <?php endif ?>
@@ -367,15 +234,10 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                 <?php if (!$is_internal_collaboration && ($can_finalize_manual || $can_reopen_manual)) : ?>
                     <div class="mt-3 d-flex gap-2 flex-wrap">
                         <?php if ($can_finalize_manual) : ?>
-                            <button class="btn btn-success" type="submit" form="source-transcription-manual-status-form" name="manual_action" value="finalize">
-                                <?= I18N::translateContext('Button: mark this transcription as final', 'Finalize') ?>
-                            </button>
+                            <button class="btn btn-success" type="submit" form="source-transcription-manual-status-form" name="manual_action" value="finalize"><?= I18N::translateContext('Button: mark this transcription as final', 'Finalize') ?></button>
                         <?php endif ?>
-
                         <?php if ($can_reopen_manual) : ?>
-                            <button class="btn btn-warning" type="submit" form="source-transcription-manual-status-form" name="manual_action" value="reopen">
-                                <?= I18N::translateContext('Button: reopen this finalized transcription for editing', 'Reopen') ?>
-                            </button>
+                            <button class="btn btn-warning" type="submit" form="source-transcription-manual-status-form" name="manual_action" value="reopen"><?= I18N::translateContext('Button: reopen this finalized transcription for editing', 'Reopen') ?></button>
                         <?php endif ?>
                     </div>
                 <?php endif ?>
@@ -385,10 +247,7 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
 </div>
 
 <div class="card mb-3">
-    <div class="card-header">
-        <?= I18N::translateContext('Panel heading for the webtrees-internal collaboration workflow', 'Internal collaboration') ?>
-    </div>
-
+    <div class="card-header"><?= I18N::translateContext('Panel heading for the webtrees-internal collaboration workflow', 'Internal collaboration') ?></div>
     <div class="card-body">
         <?php if ($active_collaborators !== []) : ?>
             <div class="mb-3">
@@ -397,54 +256,34 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                     <?php foreach ($active_collaborators as $collaborator) : ?>
                         <li>
                             <?= e($collaborator['name']) ?>
-                            <span class="text-muted">
-                                (<?= e($collaborator['role'] === 'initiator' ? I18N::translateContext('Collaboration team role', 'Initiator') : I18N::translateContext('Collaboration team role, singular noun', 'Collaborator')) ?>)
-                            </span>
+                            <span class="text-muted">(<?= e($collaborator['role'] === 'initiator' ? I18N::translateContext('Collaboration team role', 'Initiator') : I18N::translateContext('Collaboration team role, singular noun', 'Collaborator')) ?>)</span>
                         </li>
                     <?php endforeach ?>
                 </ul>
             </div>
         <?php elseif (!$can_open_collaboration && $collaboration_is_editable) : ?>
-            <div class="text-muted">
-                <?= I18N::translate('This transcription is not currently open for internal collaboration.') ?>
-            </div>
+            <div class="text-muted"><?= I18N::translate('This transcription is not currently open for internal collaboration.') ?></div>
         <?php endif ?>
 
         <?php if ($is_internal_collaboration && $can_submit_review) : ?>
             <form method="post" action="<?= e(route('source-transcription-collaboration-status', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>" class="mb-3 d-flex gap-2 flex-wrap">
                 <?= csrf_field() ?>
-
-                <button class="btn btn-info" type="submit" name="collaboration_action" value="submit_for_review">
-                    <?= I18N::translateContext('Button: submit the transcription for review', 'Ready for review') ?>
-                </button>
+                <button class="btn btn-info" type="submit" name="collaboration_action" value="submit_for_review"><?= I18N::translateContext('Button: submit the transcription for review', 'Ready for review') ?></button>
             </form>
         <?php endif ?>
 
         <?php if ($can_open_collaboration && $eligible_collaborators === []) : ?>
-            <div class="alert alert-secondary mb-0">
-                <?= I18N::translate('No eligible users found.') ?>
-            </div>
+            <div class="alert alert-secondary mb-0"><?= I18N::translate('No eligible users found.') ?></div>
         <?php elseif ($can_open_collaboration) : ?>
             <form method="post" action="<?= e(route('source-transcription-open-collaboration', ['tree' => $tree->name(), 'transcription_id' => $transcription->id])) ?>">
                 <?= csrf_field() ?>
-
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="form-label">
-                            <?= I18N::translateContext('Form label for selecting multiple collaboration team members; not a plural variant of the role label', 'Collaborators') ?>
-                        </label>
-
+                        <label class="form-label"><?= I18N::translateContext('Form label for selecting multiple collaboration team members; not a plural variant of the role label', 'Collaborators') ?></label>
                         <div class="border rounded p-2" style="max-height: 12rem; overflow-y: auto;">
                             <?php foreach ($eligible_collaborators as $candidate) : ?>
                                 <div class="form-check">
-                                    <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        id="collaborator-<?= e((string) $candidate->id()) ?>"
-                                        name="collaborator_user_ids[]"
-                                        value="<?= e((string) $candidate->id()) ?>"
-                                        <?= in_array($candidate->id(), $active_collaborator_ids, true) ? 'checked' : '' ?>
-                                    >
+                                    <input class="form-check-input" type="checkbox" id="collaborator-<?= e((string) $candidate->id()) ?>" name="collaborator_user_ids[]" value="<?= e((string) $candidate->id()) ?>" <?= in_array($candidate->id(), $active_collaborator_ids, true) ? 'checked' : '' ?>>
                                     <label class="form-check-label" for="collaborator-<?= e((string) $candidate->id()) ?>">
                                         <?= e($candidate->realName() !== '' ? $candidate->realName() : $candidate->userName()) ?>
                                     </label>
@@ -452,32 +291,23 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
                             <?php endforeach ?>
                         </div>
                     </div>
-
                     <div class="col-md-6">
-                        <label class="form-label" for="collaboration-message">
-                            <?= I18N::translate('Message') ?>
-                        </label>
+                        <label class="form-label" for="collaboration-message"><?= I18N::translate('Message') ?></label>
                         <textarea class="form-control" id="collaboration-message" name="message" rows="4"></textarea>
-
                         <div class="form-check mt-2">
                             <input class="form-check-input" type="checkbox" id="save-current-note-first" name="save_current_note_first" value="1" checked>
-                            <label class="form-check-label" for="save-current-note-first">
-                                <?= I18N::translate('Save the current NOTE as a starting revision') ?>
-                            </label>
+                            <label class="form-check-label" for="save-current-note-first"><?= I18N::translate('Save the current NOTE as a starting revision') ?></label>
                         </div>
                     </div>
                 </div>
-
                 <div class="mt-3">
                     <button class="btn btn-primary" type="submit">
                         <?= $is_internal_collaboration ? I18N::translateContext('Button: update the selected collaboration team', 'Update collaboration') : I18N::translateContext('Button: open this transcription for collaboration', 'Open for collaboration') ?>
                     </button>
                 </div>
             </form>
-        <?php elseif (Auth::isEditor($tree) && !$collaboration_is_editable) : ?>
-            <div class="text-muted">
-                <?= I18N::translateContext('Hint shown when collaboration cannot be started because the transcription is final or canceled', 'Reopen the transcription before starting or changing internal collaboration.') ?>
-            </div>
+        <?php elseif ($can_show_collaboration_reopen_hint) : ?>
+            <div class="text-muted"><?= I18N::translateContext('Hint shown when collaboration cannot be started because the transcription is final or canceled', 'Reopen the transcription before starting or changing internal collaboration.') ?></div>
         <?php endif ?>
     </div>
 </div>
@@ -525,55 +355,32 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
 
 <h3><?= I18N::translate('Revision history') ?></h3>
 
-<?php if (count($revisions) >= 2) : ?>
-    <?php
-    $compare_url = route('source-transcription-compare-revisions', ['tree' => $tree->name(), 'transcription_id' => $transcription->id]);
-    $compare_url_parts = parse_url($compare_url);
-    $compare_action = isset($compare_url_parts['query']) ? (string) ($compare_url_parts['path'] ?? '') : $compare_url;
-    $compare_query = [];
-
-    if (isset($compare_url_parts['query'])) {
-        parse_str($compare_url_parts['query'], $compare_query);
-    }
-    ?>
-    <form class="row g-2 align-items-end mb-3" method="get" action="<?= e($compare_action) ?>">
-        <?php foreach ($compare_query as $name => $value) : ?>
+<?php if ($detail['compare_form'] !== null) : ?>
+    <form class="row g-2 align-items-end mb-3" method="get" action="<?= e($detail['compare_form']['action']) ?>">
+        <?php foreach ($detail['compare_form']['hidden'] as $name => $value) : ?>
             <input type="hidden" name="<?= e((string) $name) ?>" value="<?= e((string) $value) ?>">
         <?php endforeach ?>
-
         <div class="col-md-4">
-            <label class="form-label" for="left-revision-id">
-                <?= I18N::translate('First revision') ?>
-            </label>
+            <label class="form-label" for="left-revision-id"><?= I18N::translate('First revision') ?></label>
             <select class="form-select" id="left-revision-id" name="left_revision_id">
-                <?php foreach ($revisions as $revision) : ?>
-                    <option value="<?= e((string) $revision->id) ?>">
-                        <?= I18N::translate('Revision %s', (string) $revision->revision_no) ?>
-                        <?= $revision->is_current_revision ? '(' . I18N::translate('Current') . ')' : '' ?>
+                <?php foreach ($detail['compare_form']['options'] as $option) : ?>
+                    <option value="<?= e((string) $option['id']) ?>">
+                        <?= e($option['label']) ?> <?= $option['current'] ? '(' . I18N::translate('Current') . ')' : '' ?>
                     </option>
                 <?php endforeach ?>
             </select>
         </div>
-
         <div class="col-md-4">
-            <label class="form-label" for="right-revision-id">
-                <?= I18N::translate('Second revision') ?>
-            </label>
+            <label class="form-label" for="right-revision-id"><?= I18N::translate('Second revision') ?></label>
             <select class="form-select" id="right-revision-id" name="right_revision_id">
-                <?php foreach ($revisions as $index => $revision) : ?>
-                    <option value="<?= e((string) $revision->id) ?>" <?= $index === 1 ? 'selected' : '' ?>>
-                        <?= I18N::translate('Revision %s', (string) $revision->revision_no) ?>
-                        <?= $revision->is_current_revision ? '(' . I18N::translate('Current') . ')' : '' ?>
+                <?php foreach ($detail['compare_form']['options'] as $index => $option) : ?>
+                    <option value="<?= e((string) $option['id']) ?>" <?= $index === 1 ? 'selected' : '' ?>>
+                        <?= e($option['label']) ?> <?= $option['current'] ? '(' . I18N::translate('Current') . ')' : '' ?>
                     </option>
                 <?php endforeach ?>
             </select>
         </div>
-
-        <div class="col-md-4">
-            <button class="btn btn-primary" type="submit">
-                <?= I18N::translate('Compare revisions') ?>
-            </button>
-        </div>
+        <div class="col-md-4"><button class="btn btn-primary" type="submit"><?= I18N::translate('Compare revisions') ?></button></div>
     </form>
 <?php endif ?>
 
@@ -591,45 +398,28 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
             <?php endif ?>
         </tr>
     </thead>
-
     <tbody>
-        <?php foreach ($revisions as $revision) : ?>
+        <?php foreach ($detail['revision_rows'] as $revision) : ?>
             <tr>
-                <td><?= $revision->is_current_revision ? '✓' : '' ?></td>
-                <td><?= e((string) $revision->revision_no) ?></td>
-                <td><?= e(RevisionOriginType::labels()[$revision->origin_type] ?? $revision->origin_type) ?></td>
+                <td><?= $revision['is_current'] ? '✓' : '' ?></td>
+                <td><?= e($revision['revision_no']) ?></td>
+                <td><?= e($revision['origin_label']) ?></td>
+                <td><?= $revision['generated_note_html'] ?></td>
                 <td>
-                    <?php if ($revision->generated_note_xref !== null) : ?>
-                        <?php $revision_note = Registry::noteFactory()->make($revision->generated_note_xref, $tree); ?>
-                        <?php if ($revision_note !== null) : ?>
-                            <a href="<?= e($revision_note->url()) ?>">
-                                <?= e($revision->generated_note_xref) ?>
-                            </a>
-                        <?php else : ?>
-                            <?= e($revision->generated_note_xref) ?>
-                        <?php endif ?>
+                    <?php if ($revision['changed_by'] !== null) : ?>
+                        <div><?= e($revision['changed_by']) ?></div>
+                    <?php endif ?>
+                    <?php if ($revision['changed_at_html'] !== '') : ?>
+                        <div class="text-muted small"><?= $revision['changed_at_html'] ?></div>
                     <?php endif ?>
                 </td>
-                <td>
-                    <?php if ($revision->generated_note_changed_by_user_name !== null) : ?>
-                        <div><?= e($revision->generated_note_changed_by_user_name) ?></div>
-                    <?php endif ?>
-                    <?php if ($revision->generated_note_changed_at !== null) : ?>
-                        <div class="text-muted small"><?= $format_timestamp($revision->generated_note_changed_at) ?></div>
-                    <?php endif ?>
-                </td>
-                <td><pre class="mb-0"><?= e(mb_substr($revision->content_text, 0, 500)) ?></pre></td>
+                <td><pre class="mb-0"><?= e($revision['text_preview']) ?></pre></td>
                 <?php if ($can_make_revision_current) : ?>
                     <td>
-                        <?php if (!$revision->is_current_revision) : ?>
-                            <form method="post" action="<?= e(route('source-transcription-make-revision-current', ['tree' => $tree->name(), 'transcription_id' => $transcription->id, 'revision_id' => $revision->id])) ?>">
+                        <?php if (!$revision['is_current']) : ?>
+                            <form method="post" action="<?= e($revision['make_current_url']) ?>">
                                 <?= csrf_field() ?>
-
-                                <button
-                                    class="btn btn-sm btn-outline-primary"
-                                    type="submit"
-                                    onclick="return confirm(<?= e(json_encode(I18N::translate('Make this revision current? The current NOTE will be overwritten with the text of this revision.'), JSON_THROW_ON_ERROR)) ?>)"
-                                >
+                                <button class="btn btn-sm btn-outline-primary" type="submit" onclick="return confirm(<?= e(json_encode(I18N::translate('Make this revision current? The current NOTE will be overwritten with the text of this revision.'), JSON_THROW_ON_ERROR)) ?>)">
                                     <?= I18N::translate('Make current') ?>
                                 </button>
                             </form>

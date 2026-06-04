@@ -13,41 +13,16 @@ declare(strict_types=1);
 
 /**
  * @var string $title
- * @var Tree $tree
  * @var Transcription $transcription
- * @var TranscriptionRevision $left_revision
- * @var TranscriptionRevision $right_revision
- * @var array<int,array{key:string,label:string,left:string,right:string,changed:bool}> $metadata_rows
- * @var array<int,array{type:string,left:?string,right:?string}> $text_diff
+ * @var string $left_title
+ * @var string $right_title
+ * @var array<int,array{label:string,left_html:string,right_html:string,changed:bool}> $metadata_rows
+ * @var array<int,array{row_class:string,left:string,right:string}> $text_diff_rows
  * @var string $detail_url
  */
 
 use Fisharebest\Webtrees\I18N;
-use Fisharebest\Webtrees\Registry;
-use Fisharebest\Webtrees\Tree;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\TranscriptionRevision;
-
-$left_title = I18N::translate('Revision %s', (string) $left_revision->revision_no);
-$right_title = I18N::translate('Revision %s', (string) $right_revision->revision_no);
-
-$xref_link = static function (string $key, string $xref) use ($tree): string {
-    if ($xref === '') {
-        return '';
-    }
-
-    $record = match ($key) {
-        'generated_note_xref' => Registry::noteFactory()->make($xref, $tree),
-        'origin_reference' => Registry::gedcomRecordFactory()->make(trim($xref, '@'), $tree),
-        default => null,
-    };
-
-    if ($record === null) {
-        return e($xref);
-    }
-
-    return '<a href="' . e($record->url()) . '">' . e($xref) . '</a>';
-};
 ?>
 
 <h2><?= e($title) ?>: <?= e($transcription->title) ?></h2>
@@ -72,8 +47,8 @@ $xref_link = static function (string $key, string $xref) use ($tree): string {
         <?php foreach ($metadata_rows as $row) : ?>
             <tr class="<?= $row['changed'] ? 'table-warning' : '' ?>">
                 <th><?= e($row['label']) ?></th>
-                <td><?= $xref_link($row['key'], $row['left']) ?></td>
-                <td><?= $xref_link($row['key'], $row['right']) ?></td>
+                <td><?= $row['left_html'] ?></td>
+                <td><?= $row['right_html'] ?></td>
             </tr>
         <?php endforeach ?>
     </tbody>
@@ -89,7 +64,7 @@ $xref_link = static function (string $key, string $xref) use ($tree): string {
         </tr>
     </thead>
     <tbody>
-        <?php if ($text_diff === []) : ?>
+        <?php if ($text_diff_rows === []) : ?>
             <tr>
                 <td colspan="2" class="text-muted">
                     <?= I18N::translate('Both revisions have no text content.') ?>
@@ -97,18 +72,10 @@ $xref_link = static function (string $key, string $xref) use ($tree): string {
             </tr>
         <?php endif ?>
 
-        <?php foreach ($text_diff as $row) : ?>
-            <?php
-            $row_class = match ($row['type']) {
-                'added' => 'table-success',
-                'removed' => 'table-danger',
-                'changed' => 'table-warning',
-                default => '',
-            };
-            ?>
-            <tr class="<?= $row_class ?>">
-                <td><pre class="mb-0" style="white-space: pre-wrap;"><?= e($row['left'] ?? '') ?></pre></td>
-                <td><pre class="mb-0" style="white-space: pre-wrap;"><?= e($row['right'] ?? '') ?></pre></td>
+        <?php foreach ($text_diff_rows as $row) : ?>
+            <tr class="<?= $row['row_class'] ?>">
+                <td><pre class="mb-0" style="white-space: pre-wrap;"><?= e($row['left']) ?></pre></td>
+                <td><pre class="mb-0" style="white-space: pre-wrap;"><?= e($row['right']) ?></pre></td>
             </tr>
         <?php endforeach ?>
     </tbody>

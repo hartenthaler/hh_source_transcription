@@ -7,22 +7,6 @@
  * Source Transcription (webtrees custom module):
  * Copyright (C) 2026 Hermann Hartenthaler
  *                     <https://ahnen.hartenthaler.eu>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; If not, see <https://www.gnu.org/licenses/>.
- *
- * Source Transcription
- * A webtrees (https://webtrees.net) 2.2 custom module to transcribe sources
  */
 
 declare(strict_types=1);
@@ -30,121 +14,19 @@ declare(strict_types=1);
 /**
  * @var string $title
  * @var Tree $tree
- * @var array<int, Transcription> $transcriptions
- * @var array<string,int|string|null> $dashboard_filters
+ * @var array<string,mixed> $dashboard
  * @var array<string,string> $status_options
  * @var array<int,string> $provider_options
- * @var array<int, object> $transkribus_jobs
- * @var array<int, array<int, object>> $transkribus_job_files
+ * @var array<int,array<string,mixed>> $transkribus_job_rows
  * @var bool $discourse_authorized
  * @var array<string,string> $discourse_settings
  * @var string|null $discourse_last_test_status
  * @var string|null $discourse_last_test_message
  */
 
-use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Auth;
-use Fisharebest\Webtrees\Mime;
-use Fisharebest\Webtrees\Registry;
-use Fisharebest\Webtrees\Site;
-use Fisharebest\Webtrees\Timestamp;
+use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Tree;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\Transcription;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranskribusJobFileStatus;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranskribusJobStatus;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderPresentation;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranscriptionStatus;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Support\TranscriptionSlug;
-
-// formatting options - CSS class
-$cell_format = 'text-decoration-none d-block';
-$muted = 'text-secondary fst-italic';
-
-$dashboard_filters = $dashboard_filters ?? [];
-$status_options = $status_options ?? [];
-$provider_options = $provider_options ?? [];
-$dashboard_url = route('source-transcription-dashboard', ['tree' => $tree->name()]);
-$dashboard_form_action = $dashboard_url;
-$dashboard_form_hidden = [];
-$dashboard_form_query = parse_url($dashboard_url, PHP_URL_QUERY);
-
-if ($dashboard_form_query !== null) {
-    parse_str($dashboard_form_query, $dashboard_form_hidden);
-    $dashboard_form_action = strtok($dashboard_url, '?') ?: $dashboard_url;
-}
-
-$current_sort = (string)($dashboard_filters['sort'] ?? 'created');
-$current_direction = (string)($dashboard_filters['direction'] ?? 'desc');
-$current_status = ($dashboard_filters['status'] ?? null) !== null ? (string)$dashboard_filters['status'] : '';
-$current_provider = ($dashboard_filters['provider'] ?? null) !== null ? (string)$dashboard_filters['provider'] : '';
-$current_page = (int)($dashboard_filters['page'] ?? 1);
-$total_pages = (int)($dashboard_filters['total_pages'] ?? 1);
-$total_transcriptions = (int)($dashboard_filters['total'] ?? count($transcriptions));
-$per_page = (int)($dashboard_filters['per_page'] ?? 20);
-$first_item = $total_transcriptions > 0 ? (($current_page - 1) * $per_page) + 1 : 0;
-$last_item = $total_transcriptions > 0 ? min($total_transcriptions, $current_page * $per_page) : 0;
-
-$url_for = static function (array $overrides = []) use ($tree, $current_sort, $current_direction, $current_status, $current_provider, $current_page): string {
-    $query = array_merge([
-        'tree'      => $tree->name(),
-        'sort'      => $current_sort,
-        'direction' => $current_direction,
-        'status'    => $current_status,
-        'provider'  => $current_provider,
-        'page'      => $current_page,
-    ], $overrides);
-
-    $query = array_filter($query, static fn ($value): bool => $value !== null && $value !== '' && $value !== 1);
-
-    return route('source-transcription-dashboard', $query);
-};
-
-$sort_url = static function (string $sort) use ($url_for, $current_sort, $current_direction): string {
-    $default_direction = in_array($sort, ['created', 'updated'], true) ? 'desc' : 'asc';
-    $direction = $current_sort === $sort && $current_direction === 'asc' ? 'desc' : $default_direction;
-
-    return $url_for([
-        'sort'      => $sort,
-        'direction' => $direction,
-        'page'      => 1,
-    ]);
-};
-
-$sort_indicator = static function (string $sort) use ($current_sort, $current_direction): string {
-    if ($current_sort !== $sort) {
-        return '';
-    }
-
-    return $current_direction === 'asc'
-        ? ' <span aria-hidden="true">&uarr;</span>'
-        : ' <span aria-hidden="true">&darr;</span>';
-};
-
-$format_timestamp = static function (?string $timestamp) use ($muted): string {
-    if ($timestamp === null || $timestamp === '') {
-        return '<span class="' . $muted . '">' . e(I18N::translate('None')) . '</span>';
-    }
-
-    $parsed_timestamp = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $timestamp, new DateTimeZone('UTC'));
-
-    if ($parsed_timestamp === false) {
-        $parsed_timestamp = DateTimeImmutable::createFromFormat('Y-m-d H:i', $timestamp, new DateTimeZone('UTC'));
-    }
-
-    if ($parsed_timestamp === false) {
-        return e($timestamp);
-    }
-
-    $localized_timestamp = new Timestamp(
-        $parsed_timestamp->getTimestamp(),
-        Site::getPreference('TIMEZONE'),
-        I18N::locale()->code()
-    );
-
-    return '<time datetime="' . e($localized_timestamp->toDateTimeString()) . '" title="' . e($localized_timestamp->isoFormat('LLLL')) . '" dir="auto">' .
-        e($localized_timestamp->isoFormat('L LT')) .
-        '</time>';
-};
 ?>
 
 <h2 class="mb-3"><?= e($title) ?></h2>
@@ -183,18 +65,18 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
     </div>
 
 <div class="collapse show" id="source-transcription-dashboard-transcriptions">
-<form method="get" action="<?= e($dashboard_form_action) ?>" class="row gy-2 gx-2 align-items-end mb-3">
-    <?php foreach ($dashboard_form_hidden as $key => $value) : ?>
-        <input type="hidden" name="<?= e((string)$key) ?>" value="<?= e((string)$value) ?>">
+<form method="get" action="<?= e($dashboard['form_action']) ?>" class="row gy-2 gx-2 align-items-end mb-3">
+    <?php foreach ($dashboard['form_hidden'] as $key => $value) : ?>
+        <input type="hidden" name="<?= e((string) $key) ?>" value="<?= e((string) $value) ?>">
     <?php endforeach ?>
-    <input type="hidden" name="sort" value="<?= e($current_sort) ?>">
-    <input type="hidden" name="direction" value="<?= e($current_direction) ?>">
+    <input type="hidden" name="sort" value="<?= e($dashboard['current_sort']) ?>">
+    <input type="hidden" name="direction" value="<?= e($dashboard['current_direction']) ?>">
     <div class="col-12 col-md-3">
         <label class="form-label" for="source-transcription-status-filter"><?= I18N::translate('Status') ?></label>
         <select class="form-select" id="source-transcription-status-filter" name="status">
             <option value=""><?= I18N::translate('All') ?></option>
             <?php foreach ($status_options as $status_key => $status_label) : ?>
-                <option value="<?= e($status_key) ?>" <?= $current_status === $status_key ? 'selected' : '' ?>>
+                <option value="<?= e($status_key) ?>" <?= $dashboard['current_status'] === $status_key ? 'selected' : '' ?>>
                     <?= e($status_label) ?>
                 </option>
             <?php endforeach ?>
@@ -205,65 +87,65 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
         <select class="form-select" id="source-transcription-provider-filter" name="provider">
             <option value=""><?= I18N::translate('All') ?></option>
             <?php foreach ($provider_options as $provider_key) : ?>
-                <option value="<?= e($provider_key) ?>" <?= $current_provider === $provider_key ? 'selected' : '' ?>>
-                    <?= e(ProviderPresentation::label($provider_key)) ?>
+                <option value="<?= e($provider_key) ?>" <?= $dashboard['current_provider'] === $provider_key ? 'selected' : '' ?>>
+                    <?= e($dashboard['provider_labels'][$provider_key] ?? $provider_key) ?>
                 </option>
             <?php endforeach ?>
         </select>
     </div>
     <div class="col-12 col-md-auto">
         <button type="submit" class="btn btn-primary"><?= I18N::translate('Filter') ?></button>
-        <a class="btn btn-secondary" href="<?= e($dashboard_url) ?>"><?= I18N::translate('Reset') ?></a>
+        <a class="btn btn-secondary" href="<?= e($dashboard['url']) ?>"><?= I18N::translate('Reset') ?></a>
     </div>
 </form>
 
 <div class="d-flex justify-content-between align-items-center mb-2">
     <div>
-        <?php if ($total_transcriptions > 0) : ?>
+        <?php if ($dashboard['total'] > 0) : ?>
             <span class="text-muted small">
-                <?= I18N::translate('%s-%s of %s', I18N::number($first_item), I18N::number($last_item), I18N::number($total_transcriptions)) ?>
+                <?= I18N::translate('%s-%s of %s', I18N::number($dashboard['first_item']), I18N::number($dashboard['last_item']), I18N::number($dashboard['total'])) ?>
             </span>
         <?php endif ?>
     </div>
 
     <div>
-        <?php if ($total_transcriptions > 0) : ?>
+        <?php if ($dashboard['total'] > 0) : ?>
             <span class="badge bg-secondary">
-                <?= I18N::plural('%s transcription', '%s transcriptions', $total_transcriptions, I18N::number($total_transcriptions)) ?>
+                <?= I18N::plural('%s transcription', '%s transcriptions', $dashboard['total'], I18N::number($dashboard['total'])) ?>
             </span>
         <?php endif ?>
     </div>
 </div>
 
-<?php if (count($transcriptions) > 0) : ?>
+<?php if ($dashboard['rows'] !== []) : ?>
     <table class="table table-bordered table-sm">
         <thead>
         <tr>
             <th>
-                <a href="<?= e($sort_url('title')) ?>">
-                    <?= I18N::translate('Transcription title') ?><?= $sort_indicator('title') ?>
+                <a href="<?= e($dashboard['sort_urls']['title']) ?>">
+                    <?= I18N::translate('Transcription title') ?><?= $dashboard['sort_indicators']['title'] ?>
                 </a>
             </th>
             <th><?= I18N::translate('Source') ?></th>
             <th><?= I18N::translate('Media') ?></th>
             <th>
-                <a href="<?= e($sort_url('provider')) ?>">
-                    <?= I18N::translate('Transcription provider') ?><?= $sort_indicator('provider') ?>
+                <a href="<?= e($dashboard['sort_urls']['provider']) ?>">
+                    <?= I18N::translate('Transcription provider') ?><?= $dashboard['sort_indicators']['provider'] ?>
                 </a>
             </th>
             <th>
-                <a href="<?= e($sort_url('status')) ?>">
-                    <?= I18N::translate('Status') ?><?= $sort_indicator('status') ?>
+                <a href="<?= e($dashboard['sort_urls']['status']) ?>">
+                    <?= I18N::translate('Status') ?><?= $dashboard['sort_indicators']['status'] ?>
                 </a>
             </th>
             <th>
-                <a href="<?= e($sort_url('created')) ?>">
-                    <?= I18N::translate('Created') ?><?= $sort_indicator('created') ?>
+                <a href="<?= e($dashboard['sort_urls']['created']) ?>">
+                    <?= I18N::translate('Created') ?><?= $dashboard['sort_indicators']['created'] ?>
                 </a>
             </th>
             <th>
-                <a href="<?= e($sort_url('updated')) ?>">
-                    <?= I18N::translate('Updated') ?><?= $sort_indicator('updated') ?>
+                <a href="<?= e($dashboard['sort_urls']['updated']) ?>">
+                    <?= I18N::translate('Updated') ?><?= $dashboard['sort_indicators']['updated'] ?>
                 </a>
             </th>
             <th><?= I18N::translate('Note') ?></th>
@@ -271,135 +153,25 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($transcriptions as $transcription) : ?>
-            <?php
-            $source = Registry::sourceFactory()->make($transcription->source_xref, $tree);
-
-            $detail_url = route('source-transcription-detail', [
-                    'tree'             => $tree->name(),
-                    'transcription_id' => $transcription->id,
-                    'slug'             => TranscriptionSlug::fromTitle($transcription->title),
-            ]);
-
-            $action_url = route('source-transcription-detail', [
-                    'tree'             => $tree->name(),
-                    'transcription_id' => $transcription->id,
-            ]);
-
-            $provider_label = ProviderPresentation::label($transcription->provider_key);
-            $provider_url   = ProviderPresentation::url($transcription->provider_key, $tree);
-            $provider_icon  = ProviderPresentation::icon($transcription->provider_key);
-            $provider_title = ProviderPresentation::title($transcription->provider_key);
-
-            $media = null;
-            if ($transcription->media_xref !== null) {
-                $media = Registry::mediaFactory()->make($transcription->media_xref, $tree);
-            }
-
-            $note = null;
-            if ($transcription->current_note_xref !== null) {
-                $note = Registry::noteFactory()->make($transcription->current_note_xref, $tree);
-            }
-
-            $badge_class = match (TranscriptionStatus::tryFrom($transcription->status)) {
-                TranscriptionStatus::NEW              => 'bg-secondary',
-                TranscriptionStatus::IN_PROGRESS      => 'bg-warning text-dark',
-                TranscriptionStatus::READY_FOR_REVIEW => 'bg-info text-dark',
-                TranscriptionStatus::FINAL            => 'bg-success',
-                TranscriptionStatus::REOPENED         => 'bg-primary',
-                TranscriptionStatus::CANCELED         => 'bg-light text-dark',
-                null                                  => 'bg-light text-dark',
-            };
-            $status_label = TranscriptionStatus::labels()[$transcription->status] ?? $transcription->status;
-            ?>
-
+        <?php foreach ($dashboard['rows'] as $row) : ?>
             <tr class="align-top">
+                <td><a href="<?= e($row['detail_url']) ?>"><?= e($row['title']) ?></a></td>
+                <td><?= $row['source_html'] ?></td>
+                <td><?= $row['media_html'] ?></td>
                 <td>
-                    <a href="<?= e($detail_url) ?>">
-                        <?= e($transcription->title) ?>
+                    <a href="<?= e($row['provider']['url']) ?>" title="<?= e($row['provider']['title']) ?>" class="<?= e($dashboard['cell_format']) ?>">
+                        <?php if ($row['provider']['icon'] !== '') : ?>
+                            <img src="<?= e($row['provider']['icon']) ?>" alt="" width="16" height="16" class="me-1">
+                        <?php endif ?>
+                        <?= e($row['provider']['label']) ?>
                     </a>
                 </td>
+                <td><span class="badge <?= e($row['status_badge_class']) ?>"><?= e($row['status_label']) ?></span></td>
+                <td><?= $row['created_html'] ?></td>
+                <td><?= $row['updated_html'] ?></td>
+                <td><?= $row['note_html'] ?></td>
                 <td>
-                    <?php if ($source !== null) : ?>
-                        <a href="<?= e($source->url()) ?>" class="<?= $cell_format ?>">
-                            <?= $source->fullName() ?: I18N::translate('Source record') ?>
-                        </a>
-                    <?php else : ?>
-                        <span class="<?= $muted ?>">
-                            <?= e(I18N::translate('Deleted')) ?>
-                        </span>
-                    <?php endif ?>
-                </td>
-                <td>
-                    <?php if ($media !== null) : ?>
-                        <?php $media_files = $media->mediaFiles() ?>
-                        <?php if ($media_files->isEmpty()) : ?>
-                            <a href="<?= e($media->url()) ?>" class="<?= $cell_format ?>">
-                                <?= $media->fullName() ?: I18N::translate('Media object') ?>
-                            </a>
-                        <?php endif ?>
-
-                        <?php foreach ($media_files as $media_file) : ?>
-                            <div class="d-flex align-items-start gap-2 mb-1">
-                                <div class="text-center flex-shrink-0" style="width: 44px;">
-                                    <?php if ($media_file->isExternal()) : ?>
-                                        <?php
-                                        $external_path = (string) (parse_url($media_file->filename(), PHP_URL_PATH) ?: $media_file->filename());
-                                        $external_extension = strtoupper(pathinfo($external_path, PATHINFO_EXTENSION));
-                                        $external_mime = Mime::TYPES[$external_extension] ?? '';
-                                        ?>
-                                        <span class="fs-5 text-muted" title="<?= e(I18N::translate('External media URL')) ?>">
-                                            <?php if ($external_mime !== '') : ?>
-                                                <?= view('icons/mime', ['type' => $external_mime]) ?>
-                                            <?php else : ?>
-                                                <?= view('icons/link') ?>
-                                            <?php endif ?>
-                                        </span>
-                                    <?php else : ?>
-                                        <?= $media_file->displayImage(38, 75, 'contain', []) ?>
-                                    <?php endif ?>
-                                </div>
-                                <div>
-                                    <a href="<?= e($media->url()) ?>" class="<?= $cell_format ?>">
-                                        <?= e($media_file->title() !== '' ? $media_file->title() : $media_file->filename()) ?>
-                                    </a>
-                                </div>
-                            </div>
-                        <?php endforeach ?>
-                    <?php else : ?>
-                        <span class="<?= $muted ?>">
-                            <?= e(I18N::translate('None')) ?>
-                        </span>
-                    <?php endif ?>
-                </td>
-                <td>
-                    <a href="<?= e($provider_url) ?>" title="<?= e($provider_title) ?>" class="<?= $cell_format ?>">
-                        <?php if ($provider_icon !== '') : ?>
-                            <img src="<?= e($provider_icon) ?>" alt="" width="16" height="16" class="me-1">
-                        <?php endif ?>
-                        <?= e($provider_label) ?>
-                    </a>
-                </td>
-                <td>
-                    <span class="badge <?= $badge_class ?>">
-                        <?= e($status_label) ?>
-                    </span>
-                </td>
-                <td><?= $format_timestamp($transcription->created_at) ?></td>
-                <td><?= $format_timestamp($transcription->updated_at) ?></td>
-                <td>
-                    <?php if ($note !== null) : ?>
-                        <a href="<?= e($note->url()) ?>" class="<?= $cell_format ?>">
-                            <?= $note->fullName() ?>
-                        </a>
-                    <?php else : ?>
-                        <span class="<?= $muted ?>">
-                            <?= e(I18N::translate('None')) ?>
-                        </span>
-                    <?php endif ?>
-                </td>
-                <td>
-                    <a class="btn btn-sm btn-secondary" href="<?= e($action_url) ?>">
+                    <a class="btn btn-sm btn-secondary" href="<?= e($row['action_url']) ?>">
                         <?= I18N::translate('Open') ?>
                     </a>
                 </td>
@@ -407,19 +179,19 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
         <?php endforeach ?>
         </tbody>
     </table>
-    <?php if ($total_pages > 1) : ?>
+    <?php if ($dashboard['total_pages'] > 1) : ?>
         <nav aria-label="<?= e(I18N::translate('Pagination')) ?>">
             <ul class="pagination pagination-sm">
-                <li class="page-item <?= $current_page <= 1 ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= e($url_for(['page' => max(1, $current_page - 1)])) ?>"><?= I18N::translate('Previous') ?></a>
+                <li class="page-item <?= $dashboard['pagination']['disabled_previous'] ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= e($dashboard['pagination']['previous']) ?>"><?= I18N::translate('Previous') ?></a>
                 </li>
-                <?php for ($page = 1; $page <= $total_pages; $page++) : ?>
-                    <li class="page-item <?= $page === $current_page ? 'active' : '' ?>">
-                        <a class="page-link" href="<?= e($url_for(['page' => $page])) ?>"><?= I18N::number($page) ?></a>
+                <?php foreach ($dashboard['pagination']['pages'] as $page) : ?>
+                    <li class="page-item <?= $page['active'] ? 'active' : '' ?>">
+                        <a class="page-link" href="<?= e($page['url']) ?>"><?= I18N::number($page['number']) ?></a>
                     </li>
-                <?php endfor ?>
-                <li class="page-item <?= $current_page >= $total_pages ? 'disabled' : '' ?>">
-                    <a class="page-link" href="<?= e($url_for(['page' => min($total_pages, $current_page + 1)])) ?>"><?= I18N::translate('Next') ?></a>
+                <?php endforeach ?>
+                <li class="page-item <?= $dashboard['pagination']['disabled_next'] ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= e($dashboard['pagination']['next']) ?>"><?= I18N::translate('Next') ?></a>
                 </li>
             </ul>
         </nav>
@@ -432,7 +204,7 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
 </div>
 </section>
 
-<?php if (($transkribus_jobs ?? []) !== []) : ?>
+<?php if ($transkribus_job_rows !== []) : ?>
     <section class="mt-5">
     <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
         <h3 class="mb-0"><?= I18N::translate('Transkribus jobs') ?></h3>
@@ -454,58 +226,28 @@ $format_timestamp = static function (?string $timestamp) use ($muted): string {
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($transkribus_jobs as $job) : ?>
-                <?php
-                $source = Registry::sourceFactory()->make((string) $job->source_xref, $tree);
-                $media = Registry::mediaFactory()->make((string) $job->media_xref, $tree);
-                $job_badge_class = match (TranskribusJobStatus::tryFrom((string) $job->status)) {
-                    TranskribusJobStatus::UPLOADED      => 'bg-success',
-                    TranskribusJobStatus::UPLOADING     => 'bg-warning text-dark',
-                    TranskribusJobStatus::UPLOAD_FAILED => 'bg-danger',
-                    null                                => 'bg-secondary',
-                };
-                ?>
+            <?php foreach ($transkribus_job_rows as $job) : ?>
                 <tr>
+                    <td>#<?= e($job['id']) ?> <?= e($job['title']) ?></td>
+                    <td><?= $job['source_html'] ?></td>
+                    <td><?= $job['media_html'] ?></td>
+                    <td><span class="badge <?= e($job['badge_class']) ?>"><?= e($job['status_label']) ?></span></td>
                     <td>
-                        #<?= e((string) $job->id) ?>
-                        <?= e((string) $job->title) ?>
-                    </td>
-                    <td>
-                        <?php if ($source !== null) : ?>
-                            <a href="<?= e($source->url()) ?>"><?= $source->fullName() ?></a>
-                        <?php else : ?>
-                            <span class="<?= $muted ?>"><?= I18N::translate('Deleted') ?></span>
-                        <?php endif ?>
-                    </td>
-                    <td>
-                        <?php if ($media !== null) : ?>
-                            <a href="<?= e($media->url()) ?>"><?= $media->fullName() ?></a>
-                        <?php else : ?>
-                            <span class="<?= $muted ?>"><?= I18N::translate('Deleted') ?></span>
-                        <?php endif ?>
-                    </td>
-                    <td>
-                        <span class="badge <?= $job_badge_class ?>">
-                            <?= e(TranskribusJobStatus::label((string) $job->status)) ?>
-                        </span>
-                    </td>
-                    <td>
-                        <?php foreach (($transkribus_job_files[(int) $job->id] ?? []) as $file) : ?>
-                            <?php $file_message = trim((string) ($file->message ?? '')) ?>
+                        <?php foreach ($job['files'] as $file) : ?>
                             <div class="small">
-                                <?= e((string) $file->filename) ?>:
-                                <?php if ($file->upload_reference !== null && $file->upload_reference !== '') : ?>
-                                    <code><?= e((string) $file->upload_reference) ?></code>
+                                <?= e($file['filename']) ?>:
+                                <?php if ($file['upload_reference'] !== '') : ?>
+                                    <code><?= e($file['upload_reference']) ?></code>
                                 <?php else : ?>
-                                    <span class="<?= $muted ?>"><?= e(TranskribusJobFileStatus::label((string) $file->status)) ?></span>
+                                    <span class="<?= e($dashboard['muted']) ?>"><?= e($file['status_label']) ?></span>
                                 <?php endif ?>
-                                <?php if ($file_message !== '') : ?>
-                                    <div class="text-danger"><?= e($file_message) ?></div>
+                                <?php if ($file['message'] !== '') : ?>
+                                    <div class="text-danger"><?= e($file['message']) ?></div>
                                 <?php endif ?>
                             </div>
                         <?php endforeach ?>
                     </td>
-                    <td><?= e((string) ($job->last_message ?? '')) ?></td>
+                    <td><?= e($job['last_message']) ?></td>
                 </tr>
             <?php endforeach ?>
         </tbody>

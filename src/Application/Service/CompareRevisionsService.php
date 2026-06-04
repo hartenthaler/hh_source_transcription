@@ -31,16 +31,25 @@ declare(strict_types=1);
 namespace Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service;
 
 use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\UserService;
+use Fisharebest\Webtrees\Tree;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\TranscriptionRevision;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\RevisionOriginType;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderPresentation;
+
+use function e;
 
 final class CompareRevisionsService
 {
     public function __construct(
         private readonly UserService $userService,
     ) {
+    }
+
+    public function revisionTitle(TranscriptionRevision $revision): string
+    {
+        return I18N::translate('Revision %s', (string) $revision->revision_no);
     }
 
     /**
@@ -78,6 +87,22 @@ final class CompareRevisionsService
                 'changed' => $row[2] !== $row[3],
             ],
             $rows
+        );
+    }
+
+    /**
+     * @return array<int,array{label:string,left_html:string,right_html:string,changed:bool}>
+     */
+    public function metadataRowsForView(Tree $tree, TranscriptionRevision $left, TranscriptionRevision $right): array
+    {
+        return array_map(
+            fn (array $row): array => [
+                'label' => $row['label'],
+                'left_html' => $this->metadataValueHtml($tree, $row['key'], $row['left']),
+                'right_html' => $this->metadataValueHtml($tree, $row['key'], $row['right']),
+                'changed' => $row['changed'],
+            ],
+            $this->metadataRows($left, $right)
         );
     }
 
@@ -139,6 +164,26 @@ final class CompareRevisionsService
     }
 
     /**
+     * @return array<int,array{row_class:string,left:string,right:string}>
+     */
+    public function textDiffRowsForView(TranscriptionRevision $left, TranscriptionRevision $right): array
+    {
+        return array_map(
+            static fn (array $row): array => [
+                'row_class' => match ($row['type']) {
+                    'added' => 'table-success',
+                    'removed' => 'table-danger',
+                    'changed' => 'table-warning',
+                    default => '',
+                },
+                'left' => $row['left'] ?? '',
+                'right' => $row['right'] ?? '',
+            ],
+            $this->textDiff($left, $right)
+        );
+    }
+
+    /**
      * @return array<int,string>
      */
     private function splitLines(string $text): array
@@ -176,6 +221,25 @@ final class CompareRevisionsService
         }
 
         return $diff;
+    }
+
+    private function metadataValueHtml(Tree $tree, string $key, string $value): string
+    {
+        if ($value === '') {
+            return '';
+        }
+
+        $record = match ($key) {
+            'generated_note_xref' => Registry::noteFactory()->make($value, $tree),
+            'origin_reference' => Registry::gedcomRecordFactory()->make(trim($value, '@'), $tree),
+            default => null,
+        };
+
+        if ($record === null) {
+            return e($value);
+        }
+
+        return '<a href="' . e($record->url()) . '">' . e($value) . '</a>';
     }
 
     private function userLabel(int $user_id): string

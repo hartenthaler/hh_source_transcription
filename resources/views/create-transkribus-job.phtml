@@ -5,13 +5,11 @@ declare(strict_types=1);
 /**
  * @var string $title
  * @var Tree $tree
+ * @var array<string,mixed> $form
  */
 
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Tree;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\MediaFilesForMediaAction;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\MediaForSourceAction;
-use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\SourceForManualAction;
 
 ?>
 
@@ -39,9 +37,9 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                     class="form-select tom-select"
                     id="source_xref"
                     name="source_xref"
-                    data-wt-url="<?= e(route(SourceForManualAction::class, ['tree' => $tree->name(), 'at' => '@'])) ?>"
-                    data-wt-i18n-no-results="<?= e(I18N::translate('No results found')) ?>"
-                    placeholder="<?= e(I18N::translate('Search for a source')) ?>"
+                    data-wt-url="<?= e($form['source_url']) ?>"
+                    data-wt-i18n-no-results="<?= e($form['messages']['no_results']) ?>"
+                    placeholder="<?= e($form['messages']['search_source']) ?>"
                     required
             ></select>
         </div>
@@ -91,8 +89,9 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         const filesContainer = document.getElementById('media_files_container');
         const uploadButton = document.getElementById('upload_button');
 
-        const mediaUrl = <?= json_encode(route(MediaForSourceAction::class, ['tree' => $tree->name()]), JSON_THROW_ON_ERROR) ?>;
-        const mediaFilesUrl = <?= json_encode(route(MediaFilesForMediaAction::class, ['tree' => $tree->name()]), JSON_THROW_ON_ERROR) ?>;
+        const mediaUrl = <?= json_encode($form['media_url'], JSON_THROW_ON_ERROR) ?>;
+        const mediaFilesUrl = <?= json_encode($form['media_files_url'], JSON_THROW_ON_ERROR) ?>;
+        const messages = <?= json_encode($form['messages'], JSON_THROW_ON_ERROR) ?>;
 
         function resetMediaSelect(message) {
             mediaSelect.innerHTML = '';
@@ -101,7 +100,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
             option.textContent = message;
             mediaSelect.appendChild(option);
             mediaSelect.disabled = true;
-            resetFiles(<?= json_encode(I18N::translate('Select a media object first.'), JSON_THROW_ON_ERROR) ?>);
+            resetFiles(messages.select_media_first);
         }
 
         function resetFiles(message) {
@@ -122,11 +121,11 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
             sourceXref = (sourceXref || '').replaceAll('@', '').trim();
 
             if (!sourceXref) {
-                resetMediaSelect(<?= json_encode(I18N::translate('Select a source first'), JSON_THROW_ON_ERROR) ?>);
+                resetMediaSelect(messages.select_source_first);
                 return;
             }
 
-            resetMediaSelect(<?= json_encode(I18N::translate('Loading media objects...'), JSON_THROW_ON_ERROR) ?>);
+            resetMediaSelect(messages.loading_media);
 
             const separator = mediaUrl.includes('?') ? '&' : '?';
 
@@ -143,13 +142,13 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                     mediaSelect.innerHTML = '';
 
                     if (!Array.isArray(items) || items.length === 0) {
-                        resetMediaSelect(<?= json_encode(I18N::translate('No linked media objects found'), JSON_THROW_ON_ERROR) ?>);
+                        resetMediaSelect(messages.no_linked_media);
                         return;
                     }
 
                     const emptyOption = document.createElement('option');
                     emptyOption.value = '';
-                    emptyOption.textContent = <?= json_encode(I18N::translate('Select a media object'), JSON_THROW_ON_ERROR) ?>;
+                    emptyOption.textContent = messages.select_media;
                     mediaSelect.appendChild(emptyOption);
 
                     for (const item of items) {
@@ -165,7 +164,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                 })
                 .catch(error => {
                     console.error(error);
-                    resetMediaSelect(<?= json_encode(I18N::translate('Could not load media objects'), JSON_THROW_ON_ERROR) ?>);
+                    resetMediaSelect(messages.could_not_load_media);
                 });
         }
 
@@ -173,11 +172,11 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
             mediaXref = (mediaXref || '').replaceAll('@', '').trim();
 
             if (!mediaXref) {
-                resetFiles(<?= json_encode(I18N::translate('Select a media object first.'), JSON_THROW_ON_ERROR) ?>);
+                resetFiles(messages.select_media_first);
                 return;
             }
 
-            resetFiles(<?= json_encode(I18N::translate('Loading media files...'), JSON_THROW_ON_ERROR) ?>);
+            resetFiles(messages.loading_files);
 
             const separator = mediaFilesUrl.includes('?') ? '&' : '?';
 
@@ -195,7 +194,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                     filesContainer.classList.remove('text-muted');
 
                     if (!Array.isArray(items) || items.length === 0) {
-                        resetFiles(<?= json_encode(I18N::translate('No media files found.'), JSON_THROW_ON_ERROR) ?>);
+                        resetFiles(messages.no_files);
                         return;
                     }
 
@@ -238,7 +237,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
                 })
                 .catch(error => {
                     console.error(error);
-                    resetFiles(<?= json_encode(I18N::translate('Could not load media files.'), JSON_THROW_ON_ERROR) ?>);
+                    resetFiles(messages.could_not_load_files);
                 });
         }
 
@@ -247,7 +246,7 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\Source
         });
 
         sourceSelect.addEventListener('input', function () {
-            resetMediaSelect(<?= json_encode(I18N::translate('Select a source first'), JSON_THROW_ON_ERROR) ?>);
+            resetMediaSelect(messages.select_source_first);
         });
 
         mediaSelect.addEventListener('change', function () {

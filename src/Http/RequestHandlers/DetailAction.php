@@ -36,6 +36,7 @@ use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Registry;
 use Fisharebest\Webtrees\Services\UserService;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\GetTranscriptionDetailService;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\ViewDataService;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Enum\TranscriptionStatus;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\CollaborationRole;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderKey;
@@ -59,6 +60,7 @@ class DetailAction implements RequestHandlerInterface
 
         $transcription_id = (int) $request->getAttribute('transcription_id');
         $service = Registry::container()->get(GetTranscriptionDetailService::class);
+        $view_data_service = Registry::container()->get(ViewDataService::class);
         $data = $service->get($tree, $transcription_id);
         $transcription = $data['transcription'];
         $user = $request->getAttribute('user');
@@ -95,12 +97,14 @@ class DetailAction implements RequestHandlerInterface
             'tree'          => $tree,
             'transcription' => $transcription,
             'revisions'     => $data['revisions'],
+            'detail'        => $view_data_service->detailViewData($tree, $transcription, $data['revisions']),
             'note_text'     => $data['note_text'],
             'note_status'   => $data['note_status'],
             'source'        => $data['source'],
             'media_object'  => $data['media_object'],
             'media_files'   => $data['media_files'],
             'media_restriction' => $data['media_restriction'],
+            'media_restriction_html' => $view_data_service->mediaRestrictionHtml($data['media_restriction'], $tree),
             'eligible_collaborators' => $eligible_collaborators,
             'active_collaborators' => $active_collaborators,
             'active_collaborator_ids' => array_keys($active_roles),
@@ -108,6 +112,7 @@ class DetailAction implements RequestHandlerInterface
             'can_make_revision_current' => $can_edit_note,
             'can_open_collaboration' => Auth::isEditor($tree) && $collaboration_is_editable,
             'collaboration_is_editable' => $collaboration_is_editable,
+            'can_show_collaboration_reopen_hint' => Auth::isEditor($tree) && !$collaboration_is_editable,
             'can_submit_review' => Auth::isEditor($tree) && $current_user_role !== null && in_array($transcription->status, [
                 TranscriptionStatus::IN_PROGRESS->value,
                 TranscriptionStatus::REOPENED->value,
