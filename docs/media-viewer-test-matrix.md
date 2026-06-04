@@ -23,6 +23,7 @@ Copy these symbols into the `Result` column:
 | MV-06 | Local unsupported | `FILE mv-06-local-test.docx`, `FORM docx` | Warning plus clearly labeled download link       | ✅ |                     |
 | MV-07 | Local TXT | `FILE mv-07-local-test.txt`, `FORM txt` | Scrollable text preview                          | ✅ |                     |
 | MV-08 | Local RTF | `FILE mv-08-local-test.rtf`, `FORM rtf` | Plain-text preview; RTF artifacts are acceptable | ✅ |                     |
+| MV-08a | Local Markdown | `FILE mv-08a-local-test.md`, `FORM md` | Scrollable plain-text preview                    | - |                     |
 | MV-09 | Missing local file | `FILE mv-09-missing-test.jpg`, `FORM jpg` | webtrees 404 replacement image, no PHP error     | ✅ | system-conform      |
 | MV-10 | Multiple files | one `OBJE` with JPEG, PDF, MP3 | File selector switches previews correctly        | ✅ |                     |
 
@@ -58,7 +59,7 @@ External URLs are loaded directly by the browser. Remote servers may block embed
 - The media file selector switches previews without layout breakage.
 - Image `+`, `-`, and reset controls work.
 - Image pan works after zooming in.
-- TXT/RTF previews show readable text without PHP errors.
+- TXT/Markdown/RTF previews show readable text without PHP errors.
 - Audio/video play, pause, and stop controls work where the browser supports the format.
 - Unsupported files show a usable, clearly labeled download link.
 - External media failures do not break the transcription editor.

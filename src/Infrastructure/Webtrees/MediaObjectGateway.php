@@ -234,6 +234,7 @@ final class MediaObjectGateway
         return match ($extension) {
             'aac' => 'audio/aac',
             'm4a' => 'audio/mp4',
+            'md', 'markdown' => 'text/markdown',
             'rtf' => 'application/rtf',
             'txt' => 'text/plain',
             'wav' => 'audio/wav',
@@ -263,7 +264,7 @@ final class MediaObjectGateway
             return 'video';
         }
 
-        if (str_starts_with($mime, 'text/') || in_array($extension, ['txt', 'text', 'rtf'], true)) {
+        if (str_starts_with($mime, 'text/') || in_array($extension, ['txt', 'text', 'md', 'markdown', 'rtf'], true)) {
             return 'text';
         }
 

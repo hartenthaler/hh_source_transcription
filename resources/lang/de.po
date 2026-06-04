@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: SourceTranscription\n"
+"Project-Id-Version: Source Transcription\n"
 "POT-Creation-Date: 2026-05-15 21:03+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Hermann Hartenthaler <hermann@hartenthaler.de>\n"

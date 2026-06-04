@@ -215,7 +215,7 @@ final class SourceTranscription extends AbstractModule implements
         }
 
         //Register a namespace for the views.
-        View::registerNamespace('hh_source_transcription', $this->resourcesFolder() . 'views/');
+        View::registerNamespace('hh_source_transcription', strtr($this->resourcesFolder() . 'views' . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, '/'));
 
         //Enable the TinyMDE editor of custom module linkenhancer
         $settingsRepository = Registry::container()->get(SettingsRepository::class);

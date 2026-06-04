@@ -1,8 +1,9 @@
 # 🌳 **webtrees** module for Source Transcriptions (hh_source_transcription)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-
 ![webtrees major version](https://img.shields.io/badge/webtrees-v2.2.x-green)
+
+[![Maintainability](https://qlty.sh/gh/hartenthaler/projects/hh_source_transcription/maintainability.svg)](https://qlty.sh/gh/hartenthaler/projects/hh_source_transcription)
 
 This [webtrees](https://www.webtrees.net) custom module manages transcriptions of sources and source media.
 
@@ -49,12 +50,12 @@ The module links transcriptions to
 - usually a specific **media object** (`OBJE`) attached to a source
 
 The media object contains a media file with one or more pages of images (jpg, pdf, tiff, ...),
-a single audio or video file (mp3, ...), or a supporting text file (txt, rtf).
+a single audio or video file (mp3, ...), or a supporting text file (txt, md, rtf).
 If no media object exists or none is selected, the transcription can be attached directly to the source.
 
 The detail page includes a local media viewer. It supports image zoom/pan for common browser image formats via a bundled OpenSeadragon build, native PDF preview, native audio/video playback with a stop button, and clear download links for unsupported or blocked external media.
 QuickTime/MOV files use the download fallback because browser support is unreliable.
-Local TXT files are displayed as scrollable text. Local RTF files are converted to a simple plain-text preview; complex RTF formatting may still leave visible control text.
+Local TXT and Markdown files are displayed as scrollable plain text. Local RTF files are converted to a simple plain-text preview; complex RTF formatting may still leave visible control text.
 Manual media viewer test cases are documented in [docs/media-viewer-test-matrix.md](docs/media-viewer-test-matrix.md).
 
 The control panel consistency check also reviews media files used by transcriptions. It reports suspicious metadata combinations such as missing filename extensions, missing GEDCOM `FORM` values, generic MIME types, or mismatches between filename extension, `FORM`, and MIME type. This is especially relevant before sending files to providers such as Transkribus.
@@ -416,11 +417,11 @@ You can do this via a pull request (if you know how) or by e-mail.
 Updated translations will be included in the next release of this module.
 
 There are the following translations available
+- Catalan by [@bernatbanyuls](https://github.com/bernatbanyuls)
+- Dutch by [@TheDutchJewel](https://github.com/TheDutchJewel)
 - English by [@Hartenthaler](https://github.com/Hartenthaler)
 - German by [@Hartenthaler](https://github.com/Hartenthaler)
-- Dutch by [@TheDutchJewel](https://github.com/TheDutchJewel)
-- Spanish by Bernat
-- Catalan by Bernat
+- Spanish by [@bernatbanyuls](https://github.com/bernatbanyuls)
 
 <a name="Support"></a>
 ## ❓ Support
