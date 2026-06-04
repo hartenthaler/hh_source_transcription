@@ -50,13 +50,13 @@ The module links transcriptions to
 - usually a specific **media object** (`OBJE`) attached to a source
 
 The media object contains a media file with one or more pages of images (jpg, pdf, tiff, ...),
-a single audio or video file (mp3, ...), or a supporting text file (txt, md, rtf).
+a single audio or video file (mp3, ...), or a supporting text file (txt, md, ged, rtf).
 If no media object exists or none is selected, the transcription can be attached directly to the source.
 
 The detail page includes a local media viewer. It supports image zoom/pan for common browser image formats via a bundled OpenSeadragon build, native PDF preview, native audio/video playback with a stop button, and clear download links for unsupported or blocked external media.
 The detail page can switch between a side-by-side workspace and a top-and-bottom workspace, so wide or high-resolution media can use the full page width while the transcription editor moves below the preview. The selected layout is remembered in the browser.
 QuickTime/MOV files use the download fallback because browser support is unreliable.
-Local TXT and Markdown files are displayed as scrollable plain text. Local RTF files are converted to a simple plain-text preview; complex RTF formatting may still leave visible control text.
+Local TXT, Markdown, and GEDCOM files are displayed as scrollable plain text. Local RTF files are converted to a simple plain-text preview; complex RTF formatting may still leave visible control text.
 Manual media viewer test cases are documented in [docs/media-viewer-test-matrix.md](docs/media-viewer-test-matrix.md).
 
 The control panel consistency check also reviews media files used by transcriptions. It reports suspicious metadata combinations such as missing filename extensions, missing GEDCOM `FORM` values, generic MIME types, or mismatches between filename extension, `FORM`, and MIME type. This is especially relevant before sending files to providers such as Transkribus.

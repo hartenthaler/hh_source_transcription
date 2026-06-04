@@ -228,7 +228,7 @@ Supported preview behavior:
 - audio files use native HTML5 `<audio controls>` plus a module stop button
 - video files use native HTML5 `<video controls>` plus a module stop button
 - QuickTime/MOV files are not treated as browser-previewable and fall back to a download link
-- TXT and Markdown files are read server-side from the local webtrees media directory and shown as a scrollable plain-text preview
+- TXT, Markdown, and GEDCOM files are read server-side from the local webtrees media directory and shown as a scrollable plain-text preview
 - RTF files are converted to a simple plain-text preview; complex RTF markup may still leave visible control text or formatting artifacts
 - unsupported files show a preview warning and a clearly labeled download link
 
