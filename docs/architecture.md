@@ -208,6 +208,7 @@ Status request handlers for manual and internal workflows also ensure that a fin
 ### Media Viewer
 
 The detail page renders media files through `resources/views/partials/media-viewer.phtml`.
+The detail workspace supports two browser-side layouts: side-by-side media and NOTE editor, and a vertical layout with media above the NOTE editor. The selected layout is stored in `localStorage`, so no database migration or server-side user setting is required.
 
 `MediaObjectGateway::files()` enriches webtrees `MediaFile` objects with viewer metadata:
 
