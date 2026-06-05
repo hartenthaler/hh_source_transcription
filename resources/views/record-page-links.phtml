@@ -1,0 +1,165 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Location;
+use Fisharebest\Webtrees\Media;
+use Fisharebest\Webtrees\Note;
+use Fisharebest\Webtrees\Repository;
+use Fisharebest\Webtrees\Source;
+use Fisharebest\Webtrees\Submitter;
+use Fisharebest\Webtrees\Tree;
+use Hartenthaler\Webtrees\Module\SourceTranscription\SourceTranscription;
+use Illuminate\Support\Collection;
+
+/**
+ * @var string                          $details
+ * @var Collection<int,Family>|null     $linked_families
+ * @var Collection<int,Individual>|null $linked_individuals
+ * @var Collection<int,Location>|null   $linked_locations
+ * @var Collection<int,Media>|null      $linked_media_objects
+ * @var Collection<int,Note>|null       $linked_notes
+ * @var Collection<int,Repository>|null $linked_repositories
+ * @var Collection<int,Source>|null     $linked_sources
+ * @var Collection<int,Submitter>|null  $linked_submitters
+ * @var Tree                            $tree
+ */
+
+?>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" data-bs-toggle="tab" role="tab" href="#details">
+            <?= I18N::translate('Details') ?>
+        </a>
+    </li>
+
+    <?php if ($linked_individuals instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#individuals">
+                <?= I18N::translate('Individuals') ?>
+                <?= view('components/badge', ['count' => $linked_individuals->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_families instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#families">
+                <?= I18N::translate('Families') ?>
+                <?= view('components/badge', ['count' => $linked_families->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_media_objects instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#media">
+                <?= I18N::translate('Media objects') ?>
+                <?= view('components/badge', ['count' => $linked_media_objects->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_sources instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#sources">
+                <?= I18N::translate('Sources') ?>
+                <?= view('components/badge', ['count' => $linked_sources->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_notes instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#notes">
+                <?= I18N::translate('Notes') ?>
+                <?= view('components/badge', ['count' => $linked_notes->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_repositories instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#repositories">
+                <?= I18N::translate('Repositories') ?>
+                <?= view('components/badge', ['count' => $linked_repositories->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_submitters instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#submitters">
+                <?= I18N::translate('Submitters') ?>
+                <?= view('components/badge', ['count' => $linked_submitters->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($linked_locations instanceof Collection) : ?>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" role="tab" href="#locations">
+                <?= I18N::translate('Locations') ?>
+                <?= view('components/badge', ['count' => $linked_locations->count()]) ?>
+            </a>
+        </li>
+    <?php endif ?>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade show active" role="tabpanel" id="details">
+        <?= $details ?>
+    </div>
+
+    <?php if ($linked_individuals instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="individuals">
+            <?= view('lists/individuals-table', ['individuals' => $linked_individuals, 'sosa' => false, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_families instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="families">
+            <?= view('lists/families-table', ['families' => $linked_families, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_media_objects instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="media">
+            <?= view('lists/media-table', ['media_objects' => $linked_media_objects, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_sources instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="sources">
+            <?= view(SourceTranscription::viewsNamespace() . '::lists/sources-table', ['sources' => $linked_sources, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_notes instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="notes">
+            <?= view('lists/notes-table', ['notes' => $linked_notes, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_repositories instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="repositories">
+            <?= view('lists/repositories-table', ['repositories' => $linked_repositories, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_submitters instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="submitters">
+            <?= view('lists/submitters-table', ['submitters' => $linked_submitters, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+
+    <?php if ($linked_locations instanceof Collection) : ?>
+        <div class="tab-pane fade" role="tabpanel" id="locations">
+            <?= view('lists/locations-table', ['locations' => $linked_locations, 'tree' => $tree]) ?>
+        </div>
+    <?php endif ?>
+</div>

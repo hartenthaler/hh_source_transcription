@@ -167,6 +167,8 @@ Important enforcement points:
 - **GenerateOrUpdateNoteService**: Synchronizes a webtrees NOTE with module data and links the NOTE primarily to the selected media object. If no media object is selected, the source is used as fallback target.
 - **CompareRevisionsService**: Builds side-by-side revision metadata rows and a line-based text diff for two revisions of the same transcription.
 - **EnsureTagNoteService**: Ensures that the configured webtrees tag NOTE exists and is linked to the same target as the transcription.
+- **SourceBadgeService**: Builds source title badges from active transcription state and linked transcription-suitable source media.
+- **MediaBadgeService**: Builds media title badges for media objects linked from sources through `SOUR:OBJE`. Media objects without a source link are ignored.
 - **OpenCollaborationService**: Opens an existing transcription for internal collaboration, assigns the team, and delegates to the internal provider.
 - **CollaborationStatusService**: Applies collaborative status transitions with role checks.
 - **CollaborationNotificationService**: Notifies team members about collaboration events through the webtrees `MessageService`.
@@ -204,6 +206,37 @@ Status request handlers for manual and internal workflows also ensure that a fin
 - **Detail**: Main working view. It contains the editor for the current NOTE, shows the linked media object, lists the revision history, allows a previous revision to become current again, and provides revision comparison controls.
 - **Compare revisions**: Side-by-side view for two revisions of one transcription. It highlights changed metadata fields and displays line-level text additions, removals, and changes.
 - **Admin settings**: Module configuration plus diagnostics for database schema, NOTE editor/TinyMDE availability, tree Markdown settings, transcription counts by tree, and an optional consistency check.
+
+### Context Badges
+
+The module can add colored `T` badges to source and media titles through webtrees custom view overrides.
+
+Source badges are rendered for:
+
+- source detail titles
+- source lists
+- linked source tables
+- source facts in the individual sources tab
+
+Media badges are rendered for:
+
+- media detail titles
+- media list cards
+- linked media tables
+
+Badge states:
+
+- green: an active transcription exists
+- red: the source or source-linked media is suitable for transcription, but no active transcription exists
+- yellow: transcription is still possible, but no suitable source-linked media file is available
+
+Media badges only apply to media objects linked from source records through `SOUR:OBJE`. `OBJE:SOUR` citations are intentionally not used for this feature.
+
+Badge links use the dashboard route. Green badges pass `source_xref` or `media_xref` so the dashboard opens with a matching transcription filter. Red and yellow badges link to the unfiltered dashboard because there is no active transcription to filter to.
+
+The dashboard repository query supports optional `source_xref` and `media_xref` filters. Sort links, status/provider filters, and pagination preserve these parameters.
+
+The module also renders badges from `webtrees-media-badge` when that module is loaded. Conversely, `webtrees-media-badge` can render the source-transcription badge if its compatibility component is available. This avoids losing badges when both modules override the same media-related webtrees views.
 
 ### Media Viewer
 

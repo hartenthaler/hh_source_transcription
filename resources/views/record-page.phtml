@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Fact;
+use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\GedcomRecord;
+use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Location;
+use Fisharebest\Webtrees\Media;
+use Fisharebest\Webtrees\Note;
+use Fisharebest\Webtrees\Repository;
+use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Source;
+use Fisharebest\Webtrees\Submitter;
+use Fisharebest\Webtrees\Tree;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\SourceBadgeService;
+use Illuminate\Support\Collection;
+
+/**
+ * @var Collection<int,Fact>|null       $clipboard_facts
+ * @var Collection<int,Family>|null     $linked_families
+ * @var Collection<int,Individual>|null $linked_individuals
+ * @var Collection<int,Location>|null   $linked_locations
+ * @var Collection<int,Media>|null      $linked_media_objects
+ * @var Collection<int,Note>|null       $linked_notes
+ * @var Collection<int,Repository>|null $linked_repositories
+ * @var Collection<int,Source>|null     $linked_sources
+ * @var Collection<int,Submitter>|null  $linked_submitters
+ * @var GedcomRecord                    $record
+ * @var Tree                            $tree
+ */
+
+?>
+
+<?= view('record-page-pending', ['record' => $record]) ?>
+
+<div class="d-flex mb-4">
+    <h2 class="wt-page-title mx-auto">
+        <?php if ($record instanceof Source) : ?>
+            <span class="hh-st-source-title-line">
+                <span><?= $record->fullName() ?></span>
+                <?= Registry::container()->get(SourceBadgeService::class)->badgeHtml($record) ?>
+            </span>
+        <?php else : ?>
+            <?= $record->fullName() ?>
+        <?php endif ?>
+    </h2>
+    <?php if ($record->canEdit()) : ?>
+        <?= view('record-page-menu', ['clipboard_facts' => $clipboard_facts, 'record' => $record]) ?>
+    <?php endif ?>
+</div>
+
+<div class="wt-page-content">
+    <?php if ($linked_families instanceof Collection || $linked_individuals instanceof Collection || $linked_locations instanceof Collection || $linked_media_objects instanceof Collection || $linked_notes instanceof Collection || $linked_repositories instanceof Collection || $linked_sources instanceof Collection) : ?>
+        <?= view('record-page-links', [
+            'details'              => view('record-page-details', ['record' => $record]),
+            'linked_families'      => $linked_families,
+            'linked_individuals'   => $linked_individuals,
+            'linked_locations'     => $linked_locations,
+            'linked_media_objects' => $linked_media_objects,
+            'linked_notes'         => $linked_notes,
+            'linked_repositories'  => $linked_repositories,
+            'linked_sources'       => $linked_sources,
+            'linked_submitters'    => $linked_submitters,
+            'tree'                 => $tree,
+        ]) ?>
+    <?php else : ?>
+        <?= view('record-page-details', ['clipboard_facts' => $clipboard_facts, 'record' => $record]) ?>
+    <?php endif ?>
+</div>
+
+<?= view('modals/ajax') ?>

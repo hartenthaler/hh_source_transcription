@@ -146,7 +146,30 @@ The tag NOTE is linked to the selected media object when available. If no media 
 
 This supports genealogical workflow management and filtering.
 
-### 5. Backup and restore
+### 5. Transcription context badges
+
+The module can append colored `T` badges to source and source-media titles. This is configured in the module settings.
+
+For source records:
+
+- green `T`: the source already has at least one active transcription
+- red `T`: the source has linked media suitable for transcription, but no active transcription yet
+- yellow `T`: the source has no suitable linked media, but can still be transcribed manually
+
+For media records:
+
+- media objects that are not linked from a source through `SOUR:OBJE` are ignored
+- green `T`: the media object is linked from a source and already has at least one active transcription
+- red `T`: the media object is linked from a source and has a suitable file, but no active transcription yet
+- yellow `T`: the media object is linked from a source, but its files are not suitable for transcription
+
+The badges are shown in source and media detail pages, list pages, and linked-record contexts where webtrees renders source or media titles through supported standard views.
+
+Badge links lead to the transcription dashboard. Green badges filter the dashboard by the matching source or media object. Red and yellow badges lead to the unfiltered dashboard because no matching transcription exists yet.
+
+If the separate `webtrees-media-badge` module is installed, both modules can display their badges together. The integration is optional and defensive, so either module can still run without the other.
+
+### 6. Backup and restore
 
 Module backup/restore preserves the transcription revision history stored outside GEDCOM.
 It requires the target tree to contain the same GEDCOM records and XREF identifiers.

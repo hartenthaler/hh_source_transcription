@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @var array{label:string,class:string,title:string,url:string|null} $badge
+ */
+
+$label = trim((string) $badge['label']);
+$class = trim((string) $badge['class']);
+$title = trim((string) $badge['title']);
+$url = $badge['url'];
+
+if ($label === '' || $class === '') {
+    return;
+}
+?>
+
+<?php if ($url !== null) : ?>
+    <a class="<?= e($class) ?>" href="<?= e($url) ?>" title="<?= e($title) ?>" aria-label="<?= e($title) ?>">
+        <?= e($label) ?>
+    </a>
+<?php else : ?>
+    <span class="<?= e($class) ?>" title="<?= e($title) ?>" aria-label="<?= e($title) ?>">
+        <?= e($label) ?>
+    </span>
+<?php endif ?>

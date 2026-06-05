@@ -13,6 +13,7 @@ declare(strict_types=1);
  * @var array<string,string> $note_strategies
  * @var string $tiny_mde
  * @var string $tagging_support
+ * @var string $source_badges
  * @var int $dashboard_page_size
  * @var string $tag_prefix
  * @var string $tag_value
@@ -156,6 +157,29 @@ $provider_test_result ??= null;
 
             <div class="form-text">
                 <?= I18N::translate('Default') . ': ' . SourceTranscription::DEFAULT_TAG_VALUE ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label" for="<?= e(SourceTranscription::SOURCE_BADGES) ?>">
+            <?= I18N::translate('Show source transcription badges') ?>
+        </label>
+
+        <div class="col-sm-9">
+            <div class="form-check">
+                <input
+                        class="form-check-input"
+                        id="<?= e(SourceTranscription::SOURCE_BADGES) ?>"
+                        name="<?= e(SourceTranscription::SOURCE_BADGES) ?>"
+                        type="checkbox"
+                        value="enabled"
+                        <?= $source_badges === 'enabled' ? 'checked' : '' ?>
+                >
+            </div>
+
+            <div class="form-text">
+                <?= I18N::translate('Append colored T badges to source titles to show whether transcription work exists or is still pending.') ?>
             </div>
         </div>
     </div>

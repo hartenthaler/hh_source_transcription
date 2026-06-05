@@ -76,6 +76,24 @@ final class TranscriptionRepository
             ->all();
     }
 
+    public function existsActiveForSource(Tree $tree, string $source_xref): bool
+    {
+        return DB::table(self::TABLE)
+            ->where('tree_id', '=', $tree->id())
+            ->where('source_xref', '=', $source_xref)
+            ->where('is_active', '=', true)
+            ->exists();
+    }
+
+    public function existsActiveForMedia(Tree $tree, string $media_xref): bool
+    {
+        return DB::table(self::TABLE)
+            ->where('tree_id', '=', $tree->id())
+            ->where('media_xref', '=', $media_xref)
+            ->where('is_active', '=', true)
+            ->exists();
+    }
+
     public function setCurrentNoteXref(int $id, ?string $note_xref): void
     {
         DB::table(self::TABLE)
@@ -173,6 +191,8 @@ final class TranscriptionRepository
         ?string $provider,
         int $page,
         int $per_page = self::DEFAULT_DASHBOARD_PER_PAGE,
+        ?string $source_xref = null,
+        ?string $media_xref = null,
     ): array {
         $query = DB::table(self::TABLE)
             ->where('tree_id', '=', $tree->id())
@@ -184,6 +204,14 @@ final class TranscriptionRepository
 
         if ($provider !== null) {
             $query->where('provider_key', '=', $provider);
+        }
+
+        if ($source_xref !== null) {
+            $query->where('source_xref', '=', $source_xref);
+        }
+
+        if ($media_xref !== null) {
+            $query->where('media_xref', '=', $media_xref);
         }
 
         $total = (int)(clone $query)->count();

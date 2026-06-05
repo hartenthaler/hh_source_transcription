@@ -45,6 +45,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function response;
+use function trim;
 use function view;
 
 final class DashboardAction
@@ -72,9 +73,11 @@ final class DashboardAction
         $status = $this->validStatus($this->queryParam($query_params, 'status'));
         $provider_keys = $repo->activeProviderKeysForTree($tree);
         $provider = $this->validProvider($this->queryParam($query_params, 'provider'), $provider_keys);
+        $source_xref = $this->queryXref($query_params, 'source_xref');
+        $media_xref = $this->queryXref($query_params, 'media_xref');
         $page = max(1, $this->queryInt($query_params, 'page', 1));
         $per_page = $this->dashboardPageSize($settings);
-        $dashboard = $repo->dashboardForTree($tree, $sort, $direction, $status, $provider, $page, $per_page);
+        $dashboard = $repo->dashboardForTree($tree, $sort, $direction, $status, $provider, $page, $per_page, $source_xref, $media_xref);
 
         $transkribus_jobs = $job_repo->recentForTree($tree);
         $transkribus_job_files = [];
@@ -91,6 +94,8 @@ final class DashboardAction
                 'direction'   => $direction,
                 'status'      => $status,
                 'provider'    => $provider,
+                'source_xref' => $source_xref,
+                'media_xref'  => $media_xref,
                 'page'        => $dashboard['page'],
                 'per_page'    => $dashboard['per_page'],
                 'total'       => $dashboard['total'],
@@ -101,6 +106,8 @@ final class DashboardAction
                 'direction'   => $direction,
                 'status'      => $status,
                 'provider'    => $provider,
+                'source_xref' => $source_xref,
+                'media_xref'  => $media_xref,
                 'page'        => $dashboard['page'],
                 'per_page'    => $dashboard['per_page'],
                 'total'       => $dashboard['total'],
@@ -164,6 +171,16 @@ final class DashboardAction
     private function validProvider(string $provider, array $provider_keys): ?string
     {
         return in_array($provider, $provider_keys, true) ? $provider : null;
+    }
+
+    /**
+     * @param array<string,mixed> $params
+     */
+    private function queryXref(array $params, string $key): ?string
+    {
+        $xref = trim($this->queryParam($params, $key), '@');
+
+        return $xref === '' ? null : $xref;
     }
 
     private function dashboardPageSize(SettingsRepository $settings): int

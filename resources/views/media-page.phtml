@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Fact;
+use Fisharebest\Webtrees\Family;
+use Fisharebest\Webtrees\Individual;
+use Fisharebest\Webtrees\Location;
+use Fisharebest\Webtrees\Media;
+use Fisharebest\Webtrees\Note;
+use Fisharebest\Webtrees\Source;
+use Fisharebest\Webtrees\Tree;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service\MediaBadgeService;
+use Fisharebest\Webtrees\Registry;
+use Illuminate\Support\Collection;
+
+/**
+ * @var Collection<int,Fact>       $clipboard_facts
+ * @var Collection<int,Family>     $linked_families
+ * @var Collection<int,Individual> $linked_individuals
+ * @var Collection<int,Location>   $linked_locations
+ * @var Collection<int,Note>       $linked_notes
+ * @var Collection<int,Source>     $linked_sources
+ * @var Media                      $record
+ * @var Tree                       $tree
+ */
+
+?>
+
+<?= view('media-page-pending', ['record' => $record]) ?>
+
+<div class="d-flex mb-4">
+    <h2 class="wt-page-title mx-auto">
+        <?= Registry::container()->get(MediaBadgeService::class)->titleHtml($record) ?>
+    </h2>
+    <?php if ($record->canEdit()) : ?>
+        <?= view('media-page-menu', ['clipboard_facts' => $clipboard_facts, 'record' => $record]) ?>
+    <?php endif ?>
+</div>
+
+<div class="wt-page-content">
+        <?= view('record-page-links', [
+            'details'              => view('media-page-details', ['clipboard_facts' => $clipboard_facts, 'record' => $record]),
+            'linked_families'      => $linked_families,
+            'linked_individuals'   => $linked_individuals,
+            'linked_locations'     => $linked_locations,
+            'linked_media_objects' => null,
+            'linked_notes'         => $linked_notes,
+            'linked_repositories'  => null,
+            'linked_sources'       => $linked_sources,
+            'linked_submitters'    => null,
+            'tree'                 => $tree,
+        ]) ?>
+</div>
+
+<?= view('modals/ajax') ?>

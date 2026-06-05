@@ -1,0 +1,23 @@
+<?php
+
+declare(strict_types=1);
+
+use Fisharebest\Webtrees\Source;
+use Fisharebest\Webtrees\Tree;
+use Hartenthaler\Webtrees\Module\SourceTranscription\SourceTranscription;
+use Illuminate\Support\Collection;
+
+/**
+ * @var Collection<int,Source> $sources
+ * @var string                 $title
+ * @var Tree                   $tree
+ */
+
+?>
+<h2 class="wt-page-title">
+    <?= $title ?>
+</h2>
+
+<div class="wt-page-content">
+    <?= view(SourceTranscription::viewsNamespace() . '::lists/sources-table', ['sources' => $sources, 'tree' => $tree]) ?>
+</div>

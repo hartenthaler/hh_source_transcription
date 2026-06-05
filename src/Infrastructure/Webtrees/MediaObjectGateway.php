@@ -168,6 +168,21 @@ final class MediaObjectGateway
         return $files;
     }
 
+    public function hasTranscriptionSuitableFile(Media $media): bool
+    {
+        foreach ($media->mediaFiles() as $file) {
+            /** @var MediaFile $file */
+            $extension = $this->extension($file->filename());
+            $mime = $this->mimeType($file, $extension);
+
+            if (in_array($this->viewerType($mime, $extension, $file), ['image', 'pdf', 'text'], true)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private function extension(string $filename): string
     {
         $path = parse_url($filename, PHP_URL_PATH);

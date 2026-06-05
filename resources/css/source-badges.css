@@ -1,0 +1,56 @@
+.hh-st-source-title-line,
+.hh-st-record-title-line {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    vertical-align: middle;
+}
+
+.hh-st-source-badge,
+.hh-st-transcription-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.55em;
+    height: 1.55em;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.72em;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.hh-st-source-badge:hover,
+.hh-st-source-badge:focus,
+.hh-st-transcription-badge:hover,
+.hh-st-transcription-badge:focus {
+    color: #fff;
+    text-decoration: none;
+    filter: brightness(0.92);
+}
+
+.hh-st-source-badge--ready,
+.hh-st-transcription-badge--ready {
+    background: #b91c1c;
+}
+
+.hh-st-source-badge--transcribed,
+.hh-st-transcription-badge--transcribed {
+    background: #15803d;
+}
+
+.hh-st-source-badge--possible,
+.hh-st-transcription-badge--possible {
+    background: #ca8a04;
+}
+
+.wt-table-source .hh-st-source-badge,
+.wt-table-media .hh-st-transcription-badge,
+.tom-select .hh-st-source-badge,
+.ts-dropdown .hh-st-source-badge {
+    font-size: 0.68em;
+}

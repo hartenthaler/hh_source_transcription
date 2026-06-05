@@ -137,10 +137,20 @@ final class ViewDataService
         $current_direction = (string) ($filters['direction'] ?? 'desc');
         $current_status = ($filters['status'] ?? null) !== null ? (string) $filters['status'] : '';
         $current_provider = ($filters['provider'] ?? null) !== null ? (string) $filters['provider'] : '';
+        $current_source_xref = ($filters['source_xref'] ?? null) !== null ? (string) $filters['source_xref'] : '';
+        $current_media_xref = ($filters['media_xref'] ?? null) !== null ? (string) $filters['media_xref'] : '';
         $current_page = (int) ($filters['page'] ?? 1);
         $total_pages = (int) ($filters['total_pages'] ?? 1);
         $total = (int) ($filters['total'] ?? count($transcriptions));
         $per_page = (int) ($filters['per_page'] ?? 20);
+
+        if ($current_source_xref !== '') {
+            $form_hidden['source_xref'] = $current_source_xref;
+        }
+
+        if ($current_media_xref !== '') {
+            $form_hidden['media_xref'] = $current_media_xref;
+        }
 
         return [
             'cell_format' => self::CELL_FORMAT,
@@ -152,15 +162,17 @@ final class ViewDataService
             'current_direction' => $current_direction,
             'current_status' => $current_status,
             'current_provider' => $current_provider,
+            'current_source_xref' => $current_source_xref,
+            'current_media_xref' => $current_media_xref,
             'current_page' => $current_page,
             'total_pages' => $total_pages,
             'total' => $total,
             'first_item' => $total > 0 ? (($current_page - 1) * $per_page) + 1 : 0,
             'last_item' => $total > 0 ? min($total, $current_page * $per_page) : 0,
             'rows' => $this->dashboardRows($tree, $transcriptions),
-            'sort_urls' => $this->dashboardSortUrls($tree, $current_sort, $current_direction, $current_status, $current_provider),
+            'sort_urls' => $this->dashboardSortUrls($tree, $current_sort, $current_direction, $current_status, $current_provider, $current_source_xref, $current_media_xref),
             'sort_indicators' => $this->dashboardSortIndicators($current_sort, $current_direction),
-            'pagination' => $this->pagination($tree, $current_sort, $current_direction, $current_status, $current_provider, $current_page, $total_pages),
+            'pagination' => $this->pagination($tree, $current_sort, $current_direction, $current_status, $current_provider, $current_source_xref, $current_media_xref, $current_page, $total_pages),
             'provider_labels' => $this->providerLabels($provider_options),
         ];
     }
@@ -522,14 +534,14 @@ final class ViewDataService
     /**
      * @return array<string,string>
      */
-    private function dashboardSortUrls(Tree $tree, string $current_sort, string $current_direction, string $current_status, string $current_provider): array
+    private function dashboardSortUrls(Tree $tree, string $current_sort, string $current_direction, string $current_status, string $current_provider, string $source_xref, string $media_xref): array
     {
         $urls = [];
 
         foreach (['title', 'status', 'provider', 'created', 'updated'] as $sort) {
             $default_direction = in_array($sort, ['created', 'updated'], true) ? 'desc' : 'asc';
             $direction = $current_sort === $sort && $current_direction === 'asc' ? 'desc' : $default_direction;
-            $urls[$sort] = $this->dashboardUrl($tree, $current_sort, $current_direction, $current_status, $current_provider, 1, [
+            $urls[$sort] = $this->dashboardUrl($tree, $current_sort, $current_direction, $current_status, $current_provider, $source_xref, $media_xref, 1, [
                 'sort' => $sort,
                 'direction' => $direction,
             ]);
@@ -557,21 +569,21 @@ final class ViewDataService
     /**
      * @return array{previous:string,next:string,pages:array<int,array{number:int,url:string,active:bool}},disabled_previous:bool,disabled_next:bool}
      */
-    private function pagination(Tree $tree, string $sort, string $direction, string $status, string $provider, int $current_page, int $total_pages): array
+    private function pagination(Tree $tree, string $sort, string $direction, string $status, string $provider, string $source_xref, string $media_xref, int $current_page, int $total_pages): array
     {
         $pages = [];
 
         for ($page = 1; $page <= $total_pages; $page++) {
             $pages[] = [
                 'number' => $page,
-                'url' => $this->dashboardUrl($tree, $sort, $direction, $status, $provider, $page),
+                'url' => $this->dashboardUrl($tree, $sort, $direction, $status, $provider, $source_xref, $media_xref, $page),
                 'active' => $page === $current_page,
             ];
         }
 
         return [
-            'previous' => $this->dashboardUrl($tree, $sort, $direction, $status, $provider, max(1, $current_page - 1)),
-            'next' => $this->dashboardUrl($tree, $sort, $direction, $status, $provider, min($total_pages, $current_page + 1)),
+            'previous' => $this->dashboardUrl($tree, $sort, $direction, $status, $provider, $source_xref, $media_xref, max(1, $current_page - 1)),
+            'next' => $this->dashboardUrl($tree, $sort, $direction, $status, $provider, $source_xref, $media_xref, min($total_pages, $current_page + 1)),
             'pages' => $pages,
             'disabled_previous' => $current_page <= 1,
             'disabled_next' => $current_page >= $total_pages,
@@ -581,7 +593,7 @@ final class ViewDataService
     /**
      * @param array<string,string|int|null> $overrides
      */
-    private function dashboardUrl(Tree $tree, string $sort, string $direction, string $status, string $provider, int $page, array $overrides = []): string
+    private function dashboardUrl(Tree $tree, string $sort, string $direction, string $status, string $provider, string $source_xref, string $media_xref, int $page, array $overrides = []): string
     {
         $query = [
             'tree' => $tree->name(),
@@ -589,6 +601,8 @@ final class ViewDataService
             'direction' => $direction,
             'status' => $status,
             'provider' => $provider,
+            'source_xref' => $source_xref,
+            'media_xref' => $media_xref,
             'page' => $page,
         ];
 

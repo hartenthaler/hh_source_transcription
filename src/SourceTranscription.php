@@ -41,6 +41,8 @@ use Fisharebest\{Localization\Translation,
     Webtrees\Module\ModuleConfigTrait,
     Webtrees\Module\ModuleCustomInterface,
     Webtrees\Module\ModuleCustomTrait,
+    Webtrees\Module\ModuleGlobalInterface,
+    Webtrees\Module\ModuleGlobalTrait,
     Webtrees\Media,
     Webtrees\MediaFile,
     Webtrees\Registry,
@@ -91,10 +93,11 @@ use Hartenthaler\{Webtrees\Module\SourceTranscription\Infrastructure\Persistence
     Webtrees\Module\SourceTranscription\Infrastructure\WhatsNew\WhatsNewInterface};
 
 final class SourceTranscription extends AbstractModule implements
-    ModuleCustomInterface, ModuleConfigInterface, ModuleMenuInterface
+    ModuleCustomInterface, ModuleConfigInterface, ModuleMenuInterface, ModuleGlobalInterface
 {
     use ModuleCustomTrait;
     use ModuleConfigTrait;
+    use ModuleGlobalTrait;
     use ModuleMenuTrait;
 
     //Custom module version
@@ -135,6 +138,7 @@ final class SourceTranscription extends AbstractModule implements
     public const string DEFAULT_TAG_TEXT = 'default_tag_text';
     public const string TINY_MDE = 'tiny_mde';
     public const string TAGGING_SUPPORT = 'tagging_support';
+    public const string SOURCE_BADGES = 'source_badges';
     public const string DASHBOARD_PAGE_SIZE = 'dashboard_page_size';
     public const string WHATS_NEW = 'whats_new';
     public const int DEFAULT_DASHBOARD_PAGE_SIZE = 20;
@@ -217,6 +221,15 @@ final class SourceTranscription extends AbstractModule implements
 
         //Register a namespace for the views.
         View::registerNamespace('hh_source_transcription', strtr($this->resourcesFolder() . 'views' . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, '/'));
+        View::registerCustomView('::lists/sources-table', self::viewsNamespace() . '::lists/sources-table');
+        View::registerCustomView('::lists/media-table', self::viewsNamespace() . '::lists/media-table');
+        View::registerCustomView('vesta_research_suggestions::lists/sources-table', self::viewsNamespace() . '::lists/sources-table-vesta-research-suggestions');
+        View::registerCustomView('::media-page', self::viewsNamespace() . '::media-page');
+        View::registerCustomView('::record-page', self::viewsNamespace() . '::record-page');
+        View::registerCustomView('::record-page-links', self::viewsNamespace() . '::record-page-links');
+        View::registerCustomView('::modules/media-list/page', self::viewsNamespace() . '::modules/media-list/page');
+        View::registerCustomView('::modules/source-list/page', self::viewsNamespace() . '::modules/source-list/page');
+        View::registerCustomView('::modules/sources_tab/tab', self::viewsNamespace() . '::modules/sources-tab');
 
         //Enable the TinyMDE editor of custom module linkenhancer
         $settingsRepository = Registry::container()->get(SettingsRepository::class);
@@ -397,6 +410,7 @@ final class SourceTranscription extends AbstractModule implements
         $settingsRepository->set(self::DEFAULT_TAG_TEXT, self::DEFAULT_TAG);
         $settingsRepository->set(self::TINY_MDE, 'enabled');
         $settingsRepository->set(self::TAGGING_SUPPORT, 'enabled');
+        $settingsRepository->set(self::SOURCE_BADGES, 'enabled');
         $settingsRepository->set(self::DASHBOARD_PAGE_SIZE, (string) self::DEFAULT_DASHBOARD_PAGE_SIZE);
     }
 
@@ -481,6 +495,21 @@ final class SourceTranscription extends AbstractModule implements
     public function description(): string
     {
         return I18N::translate('Manage source transcriptions with manual and provider-based workflows.');
+    }
+
+    public function headContent(): string
+    {
+        try {
+            $settings = Registry::container()->get(SettingsRepository::class);
+
+            if ($settings->get(self::SOURCE_BADGES, 'enabled') !== 'enabled') {
+                return '';
+            }
+        } catch (\Throwable) {
+            return '';
+        }
+
+        return '<link rel="stylesheet" href="' . e($this->assetUrl('css/source-badges.css')) . '">';
     }
 
     /**
@@ -690,6 +719,7 @@ final class SourceTranscription extends AbstractModule implements
             'note_strategies'               => NoteStrategy::labels(),
             'tiny_mde'                      => $settings->get('tiny_mde', ''),
             'tagging_support'               => $settings->get('tagging_support', 'enabled'),
+            'source_badges'                 => $settings->get(self::SOURCE_BADGES, 'enabled'),
             'dashboard_page_size'           => $this->dashboardPageSize($settings),
             'tag_prefix'                    => self::DEFAULT_TAG_PREFIX,
             'tag_value'                     => $tag_value,
@@ -800,6 +830,7 @@ final class SourceTranscription extends AbstractModule implements
             $settings->set('default_note_strategy', $note_strategy);
             $settings->set('tiny_mde', (string) ($params['tiny_mde'] ?? ''));
             $settings->set('tagging_support', (string) ($params['tagging_support'] ?? ''));
+            $settings->set(self::SOURCE_BADGES, (string) ($params[self::SOURCE_BADGES] ?? ''));
             $settings->set(self::DASHBOARD_PAGE_SIZE, (string) $this->normalizeDashboardPageSize((int) ($params[self::DASHBOARD_PAGE_SIZE] ?? self::DEFAULT_DASHBOARD_PAGE_SIZE)));
 
             //Finally, show a success message
