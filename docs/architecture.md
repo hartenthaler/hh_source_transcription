@@ -41,6 +41,8 @@ Earlier revisions can be promoted back to the current state. This operation upda
 
 Two revisions of the same transcription can also be compared. The comparison shows metadata differences side by side and a line-based text diff for the transcription content.
 
+Revision number allocation is protected against concurrent save requests by parent-row locking and a database-level uniqueness constraint. The concurrency reasoning and manual test idea are documented in [docs/revision-concurrency.md](revision-concurrency.md).
+
 ## Data Model
 
 An overview of the current database schema can be found in [docs/database/schema-3.sql.txt](database/schema-3.sql.txt).

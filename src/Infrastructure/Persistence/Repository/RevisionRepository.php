@@ -26,9 +26,6 @@
  * A webtrees (https://webtrees.net) 2.2 custom module to transcribe sources
  */
 
-//tbd: Zwei parallele Requests könnten beide die gleiche Revision-Nummer bekommen.
-//Transaction + Lock oder DB UNIQUE constraint
-
 declare(strict_types=1);
 
 namespace Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository;
@@ -36,6 +33,8 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persis
 use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\DB;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\Entity\TranscriptionRevision;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Schema\SchemaManager;
+use RuntimeException;
 
 final class RevisionRepository
 {
@@ -67,11 +66,25 @@ final class RevisionRepository
      */
     public function nextRevisionNo(int $transcription_id): int
     {
+        $this->lockTranscriptionForRevisionAllocation($transcription_id);
+
         $max = DB::table(self::TABLE)
             ->where('transcription_id', '=', $transcription_id)
             ->max('revision_no');
 
         return ((int)$max) + 1;
+    }
+
+    public function lockTranscriptionForRevisionAllocation(int $transcription_id): void
+    {
+        $locked_id = DB::table(SchemaManager::TABLE_TRANSCRIPTIONS)
+            ->where('id', '=', $transcription_id)
+            ->lockForUpdate()
+            ->value('id');
+
+        if ($locked_id === null) {
+            throw new RuntimeException('Transcription not found: ' . $transcription_id);
+        }
     }
 
     public function latestForTranscription(int $transcription_id): ?TranscriptionRevision

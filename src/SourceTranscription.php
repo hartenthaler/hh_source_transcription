@@ -125,7 +125,7 @@ final class SourceTranscription extends AbstractModule implements
 	public const string CUSTOM_AUTHOR = 'Hermann Hartenthaler';
 
     //Used database schema version
-    public const int CURRENT_SCHEMA_VERSION = 5;
+    public const int CURRENT_SCHEMA_VERSION = 6;
 
     //Default tag values for transcriptions (NOTE <tag_prefix><tag_value>)
     public const string DEFAULT_TAG_PREFIX = 'TAG: ';

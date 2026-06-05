@@ -78,13 +78,6 @@ final class SaveNoteAsRevisionService
 
         $note_hash = $this->hashService->sha256($note_text);
 
-        $latest = $this->revisionRepository->latestForTranscription($transcription_id);
-
-        // keine neue Revision erzeugen, wenn identisch
-        if ($latest !== null && $latest->content_hash === $note_hash) {
-            return $latest->id;
-        }
-
         $revision_id = DB::transaction(function () use (
             $transcription,
             $note_text,
@@ -92,6 +85,14 @@ final class SaveNoteAsRevisionService
             $user_id,
             $comment
         ): int {
+            $this->revisionRepository->lockTranscriptionForRevisionAllocation($transcription->id);
+
+            $latest = $this->revisionRepository->latestForTranscription($transcription->id);
+
+            if ($latest !== null && $latest->content_hash === $note_hash) {
+                return $latest->id;
+            }
+
             $revision_no = $this->revisionRepository->nextRevisionNo($transcription->id);
 
             $revision_id = $this->revisionRepository->create([
