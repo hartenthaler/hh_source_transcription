@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @var ?Media $media_object
  * @var string $media_restriction
  * @var string $media_restriction_html
- * @var array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string}> $media_files
+ * @var array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, mime: string, metadata?: array{language:string, description:string, created:string, persons:list<string>, keywords:list<string>, fields:list<array{label:string,value:string}>}}> $media_files
  * @var array<int, mixed> $eligible_collaborators
  * @var array<int, array{name: string, role: string}> $active_collaborators
  * @var array<int, int> $active_collaborator_ids
@@ -110,12 +110,44 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI1
                                                     <?php if ($file_data['type'] !== '') : ?>
                                                         <div><strong>TYPE:</strong> <?= e($file_data['type']) ?></div>
                                                     <?php endif ?>
+                                                    <?php if (($file_data['mime'] ?? '') !== '') : ?>
+                                                        <div><strong>MIME:</strong> <?= e($file_data['mime']) ?></div>
+                                                    <?php endif ?>
+                                                    <?php $metadata = $file_data['metadata'] ?? null; ?>
+                                                    <?php if (is_array($metadata) && ($metadata['language'] ?? '') !== '') : ?>
+                                                        <div><strong>XMP dc:language:</strong> <?= e($metadata['language']) ?></div>
+                                                    <?php endif ?>
+                                                    <?php if (is_array($metadata) && ($metadata['created'] ?? '') !== '') : ?>
+                                                        <div><strong>XMP/EXIF date:</strong> <?= e($metadata['created']) ?></div>
+                                                    <?php endif ?>
+                                                    <?php if (is_array($metadata) && ($metadata['description'] ?? '') !== '') : ?>
+                                                        <div><strong>XMP/EXIF description:</strong> <?= e($metadata['description']) ?></div>
+                                                    <?php endif ?>
+                                                    <?php if (is_array($metadata) && ($metadata['keywords'] ?? []) !== []) : ?>
+                                                        <div><strong>XMP dc:subject:</strong> <?= e(implode(', ', $metadata['keywords'])) ?></div>
+                                                    <?php endif ?>
+                                                    <?php if (is_array($metadata) && ($metadata['persons'] ?? []) !== []) : ?>
+                                                        <div><strong>IPTC PersonInImage:</strong> <?= e(implode(', ', $metadata['persons'])) ?></div>
+                                                    <?php endif ?>
+                                                    <?php if (is_array($metadata) && ($metadata['fields'] ?? []) !== []) : ?>
+                                                        <details class="mt-1">
+                                                            <summary><?= I18N::translate('Embedded metadata') ?> (<?= I18N::number(count($metadata['fields'])) ?>)</summary>
+                                                            <dl class="mb-0 mt-1">
+                                                                <?php foreach ($metadata['fields'] as $field) : ?>
+                                                                    <dt class="fw-semibold"><?= e($field['label']) ?></dt>
+                                                                    <dd class="mb-1 text-break"><?= e($field['value']) ?></dd>
+                                                                <?php endforeach ?>
+                                                            </dl>
+                                                        </details>
+                                                    <?php endif ?>
                                                 </div>
                                             </div>
                                         <?php endforeach ?>
                                     </div>
                                     <?php if ($media_restriction_html !== '') : ?>
-                                        <div class="small text-danger"><?= $media_restriction_html ?></div>
+                                        <div class="small text-danger mt-2">
+                                            <strong>RESN:</strong> <?= $media_restriction_html ?>
+                                        </div>
                                     <?php endif ?>
                                 <?php else : ?>
                                     <span class="<?= e($detail['muted']) ?>"><?= I18N::translate('No media object selected.') ?></span>

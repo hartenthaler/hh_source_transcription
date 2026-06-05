@@ -133,8 +133,10 @@ use Fisharebest\Webtrees\Tree;
         const sourceSelect = document.getElementById('source_xref');
         const mediaSelect = document.getElementById('media_xref');
         const mediaStatus = document.getElementById('media_xref_status');
+        const languageSelect = document.getElementById('primary_language_tag');
 
         const mediaUrl = <?= json_encode($form['media_url'], JSON_THROW_ON_ERROR) ?>;
+        const mediaFilesUrl = <?= json_encode($form['media_files_url'], JSON_THROW_ON_ERROR) ?>;
         const messages = <?= json_encode($form['messages'], JSON_THROW_ON_ERROR) ?>;
 
         function setMediaStatus(message, isWarning) {
@@ -159,6 +161,47 @@ use Fisharebest\Webtrees\Tree;
             option.value = value;
             option.textContent = label;
             mediaSelect.appendChild(option);
+        }
+
+        function applyMetadataFromMedia(mediaXref) {
+            mediaXref = (mediaXref || '').replaceAll('@', '').trim();
+
+            if (!mediaXref || languageSelect.value) {
+                return;
+            }
+
+            const separator = mediaFilesUrl.includes('?') ? '&' : '?';
+
+            fetch(mediaFilesUrl + separator + 'media_xref=' + encodeURIComponent(mediaXref), {
+                headers: { 'Accept': 'application/json' }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('HTTP ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(items => {
+                    if (!Array.isArray(items)) {
+                        return;
+                    }
+
+                    for (const item of items) {
+                        const language = (item.metadata?.language || '').trim();
+
+                        if (language !== '') {
+                            for (const option of languageSelect.options) {
+                                if (option.value === language) {
+                                    languageSelect.value = language;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         }
 
         function loadMediaForSource(sourceXref) {
@@ -210,6 +253,8 @@ use Fisharebest\Webtrees\Tree;
                             : messages.no_media_selected,
                         true
                     );
+
+                    applyMetadataFromMedia(mediaSelect.value);
                 })
                 .catch(error => {
                     console.error(error);
@@ -232,6 +277,7 @@ use Fisharebest\Webtrees\Tree;
                     : messages.no_media_selected,
                 true
             );
+            applyMetadataFromMedia(mediaSelect.value);
         });
     });
 </script>

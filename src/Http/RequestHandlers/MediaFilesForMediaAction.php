@@ -26,6 +26,7 @@ use Fisharebest\Webtrees\Registry;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Factory\TranscriptionProviderFactory;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Application\Provider\SupportsMediaUploadRulesInterface;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Domain\ValueObject\ProviderKey;
+use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Webtrees\MediaMetadataReader;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI18N;
 use JsonException;
 use Psr\Http\Message\ResponseInterface;
@@ -58,6 +59,7 @@ final class MediaFilesForMediaAction
         }
 
         $items = [];
+        $metadata_reader = Registry::container()->get(MediaMetadataReader::class);
 
         foreach ($media->mediaFiles() as $file) {
             /** @var MediaFile $file */
@@ -73,6 +75,7 @@ final class MediaFilesForMediaAction
                 'size_label' => MoreI18N::xlate('%s KB', I18N::number(intdiv($size + 1023, 1024))),
                 'uploadable' => $message === '',
                 'message'    => $message,
+                'metadata'   => $metadata_reader->read($file),
             ];
         }
 

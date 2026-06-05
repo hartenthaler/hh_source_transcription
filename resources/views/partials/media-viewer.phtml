@@ -54,21 +54,11 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI1
         data-media-file-index="<?= e((string) $index) ?>"
         style="<?= $index === 0 ? '' : 'display:none' ?>"
     >
-        <div class="small text-muted mb-2">
-            <div><strong>FILE:</strong> <?= e($file_data['filename']) ?></div>
-            <?php if ($file_data['form'] !== '') : ?>
-                <div><strong>FORM:</strong> <?= e($file_data['form']) ?></div>
-            <?php endif ?>
-            <?php if ($file_data['type'] !== '') : ?>
-                <div><strong>TYPE:</strong> <?= e($file_data['type']) ?></div>
-            <?php endif ?>
-            <?php if ($file_data['mime'] !== '') : ?>
-                <div><strong>MIME:</strong> <?= e($file_data['mime']) ?></div>
-            <?php endif ?>
-            <?php if ($file_data['is_external']) : ?>
+        <?php if ($file_data['is_external']) : ?>
+            <div class="small text-muted mb-2">
                 <div><?= I18N::translate('External media URL') ?></div>
-            <?php endif ?>
-        </div>
+            </div>
+        <?php endif ?>
 
         <?php if ($file_data['is_external'] && !$file_data['is_embeddable_external']) : ?>
             <div class="alert alert-warning">

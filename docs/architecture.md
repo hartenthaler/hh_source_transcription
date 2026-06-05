@@ -279,6 +279,21 @@ External media URLs are embedded only when they use `http` or `https`. They are 
 
 Manual verification cases are tracked in [docs/media-viewer-test-matrix.md](media-viewer-test-matrix.md).
 
+### Media Metadata
+
+`MediaMetadataReader` reads embedded metadata from local webtrees media files without depending on another custom module. The implementation is intentionally read-only and reuses the parsing approach from the `webtrees-sammlungen` metadata code where it fits this module.
+
+The reader extracts XMP packets directly from file content when possible and uses Imagick as a fallback for local image files. For image files, EXIF `ImageDescription`, `UserComment`, `DateTimeOriginal`, `DateTimeDigitized`, and `DateTime` are used as fallback values when the corresponding XMP fields are missing. It currently exposes:
+
+- `dc:language` as `language`
+- `dc:description` as `description`
+- `xmp:CreateDate` or `xmp:ModifyDate` as `created`
+- `iptcExt:PersonInImage` as `persons`
+- `dc:subject` as `keywords`
+- a generic `fields` list with additional extracted XMP, IPTC, and EXIF values
+
+`MediaFilesForMediaAction` includes these metadata values in its JSON response for each media file. `MediaObjectGateway::files()` also adds them to the detail page data so FILE/FORM/TYPE/MIME can be shown together with XMP/EXIF metadata. Large metadata sets are rendered in a collapsed details block on the transcription detail page. GEDCOM `RESN` restrictions on the selected media object are shown explicitly in the information block. The manual transcription form uses the first supported `dc:language` value to preselect the primary language when the user selects a linked media object and has not already selected a language manually.
+
 ### Actions / API
 - **UpdateCurrentNoteAction**: Saves the current editor text to the webtrees NOTE.
 - **SaveNoteAsRevisionAction**: Archives the current NOTE state as a new immutable revision.

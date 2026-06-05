@@ -283,6 +283,7 @@ final class ViewDataService
         return [
             'source_url' => route(SourceForManualAction::class, ['tree' => $tree->name(), 'at' => '@']),
             'media_url' => route(MediaForSourceAction::class, ['tree' => $tree->name()]),
+            'media_files_url' => route(MediaFilesForMediaAction::class, ['tree' => $tree->name()]),
             'language_options' => PrimaryLanguage::labels(),
             'script_options' => PrimaryScript::labels(),
             'form_options' => PrimaryForm::labels(),

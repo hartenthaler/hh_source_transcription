@@ -86,6 +86,11 @@ final class MediaObjectGateway
         'VIDEO',
     ];
 
+    public function __construct(
+        private readonly MediaMetadataReader $metadataReader = new MediaMetadataReader(),
+    ) {
+    }
+
     public function linkNoteToMedia(Tree $tree, string $media_xref, string $note_xref): bool
     {
         $media = Registry::mediaFactory()->make($media_xref, $tree);
@@ -126,7 +131,7 @@ final class MediaObjectGateway
     /**
      * @param Media $media
      *
-     * @return array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, url: string, download_url: string, mime: string, extension: string, is_external: bool, is_embeddable_external: bool, viewer_type: string, text_content: string, text_truncated: bool}>
+     * @return array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, url: string, download_url: string, mime: string, extension: string, is_external: bool, is_embeddable_external: bool, viewer_type: string, text_content: string, text_truncated: bool, metadata: array{language:string, description:string, created:string, persons:list<string>, keywords:list<string>, fields:list<array{label:string,value:string}>}}>
      */
     public function files(Media $media): array
     {
@@ -162,6 +167,7 @@ final class MediaObjectGateway
                 'viewer_type' => $viewer_type,
                 'text_content' => $text_content,
                 'text_truncated' => $text_truncated,
+                'metadata' => $this->metadataReader->read($file),
             ];
         }
 
