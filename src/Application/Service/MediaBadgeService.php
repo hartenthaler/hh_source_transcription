@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service;
 
 use Fisharebest\Webtrees\DB;
+use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Media;
+use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Source;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\SettingsRepository;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Persistence\Repository\TranscriptionRepository;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Infrastructure\Webtrees\MediaObjectGateway;
@@ -56,19 +59,23 @@ final class MediaBadgeService
         }
 
         if ($this->mediaObjectGateway->hasTranscriptionSuitableFile($media)) {
+            $source = $this->linkedSource($media);
+
             return [
                 'label' => 'T',
                 'class' => 'hh-st-transcription-badge hh-st-transcription-badge--ready',
                 'title' => I18N::translate('This media object is linked to a source and is suitable for transcription, but no transcription exists yet.'),
-                'url' => $this->dashboardUrl($media),
+                'url' => $source !== null ? $this->createManualUrl($source, $media) : $this->dashboardUrl($media),
             ];
         }
+
+        $source = $this->linkedSource($media);
 
         return [
             'label' => 'T',
             'class' => 'hh-st-transcription-badge hh-st-transcription-badge--possible',
             'title' => I18N::translate('This media object is linked to a source, but its files are not suitable for transcription.'),
-            'url' => $this->dashboardUrl($media),
+            'url' => $source !== null ? $this->createManualUrl($source, $media) : $this->dashboardUrl($media),
         ];
     }
 
@@ -125,6 +132,41 @@ final class MediaBadgeService
     private function dashboardUrl(Media $media, array $filters = []): string
     {
         return route('source-transcription-dashboard', ['tree' => $media->tree()->name()] + $filters);
+    }
+
+    private function createManualUrl(Source $source, Media $media): string
+    {
+        return route('source-transcription-create-manual', [
+            'tree' => $media->tree()->name(),
+            'source_xref' => $source->xref(),
+            'media_xref' => $media->xref(),
+        ]);
+    }
+
+    private function linkedSource(Media $media): ?Source
+    {
+        $source_xrefs = DB::table('sources')
+            ->join('link', static function ($join): void {
+                $join->on('l_from', '=', 's_id');
+                $join->on('l_file', '=', 's_file');
+            })
+            ->where('l_type', '=', 'OBJE')
+            ->where('l_file', '=', $media->tree()->id())
+            ->where('l_to', '=', trim($media->xref()))
+            ->orderBy('s_id')
+            ->pluck('s_id');
+
+        $access_level = Auth::accessLevel($media->tree());
+
+        foreach ($source_xrefs as $source_xref) {
+            $source = Registry::sourceFactory()->make((string) $source_xref, $media->tree());
+
+            if ($source !== null && $source->canShow($access_level)) {
+                return $source;
+            }
+        }
+
+        return null;
     }
 
     private function isLinkedToSource(Media $media): bool

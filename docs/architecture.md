@@ -234,7 +234,7 @@ Badge states:
 
 Media badges only apply to media objects linked from source records through `SOUR:OBJE`. `OBJE:SOUR` citations are intentionally not used for this feature.
 
-Badge links use the dashboard route. Green badges pass `source_xref` or `media_xref` so the dashboard opens with a matching transcription filter. Red and yellow badges link to the unfiltered dashboard because there is no active transcription to filter to.
+Green badge links use the dashboard route and pass `source_xref` or `media_xref` so the dashboard opens with a matching transcription filter. Media badges without an active transcription link to the manual creation workflow with the linked `SOUR:OBJE` source and media object preselected. This is the current provider-specific implementation; a later provider-selection entry point can replace the direct manual link while keeping the same source/media context.
 
 The dashboard repository query supports optional `source_xref` and `media_xref` filters. Sort links, status/provider filters, and pagination preserve these parameters.
 

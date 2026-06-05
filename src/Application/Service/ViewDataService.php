@@ -16,6 +16,7 @@ namespace Hartenthaler\Webtrees\Module\SourceTranscription\Application\Service;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Media;
 use Fisharebest\Webtrees\Mime;
@@ -39,6 +40,8 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\MediaF
 use Hartenthaler\Webtrees\Module\SourceTranscription\Http\RequestHandlers\SourceForManualAction;
 use Hartenthaler\Webtrees\Module\SourceTranscription\Support\TranscriptionSlug;
 
+use function array_unique;
+use function array_values;
 use function e;
 use function dirname;
 use function filemtime;
@@ -49,7 +52,10 @@ use function min;
 use function parse_str;
 use function parse_url;
 use function pathinfo;
+use function preg_match;
+use function preg_split;
 use function route;
+use function strip_tags;
 use function strtok;
 use function strtoupper;
 use function trim;
@@ -278,12 +284,41 @@ final class ViewDataService
     /**
      * @return array<string,mixed>
      */
-    public function createManualFormData(Tree $tree): array
+    public function createManualFormData(Tree $tree, array $prefill = []): array
     {
+        $source_xref = trim((string) ($prefill['source_xref'] ?? ''), '@');
+        $media_xref = trim((string) ($prefill['media_xref'] ?? ''), '@');
+        $source = $source_xref !== '' ? Registry::sourceFactory()->make($source_xref, $tree) : null;
+        $media = $media_xref !== '' ? Registry::mediaFactory()->make($media_xref, $tree) : null;
+        $access_level = Auth::accessLevel($tree);
+
+        if ($source === null || !$source->canShow($access_level)) {
+            $source_xref = '';
+            $source = null;
+            $media_xref = '';
+            $media = null;
+        }
+
+        if ($media === null || !$media->canShow($access_level)) {
+            $media_xref = '';
+            $media = null;
+        }
+
+        if ($source !== null && $media !== null && !in_array($media_xref, $this->visibleMediaXrefs($source, $access_level), true)) {
+            $media_xref = '';
+            $media = null;
+        }
+
         return [
             'source_url' => route(SourceForManualAction::class, ['tree' => $tree->name(), 'at' => '@']),
             'media_url' => route(MediaForSourceAction::class, ['tree' => $tree->name()]),
             'media_files_url' => route(MediaFilesForMediaAction::class, ['tree' => $tree->name()]),
+            'prefill' => [
+                'source_xref' => $source_xref,
+                'source_label' => $source !== null ? strip_tags($source->fullName()) . ' (' . $source_xref . ')' : '',
+                'media_xref' => $media_xref,
+                'title' => $media !== null ? strip_tags($media->fullName()) : ($source !== null ? strip_tags($source->fullName()) : ''),
+            ],
             'language_options' => PrimaryLanguage::labels(),
             'script_options' => PrimaryScript::labels(),
             'form_options' => PrimaryForm::labels(),
@@ -297,6 +332,22 @@ final class ViewDataService
                 'could_not_load_media' => I18N::translate('Could not load media objects'),
             ],
         ];
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function visibleMediaXrefs(\Fisharebest\Webtrees\Source $source, int $access_level): array
+    {
+        $media_xrefs = [];
+
+        foreach (preg_split('/\R/u', $source->privatizeGedcom($access_level)) ?: [] as $line) {
+            if (preg_match('/^\d+\s+OBJE\s+@([^@]+)@/u', $line, $match) === 1) {
+                $media_xrefs[] = trim($match[1]);
+            }
+        }
+
+        return array_values(array_unique($media_xrefs));
     }
 
     /**

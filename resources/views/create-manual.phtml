@@ -23,7 +23,7 @@ use Fisharebest\Webtrees\Tree;
             <?= I18N::translate('Title') ?>
         </label>
         <div class="col-sm-9">
-            <input class="form-control" id="title" name="title" type="text" required>
+            <input class="form-control" id="title" name="title" type="text" value="<?= e($form['prefill']['title'] ?? '') ?>" required>
         </div>
     </div>
 
@@ -42,7 +42,13 @@ use Fisharebest\Webtrees\Tree;
                         data-wt-i18n-no-results="<?= e($form['messages']['no_results']) ?>"
                         placeholder="<?= e($form['messages']['search_source']) ?>"
                         required
-                ></select>
+                >
+                    <?php if (($form['prefill']['source_xref'] ?? '') !== '') : ?>
+                        <option value="<?= e('@' . $form['prefill']['source_xref'] . '@') ?>" selected>
+                            <?= e($form['prefill']['source_label']) ?>
+                        </option>
+                    <?php endif ?>
+                </select>
             </div>
         </div>
     </div>
@@ -138,6 +144,7 @@ use Fisharebest\Webtrees\Tree;
         const mediaUrl = <?= json_encode($form['media_url'], JSON_THROW_ON_ERROR) ?>;
         const mediaFilesUrl = <?= json_encode($form['media_files_url'], JSON_THROW_ON_ERROR) ?>;
         const messages = <?= json_encode($form['messages'], JSON_THROW_ON_ERROR) ?>;
+        const prefill = <?= json_encode($form['prefill'], JSON_THROW_ON_ERROR) ?>;
 
         function setMediaStatus(message, isWarning) {
             mediaStatus.textContent = message;
@@ -204,8 +211,9 @@ use Fisharebest\Webtrees\Tree;
                 });
         }
 
-        function loadMediaForSource(sourceXref) {
+        function loadMediaForSource(sourceXref, preferredMediaXref) {
             sourceXref = (sourceXref || '').replaceAll('@', '').trim();
+            preferredMediaXref = (preferredMediaXref || '').replaceAll('@', '').trim();
 
             if (!sourceXref) {
                 resetMediaSelect(messages.select_source_first, true);
@@ -242,7 +250,9 @@ use Fisharebest\Webtrees\Tree;
                         addMediaOption(item.id, item.text);
                     }
 
-                    if (items.length === 1) {
+                    if (preferredMediaXref) {
+                        mediaSelect.value = preferredMediaXref;
+                    } else if (items.length === 1) {
                         mediaSelect.value = items[0].id;
                     }
 
@@ -279,5 +289,9 @@ use Fisharebest\Webtrees\Tree;
             );
             applyMetadataFromMedia(mediaSelect.value);
         });
+
+        if (prefill.source_xref) {
+            loadMediaForSource(prefill.source_xref, prefill.media_xref || '');
+        }
     });
 </script>

@@ -39,6 +39,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 use function response;
+use function trim;
 use function view;
 
 class CreateManualAction implements RequestHandlerInterface
@@ -54,7 +55,10 @@ class CreateManualAction implements RequestHandlerInterface
         $content = view('hh_source_transcription::create-manual', [
             'title'         => $title,
             'tree'          => $tree,
-            'form'          => Registry::container()->get(ViewDataService::class)->createManualFormData($tree),
+            'form'          => Registry::container()->get(ViewDataService::class)->createManualFormData($tree, [
+                'source_xref' => trim((string) ($request->getQueryParams()['source_xref'] ?? ''), '@'),
+                'media_xref' => trim((string) ($request->getQueryParams()['media_xref'] ?? ''), '@'),
+            ]),
         ]);
 
         return response(view('layouts/default', [
