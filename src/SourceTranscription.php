@@ -814,11 +814,10 @@ final class SourceTranscription extends AbstractModule implements
 
         //Save the received settings to the user preferences
         if ($save === '1') {
-            // tbd: use Validator::parsedBody($request)->string|boolean|...('xxx', ''|true|...);
-            $params = (array)$request->getParsedBody();
+            $body = Validator::parsedBody($request);
 
-            $tag_value = $this->normalizeTagValue(trim((string)($params['tag_value'] ?? self::DEFAULT_TAG_VALUE)));
-            $note_strategy = (string)($params['default_note_strategy']);
+            $tag_value = $this->normalizeTagValue(trim($body->string('tag_value', self::DEFAULT_TAG_VALUE)));
+            $note_strategy = $body->string('default_note_strategy', NoteStrategy::default());
 
             //Set default NOTE strategy if not set or incorrect set
             if (!NoteStrategy::isValid($note_strategy)) {
@@ -828,10 +827,10 @@ final class SourceTranscription extends AbstractModule implements
             $settings = Registry::container()->get(SettingsRepository::class);
             $settings->set('default_tag_text', self::DEFAULT_TAG_PREFIX . $tag_value);
             $settings->set('default_note_strategy', $note_strategy);
-            $settings->set('tiny_mde', (string) ($params['tiny_mde'] ?? ''));
-            $settings->set('tagging_support', (string) ($params['tagging_support'] ?? ''));
-            $settings->set(self::SOURCE_BADGES, (string) ($params[self::SOURCE_BADGES] ?? ''));
-            $settings->set(self::DASHBOARD_PAGE_SIZE, (string) $this->normalizeDashboardPageSize((int) ($params[self::DASHBOARD_PAGE_SIZE] ?? self::DEFAULT_DASHBOARD_PAGE_SIZE)));
+            $settings->set('tiny_mde', $body->string('tiny_mde', ''));
+            $settings->set('tagging_support', $body->string('tagging_support', ''));
+            $settings->set(self::SOURCE_BADGES, $body->string(self::SOURCE_BADGES, ''));
+            $settings->set(self::DASHBOARD_PAGE_SIZE, (string) $this->normalizeDashboardPageSize($body->integer(self::DASHBOARD_PAGE_SIZE, self::DEFAULT_DASHBOARD_PAGE_SIZE)));
 
             //Finally, show a success message
             FlashMessages::addMessage(
