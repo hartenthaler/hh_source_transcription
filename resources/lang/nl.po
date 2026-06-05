@@ -725,7 +725,7 @@ msgid "Should tagging be supported?"
 msgstr "Moet labeling worden ondersteund?"
 
 msgid "Show source transcription badges"
-msgstr "Transcriptiebadges bij bronnen tonen"
+msgstr "Toon transcriptiebadges bij bronnen"
 
 msgid ""
 "Append colored T badges to source titles to show whether transcription work exists or is "
