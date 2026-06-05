@@ -244,6 +244,7 @@ The module also renders badges from `webtrees-media-badge` when that module is l
 
 The detail page renders media files through `resources/views/partials/media-viewer.phtml`.
 The detail workspace supports two browser-side layouts: side-by-side media and NOTE editor, and a vertical layout with media above the NOTE editor. The selected layout is stored in `localStorage`, so no database migration or server-side user setting is required.
+If no manual layout selection has been stored yet, the default layout is side-by-side. For local image files with readable dimensions, the detail page automatically chooses the vertical layout when the first image with known dimensions is wider than it is tall. A manual user selection still overrides this automatic choice through the existing `localStorage` setting.
 
 `MediaObjectGateway::files()` enriches webtrees `MediaFile` objects with viewer metadata:
 
@@ -254,6 +255,7 @@ The detail workspace supports two browser-side layouts: side-by-side media and N
 - `is_external`
 - `is_embeddable_external`
 - `viewer_type`: `image`, `pdf`, `audio`, `video`, `text`, or `download`
+- `width` and `height` for local image files when dimensions can be read
 - `text_content` and `text_truncated` for local text previews
 
 Supported preview behavior:

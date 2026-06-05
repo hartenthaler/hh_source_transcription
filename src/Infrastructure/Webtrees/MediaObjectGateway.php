@@ -37,6 +37,7 @@ use Throwable;
 
 use function chr;
 use function function_exists;
+use function getimagesizefromstring;
 use function hexdec;
 use function html_entity_decode;
 use function in_array;
@@ -131,7 +132,7 @@ final class MediaObjectGateway
     /**
      * @param Media $media
      *
-     * @return array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, url: string, download_url: string, mime: string, extension: string, is_external: bool, is_embeddable_external: bool, viewer_type: string, text_content: string, text_truncated: bool, metadata: array{language:string, description:string, created:string, persons:list<string>, keywords:list<string>, fields:list<array{label:string,value:string}>}}>
+     * @return array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, url: string, download_url: string, mime: string, extension: string, is_external: bool, is_embeddable_external: bool, viewer_type: string, text_content: string, text_truncated: bool, width: int, height: int, metadata: array{language:string, description:string, created:string, persons:list<string>, keywords:list<string>, fields:list<array{label:string,value:string}>}}>
      */
     public function files(Media $media): array
     {
@@ -151,6 +152,9 @@ final class MediaObjectGateway
             [$text_content, $text_truncated] = $viewer_type === 'text' && !$is_external
                 ? $this->textPreview($file, $extension)
                 : ['', false];
+            [$width, $height] = $viewer_type === 'image' && !$is_external
+                ? $this->imageDimensions($file)
+                : [0, 0];
 
             $files[] = [
                 'file'     => $file,
@@ -167,6 +171,8 @@ final class MediaObjectGateway
                 'viewer_type' => $viewer_type,
                 'text_content' => $text_content,
                 'text_truncated' => $text_truncated,
+                'width' => $width,
+                'height' => $height,
                 'metadata' => $this->metadataReader->read($file),
             ];
         }
@@ -291,6 +297,28 @@ final class MediaObjectGateway
         }
 
         return 'download';
+    }
+
+    /**
+     * @return array{0: int, 1: int}
+     */
+    private function imageDimensions(MediaFile $file): array
+    {
+        try {
+            $data = $file->media()->tree()->mediaFilesystem()->read($file->filename());
+            $image_size = getimagesizefromstring($data);
+        } catch (Throwable) {
+            return [0, 0];
+        }
+
+        if (!is_array($image_size)) {
+            return [0, 0];
+        }
+
+        return [
+            (int) ($image_size[0] ?? 0),
+            (int) ($image_size[1] ?? 0),
+        ];
     }
 
     /**

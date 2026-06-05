@@ -23,7 +23,7 @@ declare(strict_types=1);
  * @var ?Media $media_object
  * @var string $media_restriction
  * @var string $media_restriction_html
- * @var array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, mime: string, metadata?: array{language:string, description:string, created:string, persons:list<string>, keywords:list<string>, fields:list<array{label:string,value:string}>}}> $media_files
+ * @var array<int, array{file: MediaFile, filename: string, title: string, form: string, type: string, mime: string, width: int, height: int, metadata?: array{language:string, description:string, created:string, persons:list<string>, keywords:list<string>, fields:list<array{label:string,value:string}>}}> $media_files
  * @var array<int, mixed> $eligible_collaborators
  * @var array<int, array{name: string, role: string}> $active_collaborators
  * @var array<int, int> $active_collaborator_ids
@@ -359,6 +359,11 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI1
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const layoutStorageKey = 'hh_source_transcription.detail_layout';
+        const mediaLayoutHints = <?= json_encode(array_values(array_map(static fn (array $file): array => [
+            'viewer_type' => $file['viewer_type'] ?? '',
+            'width' => (int) ($file['width'] ?? 0),
+            'height' => (int) ($file['height'] ?? 0),
+        ], $media_files)), JSON_THROW_ON_ERROR) ?>;
         const workspace = document.querySelector('[data-source-transcription-workspace]');
         const layoutButtons = document.querySelectorAll('[data-source-transcription-layout]');
         const mediaPanel = document.querySelector('[data-source-transcription-panel="media"]');
@@ -386,9 +391,25 @@ use Hartenthaler\Webtrees\Module\SourceTranscription\Internationalization\MoreI1
             });
         }
 
+        function automaticLayout() {
+            for (const file of mediaLayoutHints) {
+                if (file.viewer_type !== 'image' || file.width <= 0 || file.height <= 0) {
+                    continue;
+                }
+
+                return file.width > file.height ? 'vertical' : 'side-by-side';
+            }
+
+            return 'side-by-side';
+        }
+
         if (workspace && mediaPanel && notePanel) {
             const savedLayout = localStorage.getItem(layoutStorageKey);
-            setLayout(savedLayout === 'vertical' ? 'vertical' : 'side-by-side');
+            setLayout(
+                savedLayout === 'vertical' || savedLayout === 'side-by-side'
+                    ? savedLayout
+                    : automaticLayout()
+            );
 
             layoutButtons.forEach(function (button) {
                 button.addEventListener('click', function () {
