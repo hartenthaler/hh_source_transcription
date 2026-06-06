@@ -26,6 +26,8 @@ This Readme contains the following main sections
 * [Installation](#Installation)
 * [Upgrade](#Upgrade)
 * [Translation](#Translation)
+* [Credits](#Credits)
+* [Privacy, telemetry, and tracking](#Privacy)
 * [Contact Support](#Support)
 * [License](#License)
 
@@ -446,6 +448,20 @@ There are the following translations available
 - English by [@Hartenthaler](https://github.com/Hartenthaler)
 - German by [@Hartenthaler](https://github.com/Hartenthaler)
 - Spanish by [@bernatbanyuls](https://github.com/bernatbanyuls)
+
+<a name="Credits"></a>
+## 🙏 Credits
+
+Developed by Hermann Hartenthaler with support from OpenAI Codex and JetBrains PhpStorm.
+
+<a name="Privacy"></a>
+## 🔒 Privacy, telemetry, and tracking
+
+This module does not collect analytics data, does not track users, and does not send transcription content, family tree data, media files, or personal data to the module author.
+
+When the **webtrees** control panel is opened, the module checks whether a newer version is available. This version check requests only the module's public latest-version URL on `github.com`.
+
+Provider-specific workflows may involve external services, such as Discourse or Transkribus. In those cases, data is only sent when a user explicitly starts the corresponding workflow.
 
 <a name="Support"></a>
 ## ❓ Support
