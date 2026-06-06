@@ -150,6 +150,37 @@ final class SourceTranscription extends AbstractModule implements
     public const string DEFAULT_TRANSKRIBUS_CLIENT_ID = 'processing-api-client';
     public const string DEFAULT_TRANSKRIBUS_UPLOAD_URL = 'https://transkribus.eu/api/v2/uploads';
 
+    /**
+     * Privacy information for modules that describe external transcription providers.
+     *
+     * @return list<array{name:string,url:string,data:list<string>}>
+     */
+    public static function externalProviderPrivacyNotices(): array
+    {
+        return [
+            [
+                'name' => 'Transkribus',
+                'url'  => 'https://www.transkribus.org/',
+                'data' => [
+                    I18N::translate('Selected source and media context.'),
+                    I18N::translate('Image files selected by the user for external transcription processing.'),
+                    I18N::translate('Transcription job metadata and returned transcription text.'),
+                    I18N::translate('Provider credentials required for upload, status checks, and import operations.'),
+                ],
+            ],
+            [
+                'name' => 'Discourse',
+                'url'  => 'https://discourse.genealogy.net/',
+                'data' => [
+                    I18N::translate('Selected source and media context.'),
+                    I18N::translate('The transcription request text or reading-help post created by the user.'),
+                    I18N::translate('Linked or uploaded media files, if the user explicitly submits them.'),
+                    I18N::translate('Provider authorization data, such as a user-specific API key, after explicit user authorization.'),
+                ],
+            ],
+        ];
+    }
+
     //ROUTE
     private const string ROUTE_GET_NAME_DASHBOARD = 'source-transcription-dashboard';
     private const string ROUTE_PATH_DASHBOARD = '/tree/{tree}/source-transcriptions';
