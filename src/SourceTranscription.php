@@ -153,7 +153,7 @@ final class SourceTranscription extends AbstractModule implements
     /**
      * Privacy information for modules that describe external transcription providers.
      *
-     * @return list<array{name:string,url:string,data:list<string>}>
+     * @return list<array{name:string,url:string,country:string,data:list<string>}>
      */
     public static function externalProviderPrivacyNotices(): array
     {
@@ -161,6 +161,7 @@ final class SourceTranscription extends AbstractModule implements
             [
                 'name' => 'Transkribus',
                 'url'  => 'https://www.transkribus.org/',
+                'country' => 'Austria',
                 'data' => [
                     I18N::translate('Selected source and media context.'),
                     I18N::translate('Image files selected by the user for external transcription processing.'),
@@ -171,6 +172,7 @@ final class SourceTranscription extends AbstractModule implements
             [
                 'name' => 'Discourse',
                 'url'  => 'https://discourse.genealogy.net/',
+                'country' => 'Germany',
                 'data' => [
                     I18N::translate('Selected source and media context.'),
                     I18N::translate('The transcription request text or reading-help post created by the user.'),
