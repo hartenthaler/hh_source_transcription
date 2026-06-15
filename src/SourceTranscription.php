@@ -162,6 +162,7 @@ final class SourceTranscription extends AbstractModule implements
                 'name' => 'Transkribus',
                 'url'  => 'https://www.transkribus.org/',
                 'country' => 'Austria',
+                'group' => 'transcription',
                 'data' => [
                     I18N::translate('Selected source and media context.'),
                     I18N::translate('Image files selected by the user for external transcription processing.'),
@@ -173,12 +174,28 @@ final class SourceTranscription extends AbstractModule implements
                 'name' => 'Discourse',
                 'url'  => 'https://discourse.genealogy.net/',
                 'country' => 'Germany',
+                'group' => 'transcription',
                 'data' => [
                     I18N::translate('Selected source and media context.'),
                     I18N::translate('The transcription request text or reading-help post created by the user.'),
                     I18N::translate('Linked or uploaded media files, if the user explicitly submits them.'),
                     I18N::translate('Provider authorization data, such as a user-specific API key, after explicit user authorization.'),
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * Privacy information consumed by hh_legal_notice.
+     *
+     * @return array{third_party_services:list<array{name:string,url:string,country:string,group:string,data:list<string>}>,security_measures:list<string>}
+     */
+    public function privacyNotices(): array
+    {
+        return [
+            'third_party_services' => self::externalProviderPrivacyNotices(),
+            'security_measures' => [
+                I18N::translate('Provider credentials for external transcription services are stored encrypted using AES-256-GCM.'),
             ],
         ];
     }

@@ -1787,3 +1787,11 @@ msgstr "Einsender"
 #: resources/views/record-page-links.phtml:106
 msgid "Locations"
 msgstr "Orte"
+
+#: src/SourceTranscription.php:198
+msgid ""
+"Provider credentials for external transcription services are stored "
+"encrypted using AES-256-GCM."
+msgstr ""
+"Zugangsdaten für externe Transkriptionsdienste werden mit AES-256-GCM "
+"verschlüsselt gespeichert."
