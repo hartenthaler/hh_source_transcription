@@ -1520,6 +1520,12 @@ msgstr ""
 msgid "Download file"
 msgstr ""
 
+#: src/SourceTranscription.php:198
+msgid ""
+"Provider credentials for external transcription services are stored "
+"encrypted using AES-256-GCM."
+msgstr ""
+
 #~ msgid ""
 #~ "An administrator creates an API key in the Discourse administration under "
 #~ "Admin > API > API keys. Use the forum base URL, the Discourse username "
