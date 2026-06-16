@@ -109,6 +109,22 @@ msgstr "NOTE gewijzigd door"
 msgid "NOTE changed at"
 msgstr "NOTE gewijzigd op"
 
+msgid "This media object is linked to a source and already has a transcription."
+msgstr "Dit mediaobject is gekoppeld aan een bron en heeft al een transcriptie."
+
+msgid ""
+"This media object is linked to a source and is suitable for transcription, but no "
+"transcription exists yet."
+msgstr ""
+"Dit mediaobject is gekoppeld aan een bron en is geschikt voor transcriptie, maar er is nog "
+"geen transcriptie."
+
+msgid ""
+"This media object is linked to a source, but its files are not suitable for transcription."
+msgstr ""
+"Dit mediaobject is gekoppeld aan een bron, maar de bestanden zijn niet geschikt voor "
+"transcriptie."
+
 msgid "This source already has a transcription."
 msgstr "Deze bron heeft al een transcriptie."
 
@@ -519,7 +535,7 @@ msgid "The file does not exist on this server."
 msgstr "Het bestand bestaat niet op deze server."
 
 msgid "The selected provider does not support media uploads."
-msgstr "De geselecteerde aanbieder ondersteunt het uploaden van mediabestanden niet."
+msgstr "De geselecteerde provider ondersteunt het uploaden van mediabestanden niet."
 
 msgid "Unsupported file format. Use JPEG, TIFF or PNG."
 msgstr "Niet-ondersteund bestandsformaat. Gebruik JPEG, TIFF of PNG."
@@ -556,13 +572,41 @@ msgid "Transkribus job #%s: %s"
 msgstr "Transkribus-taak #%s: %s"
 
 msgid "First transcription provider available: manual transcription."
-msgstr "Eerste transcriptieaanbieder beschikbaar: handmatige transcriptie."
+msgstr "Eerste transcriptieprovider beschikbaar: handmatige transcriptie."
 
 msgid ""
 "New transcription provider available: internal collaboration with other webtrees users."
 msgstr ""
-"Nieuwe transcriptieaanbieder beschikbaar: interne samenwerking met andere webtrees-"
+"Nieuwe transcriptieprovider beschikbaar: interne samenwerking met andere webtrees-"
 "gebruikers."
+
+msgid "Selected source and media context."
+msgstr "Geselecteerde bron en mediacontext."
+
+msgid "Image files selected by the user for external transcription processing."
+msgstr ""
+"Door de gebruiker geselecteerde afbeeldingsbestanden voor externe transcriptieverwerking."
+
+msgid "Transcription job metadata and returned transcription text."
+msgstr "Metagegevens van de transcriptieopdracht en de teruggestuurde transcriptietekst."
+
+msgid "Provider credentials required for upload, status checks, and import operations."
+msgstr ""
+"Provider-inloggegevens die nodig zijn voor uploaden, statuscontroles en importbewerkingen."
+
+msgid "The transcription request text or reading-help post created by the user."
+msgstr ""
+"De door de gebruiker opgestelde tekst voor de transcriptieaanvraag of de leeshelpbijdrage."
+
+msgid "Linked or uploaded media files, if the user explicitly submits them."
+msgstr "Gekoppelde of geüploade mediabestanden, mits de gebruiker deze expliciet indient."
+
+msgid ""
+"Provider authorization data, such as a user-specific API key, after explicit user "
+"authorization."
+msgstr ""
+"Providerautorisatiegegevens, zoals een gebruikersspecifieke API-sleutel, na expliciete "
+"toestemming van de gebruiker."
 
 msgid "What's new?"
 msgstr "Wat is er nieuw?"
@@ -571,19 +615,19 @@ msgid "Source Transcription"
 msgstr "Brontranscriptie"
 
 msgid "Manage source transcriptions with manual and provider-based workflows."
-msgstr "Beheer bronteksten met handmatige of aanbieder-gebaseerde werkstroom."
+msgstr "Beheer bronteksten met handmatige of providergebaseerde werkstroom."
 
 msgid "Transcriptions"
 msgstr "Transcripties"
 
 msgid "The provider credentials have been deleted."
-msgstr "De provider-credentials zijn verwijderd."
+msgstr "De provider-inloggegevens zijn verwijderd."
 
 msgid "The provider credentials could not be loaded."
-msgstr "De provider-credentials konden niet worden geladen."
+msgstr "De provider-inloggegevens konden niet worden geladen."
 
 msgid "The provider credentials have been saved."
-msgstr "De provider-credentials zijn opgeslagen."
+msgstr "De provider-inloggegevens zijn opgeslagen."
 
 #, php-format
 msgid "The preferences for the module “%s” have been updated."
@@ -724,6 +768,9 @@ msgstr "Standaard"
 msgid "Should tagging be supported?"
 msgstr "Moet labeling worden ondersteund?"
 
+msgid "Tag value for tagging all sources with at least one transcription"
+msgstr "Labelwaarde om alle bronnen met ten minste één transcriptie te labelen"
+
 msgid "Show source transcription badges"
 msgstr "Toon transcriptiebadges bij bronnen"
 
@@ -734,14 +781,11 @@ msgstr ""
 "Voeg gekleurde T-badges toe aan brontitels om aan te geven of er al een transcriptie is of "
 "dat die nog ontbreekt."
 
-msgid "Tag value for tagging all sources with at least one transcription"
-msgstr "Labelwaarde voor het labelen van alle bronnen met ten minste één transcriptie"
-
 msgid "save"
 msgstr "opslaan"
 
 msgid "Provider credentials"
-msgstr "Provider-credentials"
+msgstr "Provider-inloggegevens"
 
 msgid ""
 "Discourse uses the User API Key authorization flow. Users authorize the module from the "
@@ -839,8 +883,11 @@ msgstr "Consistentiecontrole"
 msgid "No consistency issues found."
 msgstr "Er zijn geen consistentieproblemen gevonden."
 
-msgid "Warnings"
-msgstr "Waarschuwingen"
+msgid "Errors"
+msgstr "Fouten"
+
+msgid "Database"
+msgstr "Database"
 
 msgid "Schema version"
 msgstr "Schemaversie"
@@ -937,7 +984,7 @@ msgid "All"
 msgstr "Alle"
 
 msgid "Transcription provider"
-msgstr "Transcriptieaanbieder"
+msgstr "Transcriptieprovider"
 
 msgid "Reset"
 msgstr "Opnieuw instellen"
@@ -1011,6 +1058,9 @@ msgid "Media file"
 msgid_plural "Media files"
 msgstr[0] "Mediabestand"
 msgstr[1] "Mediabestanden"
+
+msgid "Embedded metadata"
+msgstr "Ingesloten metagegevens"
 
 msgid "No media object selected."
 msgstr "Geen mediaobject geselecteerd."
@@ -1123,6 +1173,34 @@ msgstr ""
 msgid "Make current"
 msgstr "Maak huidig"
 
+#, php-format
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+msgid "View this family"
+msgstr "Bekijk deze familie"
+
+msgid "Media objects"
+msgstr "Mediaobjecten"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "Individuals"
+msgstr "Personen"
+
+msgid "Families"
+msgstr "Families"
+
+msgid "Sources"
+msgstr "Bronnen"
+
+msgid "Last change"
+msgstr "Laatste wijziging"
+
+msgid "Event data?"
+msgstr "Gebeurtenisgegevens?"
+
 msgid "Abbreviation"
 msgstr "Afkorting"
 
@@ -1132,8 +1210,42 @@ msgstr "Auteur"
 msgid "Publication"
 msgstr "Publicatie"
 
-msgid "Last change"
-msgstr "Laatste wijziging"
+msgid "Folder"
+msgstr "Map"
+
+msgid "Include subfolders"
+msgstr "Submappen opnemen"
+
+msgid "Media objects per page"
+msgstr "Mediaobjecten per pagina"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Search filters"
+msgstr "Zoekfilters"
+
+msgid "search"
+msgstr "zoeken"
+
+msgid "reset"
+msgstr "terugzetten"
+
+msgid "Media objects found"
+msgstr "Gevonden mediaobjecten"
+
+#, php-format
+msgid "The file “%s” does not exist."
+msgstr "Het bestand “%s” bestaat niet."
+
+msgid "Show all sources"
+msgstr "Toon alle bronnen"
+
+msgid "There are no source citations for this individual."
+msgstr "Er zijn geen bronvermeldingen voor deze persoon."
+
+msgid "Add a source citation"
+msgstr "Bronvermelding toevoegen"
 
 msgctxt "Label for selecting one media file"
 msgid "Media file"
@@ -1165,3 +1277,25 @@ msgstr ""
 
 msgid "Download file"
 msgstr "Bestand downloaden"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Notes"
+msgstr "Notities"
+
+msgid "Repositories"
+msgstr "Opslagplaatsen"
+
+msgid "Submitters"
+msgstr "Indieners"
+
+msgid "Locations"
+msgstr "Locaties"
+
+msgid ""
+"Provider credentials for external transcription services are stored encrypted using AES-256-"
+"GCM."
+msgstr ""
+"Provider-inloggegevens voor externe transcriptiediensten worden versleuteld opgeslagen met "
+"AES-256-GCM."
