@@ -165,7 +165,10 @@ final class SchemaManager
             }
             $updates_applied = true;
         }
-        $settingsRepository->setSchemaVersion($target_version);
+        if ($updates_applied && $settingsRepository->getSchemaVersion() < $target_version) {
+            $settingsRepository->setSchemaVersion($target_version);
+        }
+
         return $updates_applied;
     }
 }
